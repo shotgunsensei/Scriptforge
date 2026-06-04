@@ -2,7 +2,11 @@
 # Category: Entra ID
 # Report: Security Group Inventory
 
+$OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\..\..\framework\OperatorOS-ScriptFramework.psm1'
+if (Test-Path -LiteralPath $OperatorOSFrameworkPath) {
+    Import-Module $OperatorOSFrameworkPath -Force
+}
+
 $ErrorActionPreference = 'Stop'
 
 Get-MgGroup -All -Property DisplayName,SecurityEnabled,GroupTypes | Select-Object DisplayName,SecurityEnabled,GroupTypes
-

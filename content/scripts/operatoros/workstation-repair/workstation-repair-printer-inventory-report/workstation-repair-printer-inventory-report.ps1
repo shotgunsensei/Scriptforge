@@ -2,7 +2,11 @@
 # Category: Workstation Repair
 # Report: Printer Inventory Report
 
+$OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\..\..\framework\OperatorOS-ScriptFramework.psm1'
+if (Test-Path -LiteralPath $OperatorOSFrameworkPath) {
+    Import-Module $OperatorOSFrameworkPath -Force
+}
+
 $ErrorActionPreference = 'Stop'
 
 Get-Printer | Select-Object Name,DriverName,PortName,PrinterStatus
-

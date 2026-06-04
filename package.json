@@ -9,6 +9,8 @@
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "scripts:build-index": "tsx lib/scripts/indexer.ts",
+    "scripts:apply-framework": "tsx scripts/apply-script-framework.ts",
+    "scripts:modernization-roadmap": "tsx lib/scripts/modernization.ts",
     "scripts:seed-official": "tsx scripts/seed-official-scripts.ts",
     "seed:admin": "tsx scripts/seed-admin.ts"
   },

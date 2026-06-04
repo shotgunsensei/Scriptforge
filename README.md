@@ -247,7 +247,7 @@ Login routes:
 - `POST /api/admin/login`
 - `POST /api/admin/logout`
 
-Admin pages under `/admin/scripts/*` require a valid admin session cookie. API routes also enforce roles:
+Admin pages under `/admin/scripts/*` and `/admin/system` require a valid admin session cookie. API routes also enforce roles:
 
 - `scriptforge_admin`: full access.
 - `scriptforge_reviewer`: review, approve, reject, needs-changes, and promote workflows.
@@ -553,6 +553,14 @@ The response checks:
 
 Admin pages also show a production warning when `NODE_ENV=production` and `SCRIPT_STORAGE_DRIVER=local`.
 
+Admin command center:
+
+```text
+GET /admin/system
+```
+
+The ScriptForge Command Center shows scripts indexed, pending reviews, community uploads, storage driver, build version, health status, and the last index rebuild timestamp so production operators can check launch-critical state without shell access.
+
 The ScriptForge visual system uses the OperatorOS palette:
 
 - Background: `#0B1020`
@@ -570,6 +578,55 @@ Community detail pages include this disclaimer:
 
 ```text
 Community submitted scripts are reviewed for structure and obvious safety issues, but they are not official OperatorOS scripts. Review before running.
+```
+
+## Official Script Enterprise Framework
+
+Official OperatorOS scripts import the shared PowerShell framework:
+
+```text
+content/scripts/framework/OperatorOS-ScriptFramework.psm1
+```
+
+The framework provides:
+
+- Structured `Info`, `Warning`, `Error`, `Debug`, and `Verbose` logging.
+- Transcript support.
+- JSON config, `OPERATOROS_*` environment variables, and parameter overrides.
+- Safety modes: `ReadOnly`, `Audit`, `Remediation`, and `Emergency`.
+- Native `WhatIf`, explicit `DryRun`, and rollback hooks.
+- HTML, CSV, and JSON report exports.
+- Operator summary output with risk score, health score, timing, findings, and exceptions.
+- PowerShell version, module dependency, and permission validation helpers.
+- Tenant, machine, and evidence collection helpers.
+
+Apply the framework bootstrap to official scripts:
+
+```powershell
+npm run scripts:apply-framework
+```
+
+## Official Script Modernization Roadmap
+
+Generate the official modernization audit:
+
+```powershell
+npm run scripts:modernization-roadmap
+```
+
+Outputs:
+
+```text
+docs/Official-Script-Modernization-Roadmap.md
+public/official-script-modernization-roadmap.json
+```
+
+The roadmap reviews all official scripts and assigns maturity, quality, safety, complexity, and production-readiness scores. It separates scripts into rewrite, enhancement, and acceptable groups so the official catalog can be upgraded in prioritized waves.
+
+Modernization templates live in:
+
+```text
+templates/modernization/
 ```
 
 ## Search Index Generation

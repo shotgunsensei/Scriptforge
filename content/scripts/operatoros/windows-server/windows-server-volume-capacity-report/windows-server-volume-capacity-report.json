@@ -52,10 +52,10 @@
     "format": "text",
     "description": "PowerShell object output suitable for pipeline export, transcript capture, or manual review."
   },
-  "script_body": "# OperatorOS ScriptForge official read-only audit script\n# Category: Windows Server\n# Report: Volume Capacity Report\n\n$ErrorActionPreference = 'Stop'\n\nGet-Volume | Select-Object DriveLetter,FileSystemLabel,SizeRemaining,Size\n",
+  "script_body": "# OperatorOS ScriptForge official read-only audit script\n# Category: Windows Server\n# Report: Volume Capacity Report\n\n$OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'\nif (Test-Path -LiteralPath $OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\nGet-Volume | Select-Object DriveLetter,FileSystemLabel,SizeRemaining,Size\n",
   "documentation": {
     "readme": "Official OperatorOS ScriptForge seed script for Volume Capacity Report. Validate module connection and tenant scope before running.",
-    "changelog": "1.0.0 - Initial official read-only audit/reporting seed.",
+    "changelog": "1.0.0 - Initial official read-only audit/reporting seed.\n1.1.0 - Added OperatorOS enterprise framework import bootstrap.",
     "references": []
   },
   "monetization": {

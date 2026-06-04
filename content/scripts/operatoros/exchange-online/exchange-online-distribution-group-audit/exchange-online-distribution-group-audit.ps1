@@ -2,7 +2,11 @@
 # Category: Exchange Online
 # Report: Distribution Group Audit
 
+$OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\..\..\framework\OperatorOS-ScriptFramework.psm1'
+if (Test-Path -LiteralPath $OperatorOSFrameworkPath) {
+    Import-Module $OperatorOSFrameworkPath -Force
+}
+
 $ErrorActionPreference = 'Stop'
 
 Get-DistributionGroup -ResultSize Unlimited | Select-Object DisplayName,PrimarySmtpAddress,ManagedBy
-
