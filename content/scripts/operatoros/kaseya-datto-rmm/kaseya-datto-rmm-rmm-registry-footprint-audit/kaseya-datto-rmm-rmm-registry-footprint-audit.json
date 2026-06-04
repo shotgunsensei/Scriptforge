@@ -1,0 +1,77 @@
+{
+  "title": "Kaseya / Datto RMM RMM Registry Footprint Audit",
+  "slug": "kaseya-datto-rmm-rmm-registry-footprint-audit",
+  "version": "1.0.0",
+  "category": "kaseya-datto-rmm",
+  "subcategory": "audit-reporting",
+  "tags": [
+    "operatoros",
+    "official",
+    "read-only",
+    "audit",
+    "kaseya-datto-rmm",
+    "rmm",
+    "registry",
+    "footprint"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Read-only Kaseya / Datto RMM script for rmm registry footprint audit.",
+  "description": "Official OperatorOS ScriptForge seed script that collects rmm registry footprint audit data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
+  "use_case": "Use this script when building a Kaseya / Datto RMM health report, onboarding baseline, recurring audit, or escalation packet.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "passed",
+    "risk_flags": [],
+    "requires_admin": false,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Official OperatorOS read-only audit/reporting seed script. Review tenant scope and permissions before running."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer on an endpoint managed by Kaseya or Datto RMM.",
+      "required": true
+    }
+  ],
+  "parameters": [],
+  "examples": [
+    {
+      "title": "Run report",
+      "command": "./kaseya-datto-rmm-rmm-registry-footprint-audit.ps1",
+      "description": "Runs the read-only audit report with default options."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object output suitable for pipeline export, transcript capture, or manual review."
+  },
+  "script_body": "# OperatorOS ScriptForge official read-only audit script\n# Category: Kaseya / Datto RMM\n# Report: RMM Registry Footprint Audit\n\n$ErrorActionPreference = 'Stop'\n\nGet-ChildItem 'HKLM:\\Software' -ErrorAction SilentlyContinue | Where-Object Name -match 'Kaseya|Datto' | Select-Object Name\n",
+  "documentation": {
+    "readme": "Official OperatorOS ScriptForge seed script for RMM Registry Footprint Audit. Validate module connection and tenant scope before running.",
+    "changelog": "1.0.0 - Initial official read-only audit/reporting seed.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Seed Generator",
+  "reviewed_at": "2026-06-04T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Seed Generator",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Seed",
+  "attribution_required": false
+}

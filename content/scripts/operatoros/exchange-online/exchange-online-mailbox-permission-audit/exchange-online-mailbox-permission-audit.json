@@ -1,0 +1,84 @@
+{
+  "title": "Exchange Online Mailbox Permission Audit",
+  "slug": "exchange-online-mailbox-permission-audit",
+  "version": "1.0.0",
+  "category": "exchange-online",
+  "subcategory": "audit-reporting",
+  "tags": [
+    "operatoros",
+    "official",
+    "read-only",
+    "audit",
+    "exchange-online",
+    "mailbox",
+    "permission"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Read-only Exchange Online script for mailbox permission audit.",
+  "description": "Official OperatorOS ScriptForge seed script that collects mailbox permission audit data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
+  "use_case": "Use this script when building a Exchange Online health report, onboarding baseline, recurring audit, or escalation packet.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "passed",
+    "risk_flags": [],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Official OperatorOS read-only audit/reporting seed script. Review tenant scope and permissions before running."
+  },
+  "requirements": [
+    {
+      "name": "Exchange Online PowerShell module with read-only recipient and organization permissions.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "MailboxIdentity",
+      "type": "string",
+      "description": "Mailbox identity to inspect.",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run report",
+      "command": "./exchange-online-mailbox-permission-audit.ps1",
+      "description": "Runs the read-only audit report with default options."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object output suitable for pipeline export, transcript capture, or manual review."
+  },
+  "script_body": "param(\n  [string]$MailboxIdentity = 'user@example.com'\n)\n\n# OperatorOS ScriptForge official read-only audit script\n# Category: Exchange Online\n# Report: Mailbox Permission Audit\n\n$ErrorActionPreference = 'Stop'\n\nGet-MailboxPermission -Identity $MailboxIdentity | Select-Object User,AccessRights,Deny,IsInherited\n",
+  "documentation": {
+    "readme": "Official OperatorOS ScriptForge seed script for Mailbox Permission Audit. Validate module connection and tenant scope before running.",
+    "changelog": "1.0.0 - Initial official read-only audit/reporting seed.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Seed Generator",
+  "reviewed_at": "2026-06-04T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Seed Generator",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Seed",
+  "attribution_required": false
+}

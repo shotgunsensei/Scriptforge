@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="OperatorOS ScriptForge logo">
+  <rect width="512" height="512" fill="#0B1020"/>
+  <circle cx="256" cy="256" r="206" fill="none" stroke="#E53935" stroke-width="28"/>
+  <path d="M256 112 142 300h228L256 112Z" fill="none" stroke="#F8FAFC" stroke-width="28" stroke-linejoin="miter"/>
+  <path d="M196 300h120M256 300v62M214 408l42-46 42 46" fill="none" stroke="#F8FAFC" stroke-width="28" stroke-linecap="square"/>
+</svg>

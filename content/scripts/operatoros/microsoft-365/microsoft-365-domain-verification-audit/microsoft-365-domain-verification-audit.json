@@ -1,0 +1,76 @@
+{
+  "title": "Microsoft 365 Domain Verification Audit",
+  "slug": "microsoft-365-domain-verification-audit",
+  "version": "1.0.0",
+  "category": "microsoft-365",
+  "subcategory": "audit-reporting",
+  "tags": [
+    "operatoros",
+    "official",
+    "read-only",
+    "audit",
+    "microsoft-365",
+    "domain",
+    "verification"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Read-only Microsoft 365 script for domain verification audit.",
+  "description": "Official OperatorOS ScriptForge seed script that collects domain verification audit data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
+  "use_case": "Use this script when building a Microsoft 365 health report, onboarding baseline, recurring audit, or escalation packet.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "passed",
+    "risk_flags": [],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Official OperatorOS read-only audit/reporting seed script. Review tenant scope and permissions before running."
+  },
+  "requirements": [
+    {
+      "name": "Microsoft Graph PowerShell SDK with read-only Graph permissions.",
+      "required": true
+    }
+  ],
+  "parameters": [],
+  "examples": [
+    {
+      "title": "Run report",
+      "command": "./microsoft-365-domain-verification-audit.ps1",
+      "description": "Runs the read-only audit report with default options."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object output suitable for pipeline export, transcript capture, or manual review."
+  },
+  "script_body": "# OperatorOS ScriptForge official read-only audit script\n# Category: Microsoft 365\n# Report: Domain Verification Audit\n\n$ErrorActionPreference = 'Stop'\n\nGet-MgDomain | Select-Object Id,IsVerified,AuthenticationType\n",
+  "documentation": {
+    "readme": "Official OperatorOS ScriptForge seed script for Domain Verification Audit. Validate module connection and tenant scope before running.",
+    "changelog": "1.0.0 - Initial official read-only audit/reporting seed.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Seed Generator",
+  "reviewed_at": "2026-06-04T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Seed Generator",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Seed",
+  "attribution_required": false
+}

@@ -1,0 +1,78 @@
+{
+  "title": "Collect Windows System Inventory",
+  "slug": "collect-windows-system-inventory",
+  "version": "1.0.0",
+  "category": "endpoint",
+  "subcategory": "inventory",
+  "tags": ["powershell", "windows", "inventory"],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "summary": "Collects basic Windows hardware, OS, and network inventory details.",
+  "description": "A safe baseline inventory script intended for technician review and controlled execution from OperatorOS ScriptForge.",
+  "use_case": "Use during endpoint triage to capture basic local system facts before deeper troubleshooting.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "not_scanned",
+    "risk_flags": [],
+    "requires_admin": false,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Read-only inventory example. Must still pass ScriptForge safety scanning before approval."
+  },
+  "requirements": [
+    {
+      "name": "PowerShell 5.1 or newer",
+      "description": "Runs on supported Windows PowerShell or PowerShell versions.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "IncludeNetwork",
+      "type": "boolean",
+      "description": "Include network adapter details in the output.",
+      "required": false,
+      "default": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run local inventory",
+      "command": ".\\Collect-WindowsSystemInventory.ps1 -IncludeNetwork $true",
+      "description": "Runs the inventory script with network details enabled."
+    }
+  ],
+  "output": {
+    "format": "json",
+    "description": "Returns system inventory facts as JSON.",
+    "sample": "{\"computerName\":\"WORKSTATION-01\",\"os\":\"Windows 11\"}"
+  },
+  "script_body": "param([bool]$IncludeNetwork = $true)\n$inventory = [ordered]@{\n  computerName = $env:COMPUTERNAME\n  os = (Get-CimInstance Win32_OperatingSystem).Caption\n  serialNumber = (Get-CimInstance Win32_BIOS).SerialNumber\n}\nif ($IncludeNetwork) {\n  $inventory.networkAdapters = Get-CimInstance Win32_NetworkAdapterConfiguration | Where-Object { $_.IPEnabled } | Select-Object Description,IPAddress,MACAddress\n}\n$inventory | ConvertTo-Json -Depth 4",
+  "documentation": {
+    "readme": "Review and safety-scan this script before approval. This template is intentionally pending review.",
+    "changelog": "1.0.0 - Initial template.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "free",
+    "entitlement_required": false,
+    "upgrade_cta": "Unlock advanced automation packs with OperatorOS."
+  },
+  "source_type": "community",
+  "review_status": "pending_review",
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "submitter": {
+    "name": "Example Submitter",
+    "email": "submitter@example.com",
+    "organization": "Example Org"
+  },
+  "license": "MIT",
+  "attribution_required": true
+}

@@ -1,0 +1,35 @@
+{
+  "name": "operatoros-scriptforge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "scripts:build-index": "tsx lib/scripts/indexer.ts",
+    "scripts:seed-official": "tsx scripts/seed-official-scripts.ts"
+  },
+  "dependencies": {
+    "@types/node": "^20.14.10",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.5.4",
+    "yaml": "^2.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "jsdom": "^26.1.0",
+    "tsx": "^4.20.6",
+    "vitest": "^4.1.8"
+  },
+  "overrides": {
+    "postcss": "^8.5.15"
+  }
+}
