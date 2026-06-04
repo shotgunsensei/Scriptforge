@@ -1,4 +1,5 @@
 import { access, mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import { extname, join } from "node:path";
 import { z } from "zod";
 import { createScriptVersionSnapshot, logScriptAuditEvent } from "./audit";
@@ -6,6 +7,8 @@ import { scanPowerShellSafety } from "./safety-scan";
 import { scriptSubmissionSchema, type ScriptSubmission } from "./schema";
 import { createScriptSlug } from "./slug";
 import { writeScriptIndex } from "./indexer";
+import { getScriptStorage, getScriptStorageDriverName } from "./storage";
+import { createSupabaseServiceClient } from "./supabase";
 
 const SCRIPT_EXTENSIONS = [".ps1", ".psm1"] as const;
 
@@ -50,6 +53,23 @@ export type PendingReviewScript = {
 };
 
 export async function listPendingCommunityScripts(rootDir = process.cwd()): Promise<PendingReviewScript[]> {
+  if (isDatabaseMode(rootDir)) {
+    const supabase = createSupabaseServiceClient();
+    const { data, error } = await supabase
+      .from("script_submissions")
+      .select("*")
+      .eq("source_type", "community")
+      .in("review_status", ["pending_review", "needs_changes", "rejected"]);
+
+    if (error) {
+      throw new Error(`Unable to load database review queue: ${error.message}`);
+    }
+
+    return (data ?? [])
+      .map(buildPendingScriptFromRow)
+      .sort((left, right) => left.submission.title.localeCompare(right.submission.title));
+  }
+
   const baseDir = getPendingCommunityDir(rootDir);
   const folders = await readDirectorySafe(baseDir);
   const scripts = await Promise.all(
@@ -69,6 +89,23 @@ export async function listPendingCommunityScripts(rootDir = process.cwd()): Prom
 
 export async function readPendingCommunityScript(slug: string, rootDir = process.cwd()): Promise<PendingReviewScript> {
   const safeSlug = createScriptSlug(slug);
+
+  if (isDatabaseMode(rootDir)) {
+    const supabase = createSupabaseServiceClient();
+    const { data, error } = await supabase
+      .from("script_submissions")
+      .select("*")
+      .eq("source_type", "community")
+      .eq("slug", safeSlug)
+      .maybeSingle();
+
+    if (error || !data) {
+      throw new Error(`Pending script not found: ${safeSlug}.`);
+    }
+
+    return buildPendingScriptFromRow(data);
+  }
+
   const folderPath = join(getPendingCommunityDir(rootDir), safeSlug);
   const metadataPath = join(folderPath, `${safeSlug}.json`);
   const submission = scriptSubmissionSchema.parse(JSON.parse(await readFile(metadataPath, "utf8")));
@@ -114,7 +151,16 @@ export async function updatePendingCommunityScript(
     },
   });
 
-  await writePendingScriptFiles(current, updated, scriptBody);
+  if (isDatabaseMode(rootDir)) {
+    await getScriptStorage(rootDir).createPendingCommunity({
+      submission: updated,
+      scriptBody,
+      scriptExtension: getPendingScriptExtension(current),
+      reviewerNotes: parsed.reviewer_notes,
+    });
+  } else {
+    await writePendingScriptFiles(current, updated, scriptBody);
+  }
   await logScriptAuditEvent({
     type: "script_updated",
     submission: updated,
@@ -143,7 +189,14 @@ export async function approveCommunityScript(input: ReviewUpdateInput, rootDir =
     reviewed_at: new Date().toISOString(),
   });
 
-  const result = await moveReviewedScript(updated, approved, join(rootDir, "content", "scripts", "community"));
+  const result = isDatabaseMode(rootDir)
+    ? await getScriptStorage(rootDir).saveCommunityApproved({
+        submission: approved,
+        scriptBody: updated.scriptBody,
+        scriptExtension: getPendingScriptExtension(updated),
+        reviewerNotes: input.reviewer_notes,
+      })
+    : await moveReviewedScript(updated, approved, join(rootDir, "content", "scripts", "community"));
   await logScriptAuditEvent({
     type: "script_approved",
     submission: approved,
@@ -151,6 +204,7 @@ export async function approveCommunityScript(input: ReviewUpdateInput, rootDir =
     notes: input.reviewer_notes,
     rootDir,
   });
+  await logDatabaseReview(approved, reviewer, "approved", input.reviewer_notes, rootDir);
   await createScriptVersionSnapshot({
     submission: approved,
     scriptBody: updated.scriptBody,
@@ -181,7 +235,21 @@ export async function promoteCommunityScript(input: ReviewUpdateInput, rootDir =
     reviewed_at: new Date().toISOString(),
   });
 
-  const result = await moveReviewedScript(updated, promoted, join(rootDir, "content", "scripts", "operatoros"));
+  const result = isDatabaseMode(rootDir)
+    ? await getScriptStorage(rootDir).saveOperatorOsApproved({
+        submission: promoted,
+        scriptBody: updated.scriptBody,
+        scriptExtension: getPendingScriptExtension(updated),
+        reviewerNotes: input.reviewer_notes,
+      })
+    : await moveReviewedScript(updated, promoted, join(rootDir, "content", "scripts", "operatoros"));
+  if (isDatabaseMode(rootDir)) {
+    await createSupabaseServiceClient()
+      .from("script_submissions")
+      .delete()
+      .eq("source_type", "community")
+      .eq("slug", updated.slug);
+  }
   await logScriptAuditEvent({
     type: "script_promoted_to_official",
     submission: promoted,
@@ -189,6 +257,7 @@ export async function promoteCommunityScript(input: ReviewUpdateInput, rootDir =
     notes: input.reviewer_notes,
     rootDir,
   });
+  await logDatabaseReview(promoted, reviewer, "promoted", input.reviewer_notes, rootDir);
   await createScriptVersionSnapshot({
     submission: promoted,
     scriptBody: updated.scriptBody,
@@ -217,7 +286,16 @@ async function markPendingCommunityStatus(
     },
   });
 
-  await writePendingScriptFiles(updated, reviewed, updated.scriptBody);
+  if (isDatabaseMode(rootDir)) {
+    await getScriptStorage(rootDir).createPendingCommunity({
+      submission: reviewed,
+      scriptBody: updated.scriptBody,
+      scriptExtension: getPendingScriptExtension(updated),
+      reviewerNotes: input.reviewer_notes,
+    });
+  } else {
+    await writePendingScriptFiles(updated, reviewed, updated.scriptBody);
+  }
   await logScriptAuditEvent({
     type: reviewStatus === "rejected" ? "script_rejected" : "script_marked_needs_changes",
     submission: reviewed,
@@ -225,8 +303,67 @@ async function markPendingCommunityStatus(
     notes: input.reviewer_notes,
     rootDir,
   });
+  await logDatabaseReview(reviewed, reviewed.reviewed_by ?? "OperatorOS Admin", reviewStatus, input.reviewer_notes, rootDir);
 
   return readPendingCommunityScript(updated.slug, rootDir);
+}
+
+async function logDatabaseReview(
+  submission: ScriptSubmission,
+  reviewer: string,
+  reviewStatus: string,
+  notes: string | undefined,
+  rootDir: string,
+) {
+  if (!isDatabaseMode(rootDir)) {
+    return;
+  }
+
+  const { data } = await createSupabaseServiceClient()
+    .from("script_submissions")
+    .select("id")
+    .eq("source_type", submission.source_type)
+    .eq("category", submission.category)
+    .eq("slug", submission.slug)
+    .maybeSingle();
+
+  const { error } = await createSupabaseServiceClient().from("script_reviews").insert({
+    id: randomUUID(),
+    submission_id: typeof data?.id === "string" ? data.id : null,
+    reviewer_identity: reviewer,
+    review_status: reviewStatus,
+    notes: notes ?? null,
+    created_at: new Date().toISOString(),
+  });
+
+  if (error) {
+    throw new Error(`Failed to write script review: ${error.message}`);
+  }
+}
+
+function buildPendingScriptFromRow(row: Record<string, unknown>): PendingReviewScript {
+  const submission = scriptSubmissionSchema.parse(row.metadata_json);
+  const scriptBody = typeof row.script_body === "string" ? row.script_body : submission.script_body;
+  const scriptPath = typeof row.script_storage_path === "string" ? row.script_storage_path : `${submission.slug}.ps1`;
+  const metadataPath = typeof row.metadata_storage_path === "string" ? row.metadata_storage_path : `${submission.slug}.json`;
+
+  return {
+    slug: submission.slug,
+    folderPath: `supabase://pending-community-scripts/${submission.slug}`,
+    scriptPath,
+    metadataPath,
+    readmePath: typeof row.readme_storage_path === "string" ? row.readme_storage_path : "README.md",
+    scriptBody,
+    submission,
+  };
+}
+
+function isDatabaseMode(rootDir: string) {
+  return getScriptStorageDriverName() === "database" && rootDir === process.cwd();
+}
+
+function getPendingScriptExtension(script: PendingReviewScript): ".ps1" | ".psm1" {
+  return extname(script.scriptPath).toLowerCase() === ".psm1" ? ".psm1" : ".ps1";
 }
 
 async function findApprovedVersion(

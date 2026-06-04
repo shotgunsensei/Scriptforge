@@ -3,7 +3,7 @@ import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { deriveExecutionType, getPublicScript, listPublicScripts } from "./catalog";
+import { buildScriptPack, deriveExecutionType, getPublicScript, listPublicScripts } from "./catalog";
 import type { ScriptSubmission } from "./schema";
 
 const baseSubmission: ScriptSubmission = {
@@ -138,6 +138,27 @@ describe("public script catalog", () => {
         safety: { ...baseSubmission.safety, risk_flags: ["destructive_filesystem"], touches_filesystem: true },
       }),
     ).toBe("destructive");
+  });
+
+  it("generates official script packs by category", async () => {
+    const rootDir = await mkdtemp(join(tmpdir(), "scriptforge-catalog-"));
+
+    try {
+      await writeCatalogScript(rootDir, "operatoros", {
+        ...baseSubmission,
+        category: "active-directory",
+        slug: "active-directory-user-inventory",
+      });
+
+      const pack = await buildScriptPack("ad-pack", rootDir);
+
+      expect(pack?.pack.fileName).toBe("operatoros-ad-pack.ps1");
+      expect(pack?.scripts).toHaveLength(1);
+      expect(pack?.body).toContain("Collect Inventory");
+      expect(pack?.body).toContain("Get-ComputerInfo");
+    } finally {
+      await rm(rootDir, { recursive: true, force: true });
+    }
   });
 });
 

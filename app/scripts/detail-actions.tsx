@@ -1,6 +1,16 @@
 "use client";
 
-export function ScriptDetailActions({ slug, scriptBody }: { slug: string; scriptBody: string }) {
+export function ScriptDetailActions({
+  slug,
+  title,
+  scriptBody,
+  githubFileUrl,
+}: {
+  slug: string;
+  title?: string;
+  scriptBody: string;
+  githubFileUrl?: string | null;
+}) {
   function copyScript() {
     void navigator.clipboard.writeText(scriptBody);
   }
@@ -31,12 +41,30 @@ export function ScriptDetailActions({ slug, scriptBody }: { slug: string; script
       >
         Download .ps1
       </button>
-      <a
-        className="border border-[#24304A] bg-[#0B1020] px-4 py-2 text-sm font-semibold text-[#94A3B8]"
-        href="#github-link-placeholder"
-      >
-        GitHub Link
-      </a>
+      <ActionLink href={githubFileUrl ?? "#github-link-placeholder"} label="GitHub Source" />
+      <ActionLink href={buildReportHref("Report broken script", title ?? slug)} label="Report Broken" />
+      <ActionLink href={buildReportHref("Report unsafe script", title ?? slug)} label="Report Unsafe" />
+      <ActionLink href={buildReportHref("Request script improvement", title ?? slug)} label="Request Improvement" />
     </div>
   );
+}
+
+function ActionLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      className="border border-[#24304A] bg-[#0B1020] px-4 py-2 text-sm font-semibold text-[#94A3B8] hover:border-[#5E81F4] hover:text-white"
+      href={href}
+    >
+      {label}
+    </a>
+  );
+}
+
+function buildReportHref(action: string, scriptTitle: string): string {
+  const subject = encodeURIComponent(`[ScriptForge] ${action}: ${scriptTitle}`);
+  const body = encodeURIComponent(
+    `Script: ${scriptTitle}\nRequest type: ${action}\n\nDescribe the issue, unsafe behavior, or requested improvement:\n`,
+  );
+
+  return `mailto:scripts@operatoros.net?subject=${subject}&body=${body}`;
 }

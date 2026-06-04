@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { listPublicScripts, type ExecutionType, type PublicCatalogSource } from "./catalog";
+import type { ScriptCredibility } from "./credibility";
 import type { ScriptSafetyLevel } from "./schema";
 
 export type ScriptIndexEntry = {
@@ -14,6 +15,11 @@ export type ScriptIndexEntry = {
   risk_level: ScriptSafetyLevel;
   execution_type: ExecutionType;
   requires_admin: boolean;
+  credibility: ScriptCredibility;
+  github_repo_url: string | null;
+  github_file_url: string | null;
+  github_commit_sha: string | null;
+  github_last_synced_at: string | null;
   script_body_excerpt: string;
   slug: string;
   path: string;
@@ -37,6 +43,11 @@ export async function buildScriptIndex(rootDir = process.cwd()): Promise<ScriptI
     risk_level: script.submission.safety.risk_level,
     execution_type: script.execution_type,
     requires_admin: script.submission.safety.requires_admin,
+    credibility: script.credibility,
+    github_repo_url: script.submission.github_repo_url ?? null,
+    github_file_url: script.submission.github_file_url ?? null,
+    github_commit_sha: script.submission.github_commit_sha ?? null,
+    github_last_synced_at: script.submission.github_last_synced_at ?? null,
     script_body_excerpt: createScriptExcerpt(script.scriptBody),
     slug: script.slug,
     path: `/scripts/${script.source}/${script.category}/${script.slug}`,

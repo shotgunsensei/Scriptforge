@@ -1,10 +1,22 @@
+import type { Metadata } from "next";
 import { CommunitySubmitForm } from "./submit-form";
 
 export const dynamic = "force-dynamic";
 
+export const metadata: Metadata = {
+  title: "Submit a PowerShell Script | OperatorOS ScriptForge",
+  description:
+    "Download ScriptForge JSON and YAML templates or submit a community PowerShell script for pending OperatorOS review.",
+  alternates: {
+    canonical: "/community/submit",
+  },
+};
+
 export default function CommunitySubmitPage() {
   const uploadsEnabled = (process.env.ENABLE_COMMUNITY_UPLOADS ?? "true").toLowerCase() === "true";
   const maxKb = Number.parseInt(process.env.COMMUNITY_UPLOAD_MAX_KB ?? "250", 10) || 250;
+  const captchaEnabled = (process.env.ENABLE_CAPTCHA ?? "false").toLowerCase() === "true";
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY ?? "";
 
   return (
     <main className="min-h-screen px-5 py-6 text-slate-100 sm:px-8 lg:px-10">
@@ -56,7 +68,11 @@ export default function CommunitySubmitPage() {
             </p>
           </section>
         ) : (
-          <CommunitySubmitForm maxKb={maxKb} />
+          <CommunitySubmitForm
+            captchaEnabled={captchaEnabled}
+            maxKb={maxKb}
+            turnstileSiteKey={turnstileSiteKey}
+          />
         )}
       </div>
     </main>

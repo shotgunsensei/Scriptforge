@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS script_submissions (
   reviewer_identity TEXT,
   reviewer_notes TEXT,
   reviewed_at TIMESTAMPTZ,
+  script_storage_path TEXT,
+  metadata_storage_path TEXT,
+  readme_storage_path TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE (source_type, category, slug)
@@ -49,6 +52,17 @@ CREATE TABLE IF NOT EXISTS script_audit_events (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS script_admin_users (
+  id TEXT PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_script_submissions_status ON script_submissions(review_status);
 CREATE INDEX IF NOT EXISTS idx_script_submissions_source_category ON script_submissions(source_type, category);
 CREATE INDEX IF NOT EXISTS idx_script_audit_events_slug ON script_audit_events(slug);
+CREATE INDEX IF NOT EXISTS idx_script_admin_users_role ON script_admin_users(role);

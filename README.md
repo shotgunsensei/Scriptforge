@@ -38,6 +38,7 @@ lib/scripts/
   slug.ts                            Slug helpers
   safetyScanner.ts                   Static PowerShell scanner
   safety-scan.ts                     Schema-compatible scanner adapter
+  credibility.ts                     Public credibility score derivation
   audit.ts                           Audit event and version snapshot helpers
   admin-submit.ts                    Admin save workflow
   community-submit.ts                Public submission workflow
@@ -103,39 +104,54 @@ npm run build
 npm audit
 npm run scripts:seed-official
 npm run scripts:build-index
+npm run seed:admin
 ```
 
 ## Environment Variables
 
 ```text
 ADMIN_SUBMISSION_PASSWORD=change-this-password
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_STORAGE_BUCKET=scriptforge
 COMMUNITY_UPLOAD_MAX_KB=250
 ENABLE_COMMUNITY_UPLOADS=true
 SCRIPT_STORAGE_DRIVER=local
 DATABASE_URL=
-ENABLE_CAPTCHA=false
+ENABLE_CAPTCHA=true
+TURNSTILE_SITE_KEY=
 TURNSTILE_SECRET_KEY=
 RATE_LIMIT_DRIVER=memory
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 OPERATOROS_AUTH_MODE=password
+SCRIPTFORGE_ADMIN_EMAIL=john@shotgunninjas.com
+SCRIPTFORGE_ADMIN_SEED_PASSWORD=
+SCRIPTFORGE_ADMIN_NAME="John Williams"
+SCRIPTFORGE_ADMIN_ROLE=scriptforge_admin
 ```
 
-`ADMIN_SUBMISSION_PASSWORD` protects `/admin/scripts/*` workflows and admin APIs. The example value `change-this-password` is treated as not configured and must be replaced in real environments.
+`ADMIN_SUBMISSION_PASSWORD` is an emergency local development fallback for admin APIs. It should not be the primary production login method.
+
+`SCRIPTFORGE_ADMIN_EMAIL`, `SCRIPTFORGE_ADMIN_SEED_PASSWORD`, `SCRIPTFORGE_ADMIN_NAME`, and `SCRIPTFORGE_ADMIN_ROLE` seed the first real admin account. Never commit the seed password or paste it into source code.
+
+`NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` connect the server-side Supabase adapters. The service role key must stay server-only.
+
+`SUPABASE_STORAGE_BUCKET` stores uploaded scripts, generated README files, metadata JSON, and generated ZIP packs. The default bucket name is `scriptforge`.
 
 `COMMUNITY_UPLOAD_MAX_KB` controls public upload size limits. The default is `250`.
 
 `ENABLE_COMMUNITY_UPLOADS` enables or disables the public community upload form and API.
 
-`SCRIPT_STORAGE_DRIVER` selects submission persistence. Use `local` for development and tests. Use `database` only after the database adapter is implemented against the migration schema.
+`SCRIPT_STORAGE_DRIVER` selects submission persistence. Use `local` for development and tests. Use `database` in production with Supabase configured.
 
-`DATABASE_URL` is required when `SCRIPT_STORAGE_DRIVER=database`.
+`DATABASE_URL` is used by migration tooling and deployment documentation. Runtime database access uses Supabase service credentials.
 
 `ENABLE_CAPTCHA` requires public submissions to include a valid captcha token when set to `true`.
 
-`TURNSTILE_SECRET_KEY` is the Cloudflare Turnstile server-side secret used when captcha is enabled.
+`TURNSTILE_SITE_KEY` renders the Cloudflare Turnstile widget. `TURNSTILE_SECRET_KEY` validates tokens server-side.
 
-`RATE_LIMIT_DRIVER` selects public submission rate limiting. Use `memory` for development and single-instance testing. `upstash` is the production placeholder.
+`RATE_LIMIT_DRIVER` selects public submission and admin-login rate limiting. Use `memory` for development and single-instance testing. Use `upstash` in production.
 
 `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` are required when `RATE_LIMIT_DRIVER=upstash`.
 
@@ -148,6 +164,7 @@ Storage abstraction files:
 - `lib/scripts/storage/types.ts`
 - `lib/scripts/storage/localStorage.ts`
 - `lib/scripts/storage/databaseStorage.ts`
+- `lib/scripts/storage/supabaseStorage.ts`
 - `lib/scripts/storage/index.ts`
 
 The local driver writes the same folder structure used by the development workflow:
@@ -158,7 +175,11 @@ The local driver writes the same folder structure used by the development workfl
 - Audit events: `content/audit-events/*.json`
 - Version snapshots: `content/script-versions/{source_type}/{slug}/*.json`
 
-The database driver is intentionally fail-closed until a query implementation is wired. It requires `DATABASE_URL` and throws a clear placeholder error so production cannot silently fall back to nondurable local writes.
+The database driver uses Supabase:
+
+- Supabase Postgres stores submissions, versions, reviews, audit events, and admin users.
+- Supabase Storage stores uploaded `.ps1`/`.psm1` files, generated metadata JSON, generated `README.md`, and generated ZIP packs.
+- The driver fails closed when `NEXT_PUBLIC_SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` is missing.
 
 ## Database Migration
 
@@ -174,8 +195,9 @@ Tables:
 - `script_versions`
 - `script_reviews`
 - `script_audit_events`
+- `script_admin_users`
 
-The schema stores metadata JSON, script body, safety scan JSON, submitter info, source type, review status, reviewer identity, approval/rejection notes, timestamps, version snapshots, and audit events. Apply this migration to the production Postgres-compatible database before implementing and enabling `SCRIPT_STORAGE_DRIVER=database`.
+The schema stores metadata JSON, script body, safety scan JSON, submitter info, source type, review status, reviewer identity, approval/rejection notes, Supabase Storage paths, timestamps, version snapshots, review history, admin users, and audit events. Apply this migration to Supabase Postgres before enabling `SCRIPT_STORAGE_DRIVER=database`.
 
 ## Auth And RBAC
 
@@ -185,6 +207,7 @@ Admin protection now goes through an auth adapter:
 - `lib/scripts/auth/passwordAuth.ts`
 - `lib/scripts/auth/operatorOsAuth.ts`
 - `lib/scripts/auth/index.ts`
+- `lib/scripts/admin-users.ts`
 
 Roles:
 
@@ -192,7 +215,45 @@ Roles:
 - `scriptforge_reviewer`
 - `scriptforge_contributor`
 
-`OPERATOROS_AUTH_MODE=password` keeps the current password/session behavior for local development. `OPERATOROS_AUTH_MODE=sso` is reserved for the OperatorOS SSO adapter and should be wired to signed OperatorOS claims before production use.
+`OPERATOROS_AUTH_MODE=password` uses the ScriptForge seeded admin account plus the local emergency password fallback. `OPERATOROS_AUTH_MODE=sso` is reserved for the OperatorOS SSO adapter and should be wired to signed OperatorOS claims before production use.
+
+Admin account storage uses the active local storage model today:
+
+```text
+content/admin-users/{user_id}.json
+```
+
+Passwords are stored as bcrypt hashes, never as plain text.
+
+## Admin Seed And Login
+
+Seed the owner account after setting the seed password in `.env.local`:
+
+```powershell
+npm run seed:admin
+```
+
+Default seed identity:
+
+- Email: `john@shotgunninjas.com`
+- Name: `John Williams`
+- Role: `scriptforge_admin`
+
+The password must come from `SCRIPTFORGE_ADMIN_SEED_PASSWORD`. The seed script checks for the existing email, creates the account only when missing, writes an `admin_seeded` audit event, and never prints the password.
+
+Login routes:
+
+- `GET /admin/login`
+- `POST /api/admin/login`
+- `POST /api/admin/logout`
+
+Admin pages under `/admin/scripts/*` require a valid admin session cookie. API routes also enforce roles:
+
+- `scriptforge_admin`: full access.
+- `scriptforge_reviewer`: review, approve, reject, needs-changes, and promote workflows.
+- `scriptforge_contributor`: official draft/admin submission workflow.
+
+Password rotation warning: seed passwords are bootstrap credentials. Rotate the seeded admin password after first successful login in production. Until a password-management UI exists, rotate by updating the stored hash through a controlled admin maintenance script or by reseeding a fresh environment.
 
 ## Admin Submission Workflow
 
@@ -210,7 +271,8 @@ Admin submissions support:
 
 Server behavior:
 
-- Requires admin password or admin session cookie.
+- Requires `scriptforge_admin` or `scriptforge_contributor` session.
+- Accepts `ADMIN_SUBMISSION_PASSWORD` only as an emergency local API fallback.
 - Forces `source_type: operatoros`.
 - Runs static PowerShell safety scanning.
 - Blocks approved saves when the scan fails.
@@ -248,10 +310,10 @@ Public upload controls:
 
 - Upload size limit defaults to `250 KB`.
 - Allowed extensions: `.ps1`, `.psm1`, `.json`, `.yaml`, `.yml`.
-- Rate limiting uses `RATE_LIMIT_DRIVER`. The memory driver is for dev only; the Upstash driver is a production placeholder.
-- Captcha uses `ENABLE_CAPTCHA` and `TURNSTILE_SECRET_KEY`. When enabled, public submissions must include `captcha_token`.
+- Rate limiting uses `RATE_LIMIT_DRIVER`. The memory driver is for dev only; the Upstash REST driver is intended for production.
+- Captcha uses `ENABLE_CAPTCHA`, `TURNSTILE_SITE_KEY`, and `TURNSTILE_SECRET_KEY`. When enabled, the public form renders the Turnstile widget and submits `captcha_token`.
 
-Wire the Turnstile client widget and complete the Upstash adapter before enabling public uploads on an internet-facing deployment.
+Keep `ENABLE_CAPTCHA=true` for internet-facing deployments.
 
 ## Review Workflow
 
@@ -270,6 +332,8 @@ Admins can:
 - Edit metadata.
 - Edit script body.
 - Save edits and refresh the safety scan.
+
+Review routes require `scriptforge_admin` or `scriptforge_reviewer`.
 
 Review edits keep scripts in `content/pending-community-scripts/{slug}/` until an approval, rejection, needs-changes, or promotion action is taken.
 
@@ -381,6 +445,16 @@ Required top-level submission fields include:
 - `script_body`
 - `documentation`
 - `monetization`
+- `github_repo_url`
+- `github_file_url`
+- `github_commit_sha`
+- `github_last_synced_at`
+- `last_tested_at`
+- `powershell_compatibility`
+- `safety_score`
+- `documentation_score`
+- `community_rating`
+- `download_count`
 - `source_type`
 - `review_status`
 - `reviewed_by`
@@ -417,6 +491,67 @@ Public catalog filters:
 - Official vs community source.
 
 Official OperatorOS scripts show Official OperatorOS and Verified badges with premium styling. Community scripts show Community Submitted, Reviewed, and risk badges.
+
+Script detail pages include a public credibility layer:
+
+- Last reviewed
+- Last tested
+- PowerShell compatibility
+- Safety score
+- Documentation score
+- Community rating placeholder
+- Download count placeholder
+- GitHub repository, file URL, commit SHA, and last sync timestamp when available
+
+Official scripts also show a `Verified by OperatorOS` review panel explaining that the script is part of the official catalog and has been reviewed for metadata, safety scan results, compatibility, and technician documentation.
+
+Every detail page includes issue links for:
+
+- Report broken script
+- Report unsafe script
+- Request improvement
+
+Issue links currently open an email draft to `scripts@operatoros.net`. Replace this with GitHub Issues or OperatorOS support intake when the public feedback workflow is ready.
+
+Detail pages also render the submission changelog from `documentation.changelog`.
+
+## Generated Script Packs
+
+Generated pack downloads are exposed from:
+
+```text
+GET /api/scripts/packs/{pack}
+```
+
+Available packs:
+
+- `m365-pack`
+- `ad-pack`
+- `exchange-pack`
+- `workstation-repair-pack`
+- `security-audit-pack`
+
+The pack endpoint returns a generated ZIP assembled from approved official OperatorOS scripts in the mapped categories. These are convenience downloads, not signed release artifacts.
+
+When `SCRIPT_STORAGE_DRIVER=database`, the pack endpoint returns a generated ZIP file and stores the ZIP under Supabase Storage at `packs/{pack}/{file}.zip`.
+
+## Production Health
+
+Health endpoint:
+
+```text
+GET /api/health
+```
+
+The response checks:
+
+- app name and package version
+- configured domain: `scripts.operatoros.net`
+- active storage driver
+- Supabase database connectivity when `SCRIPT_STORAGE_DRIVER=database`
+- generated `public/script-index.json` presence and count
+
+Admin pages also show a production warning when `NODE_ENV=production` and `SCRIPT_STORAGE_DRIVER=local`.
 
 The ScriptForge visual system uses the OperatorOS palette:
 
@@ -469,6 +604,11 @@ Each index entry contains:
 - `risk_level`
 - `execution_type`
 - `requires_admin`
+- `credibility`
+- `github_repo_url`
+- `github_file_url`
+- `github_commit_sha`
+- `github_last_synced_at`
 - `script_body_excerpt`
 - `slug`
 - `path`
@@ -498,26 +638,57 @@ The generator creates 108 read-only audit/reporting scripts across:
 
 ## Deployment Notes for Vercel
 
-This app builds on Vercel as a Next.js application. Public browsing of committed `content/scripts/**` works well, but production submission/review workflows must use durable storage.
+Target production stack:
+
+- Next.js on Vercel
+- Supabase Postgres for metadata, submissions, reviews, audit events, and admin users
+- Supabase Storage bucket `scriptforge` for uploads, generated README files, metadata files, and ZIP packs
+- Upstash Redis for rate limiting
+- Cloudflare Turnstile for public upload protection
+- Domain: `scripts.operatoros.net`
 
 Important production notes:
 
 - Vercel serverless filesystem writes are not durable across deployments or instances.
-- Public browsing of committed `content/scripts/**` works well on Vercel.
 - Keep `SCRIPT_STORAGE_DRIVER=local` only for development and tests.
-- Do not set `SCRIPT_STORAGE_DRIVER=database` until `DatabaseScriptStorage` is implemented against `db/migrations/001_scriptforge_persistence.sql`.
-- Recommended production storage path: Postgres metadata and review state, object/blob storage for script files if needed, and CI/build-time index generation from durable records.
-- Set `ADMIN_SUBMISSION_PASSWORD` in Vercel environment variables.
-- Set `COMMUNITY_UPLOAD_MAX_KB` and `ENABLE_COMMUNITY_UPLOADS` in Vercel environment variables.
-- Keep `ENABLE_COMMUNITY_UPLOADS=false` until database storage, captcha UI, production rate limiting, abuse monitoring, and OperatorOS RBAC are wired.
+- Set `SCRIPT_STORAGE_DRIVER=database` in Vercel production.
+- Apply `db/migrations/001_scriptforge_persistence.sql` to Supabase Postgres before production traffic.
+- Create the Supabase Storage bucket named by `SUPABASE_STORAGE_BUCKET`.
+- Set `SCRIPTFORGE_ADMIN_EMAIL`, `SCRIPTFORGE_ADMIN_SEED_PASSWORD`, `SCRIPTFORGE_ADMIN_NAME`, and `SCRIPTFORGE_ADMIN_ROLE` in deployment secrets, run `npm run seed:admin`, then rotate the bootstrap password.
+- Keep `ADMIN_SUBMISSION_PASSWORD` unset or restricted to local emergency use.
+- Set `COMMUNITY_UPLOAD_MAX_KB`, `ENABLE_COMMUNITY_UPLOADS`, `ENABLE_CAPTCHA`, `TURNSTILE_SITE_KEY`, and `TURNSTILE_SECRET_KEY` in Vercel environment variables.
+- Set `RATE_LIMIT_DRIVER=upstash`, `UPSTASH_REDIS_REST_URL`, and `UPSTASH_REDIS_REST_TOKEN` for production.
 - Use `OPERATOROS_AUTH_MODE=password` until OperatorOS SSO claims are available.
 - Do not store secrets inside submitted scripts or metadata.
 - Rebuild `public/script-index.json` during CI/build if the catalog is committed to the repository.
 
-Suggested Vercel build command:
+Recommended Vercel build command:
 
 ```powershell
 npm run scripts:build-index && npm run build
 ```
 
-Use the default Next.js output unless deployment requirements change.
+Preview deployments:
+
+- Use `SCRIPT_STORAGE_DRIVER=local` for UI-only previews, or point previews at an isolated Supabase project.
+- Use separate Turnstile preview keys if public upload testing is required.
+- Avoid using production `SUPABASE_SERVICE_ROLE_KEY` in untrusted preview contexts.
+
+Production domain setup:
+
+- Add `scripts.operatoros.net` to the Vercel project domains.
+- Add the DNS record requested by Vercel at the OperatorOS DNS provider.
+- Configure the same hostname in Cloudflare Turnstile allowed domains.
+- Verify HTTPS is active before enabling community uploads.
+
+Post-deploy verification checklist:
+
+- `GET https://scripts.operatoros.net/api/health` returns `ok: true`.
+- `/admin/login` accepts the seeded admin account.
+- `/admin/scripts/submit` and `/admin/scripts/review` do not show the local-storage production warning.
+- Public upload renders Turnstile and rejects missing/invalid tokens.
+- Community upload stores metadata in Supabase Postgres and files in Supabase Storage.
+- Admin review can approve/reject/mark-needs-changes.
+- Approved scripts appear in `/scripts`.
+- Generated pack URLs return ZIP downloads.
+- `npm audit` remains clean in CI.

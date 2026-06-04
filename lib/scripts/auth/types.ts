@@ -3,6 +3,7 @@ export type ScriptForgeRole = "scriptforge_admin" | "scriptforge_reviewer" | "sc
 export type ScriptForgePrincipal = {
   id: string;
   email?: string;
+  name?: string;
   roles: ScriptForgeRole[];
 };
 

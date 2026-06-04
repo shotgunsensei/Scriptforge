@@ -54,8 +54,7 @@ type LoadState =
   | { status: "error"; message: string };
 
 export function AdminScriptReviewClient({ isAuthenticated }: { isAuthenticated: boolean }) {
-  const [authenticated, setAuthenticated] = useState(isAuthenticated);
-  const [adminPassword, setAdminPassword] = useState("");
+  const authenticated = isAuthenticated;
   const [scripts, setScripts] = useState<ReviewScript[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [selected, setSelected] = useState<ReviewScript | null>(null);
@@ -74,28 +73,6 @@ export function AdminScriptReviewClient({ isAuthenticated }: { isAuthenticated: 
   }, [scripts, selectedSlug]);
 
   const safetyFlags = useMemo(() => selected?.submission.safety.risk_flags.join(", ") || "none", [selected]);
-
-  async function authenticate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setState({ status: "loading", message: "Checking admin password..." });
-
-    const formData = new FormData(event.currentTarget);
-    formData.set("action", "authenticate");
-
-    const response = await fetch("/api/admin/scripts/submit", {
-      method: "POST",
-      body: formData,
-    });
-    const payload = await response.json();
-
-    if (!response.ok) {
-      setState({ status: "error", message: payload.error ?? "Authentication failed." });
-      return;
-    }
-
-    setAuthenticated(true);
-    setState({ status: "success", message: "Admin session unlocked." });
-  }
 
   async function loadQueue() {
     setState({ status: "loading", message: "Loading pending community scripts..." });
@@ -175,25 +152,10 @@ export function AdminScriptReviewClient({ isAuthenticated }: { isAuthenticated: 
   if (!authenticated) {
     return (
       <section className="max-w-xl border border-slate-800 bg-slate-950/70 p-5 shadow-2xl shadow-black/30">
-        <h2 className="text-xl font-semibold text-white">Unlock Review Queue</h2>
-        <form className="mt-5 flex flex-col gap-4" onSubmit={authenticate}>
-          <label className="flex flex-col gap-2 text-sm font-medium text-slate-200">
-            Admin password
-            <input
-              className="border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-rose-400"
-              name="admin_password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={adminPassword}
-              onChange={(event) => setAdminPassword(event.target.value)}
-            />
-          </label>
-          <button className="w-fit border border-rose-500 bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500">
-            Unlock
-          </button>
-        </form>
-        <StatusBlock state={state} />
+        <h2 className="text-xl font-semibold text-white">Admin session required</h2>
+        <a className="mt-5 inline-block border border-rose-500 bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500" href="/admin/login">
+          Sign in
+        </a>
       </section>
     );
   }

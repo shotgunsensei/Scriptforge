@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  SCRIPT_PACKS,
   type PublicCatalogSource,
   type PublicScriptCatalogItem,
 } from "../../lib/scripts/catalog";
@@ -57,6 +58,29 @@ export function ScriptsShell({
         </header>
 
         <ScriptFilters facets={facets} filters={filters} lockedSource={lockedSource} />
+
+        <section className="border border-[#24304A] bg-[#121A2E] p-4">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-base font-semibold text-[#F8FAFC]">Generated Script Packs</h2>
+              <p className="mt-1 text-sm text-[#94A3B8]">
+                Download category bundles generated from approved official OperatorOS scripts.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {SCRIPT_PACKS.map((pack) => (
+                <a
+                  className="border border-[#24304A] bg-[#0B1020] px-3 py-2 text-sm font-semibold text-[#F8FAFC] hover:border-[#E53935]"
+                  download
+                  href={`/api/scripts/packs/${pack.slug}`}
+                  key={pack.slug}
+                >
+                  {pack.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {scripts.length === 0 ? (

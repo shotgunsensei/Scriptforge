@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import Script from "next/script";
+import { useEffect, useState, type FormEvent } from "react";
 
 type SubmitState =
   | { status: "idle" }
@@ -8,8 +9,31 @@ type SubmitState =
   | { status: "success"; message: string; folderPath?: string }
   | { status: "error"; message: string };
 
-export function CommunitySubmitForm({ maxKb }: { maxKb: number }) {
+declare global {
+  interface Window {
+    onScriptForgeTurnstile?: (token: string) => void;
+  }
+}
+
+export function CommunitySubmitForm({
+  maxKb,
+  captchaEnabled,
+  turnstileSiteKey,
+}: {
+  maxKb: number;
+  captchaEnabled: boolean;
+  turnstileSiteKey: string;
+}) {
   const [state, setState] = useState<SubmitState>({ status: "idle" });
+  const [captchaToken, setCaptchaToken] = useState("");
+
+  useEffect(() => {
+    window.onScriptForgeTurnstile = setCaptchaToken;
+
+    return () => {
+      delete window.onScriptForgeTurnstile;
+    };
+  }, []);
 
   async function submitScript(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -75,11 +99,28 @@ export function CommunitySubmitForm({ maxKb }: { maxKb: number }) {
 
         <Panel title="Submission Controls">
           <div className="grid gap-4">
-            <input name="captcha_token" type="hidden" value="placeholder" />
-            <div className="border border-dashed border-slate-700 bg-slate-950/70 p-4 text-sm leading-6 text-slate-300">
-              Captcha and rate limiting hooks are placeholders in this build. The API keeps explicit server-side
-              placeholder functions so production providers can be wired without changing the submission contract.
-            </div>
+            <input name="captcha_token" type="hidden" value={captchaToken} />
+            {captchaEnabled ? (
+              turnstileSiteKey ? (
+                <div className="border border-slate-700 bg-slate-950/70 p-4">
+                  <Script async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js" />
+                  <div
+                    className="cf-turnstile"
+                    data-callback="onScriptForgeTurnstile"
+                    data-sitekey={turnstileSiteKey}
+                    data-theme="dark"
+                  />
+                </div>
+              ) : (
+                <div className="border border-rose-800 bg-rose-950/40 p-4 text-sm text-rose-100">
+                  TURNSTILE_SITE_KEY is required when captcha is enabled.
+                </div>
+              )
+            ) : (
+              <div className="border border-dashed border-slate-700 bg-slate-950/70 p-4 text-sm leading-6 text-slate-300">
+                Rate limiting runs server-side. Captcha is disabled in this environment.
+              </div>
+            )}
             <button className="border border-rose-500 bg-rose-600 px-4 py-3 text-sm font-semibold text-white hover:bg-rose-500">
               Submit for Community Review
             </button>
@@ -134,6 +175,25 @@ export function CommunitySubmitForm({ maxKb }: { maxKb: number }) {
             <TextField label="Output description" name="output_description" />
             <TextField label="Documentation" name="documentation_readme" />
             <TextField label="Changelog" name="documentation_changelog" />
+          </div>
+        </Panel>
+
+        <Panel title="GitHub and Credibility">
+          <div className="grid gap-4">
+            <Field label="GitHub repo URL" name="github_repo_url" type="url" />
+            <Field label="GitHub file URL" name="github_file_url" type="url" />
+            <Field label="GitHub commit SHA" name="github_commit_sha" />
+            <Field label="GitHub last synced at" name="github_last_synced_at" placeholder="2026-06-04T12:00:00.000Z" />
+            <Field label="Last tested at" name="last_tested_at" placeholder="2026-06-04T12:00:00.000Z" />
+            <Field
+              label="PowerShell compatibility"
+              name="powershell_compatibility"
+              defaultValue="Windows PowerShell 5.1, PowerShell 7"
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Safety score" name="safety_score" type="number" placeholder="0-100" />
+              <Field label="Documentation score" name="documentation_score" type="number" placeholder="0-100" />
+            </div>
           </div>
         </Panel>
 

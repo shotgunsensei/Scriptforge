@@ -142,6 +142,21 @@ export const scriptSubmissionSchema = z
     script_body: nonEmptyString.max(200000),
     documentation: scriptDocumentationSchema,
     monetization: scriptMonetizationSchema,
+    github_repo_url: z.string().url().nullable().optional(),
+    github_file_url: z.string().url().nullable().optional(),
+    github_commit_sha: z
+      .string()
+      .trim()
+      .regex(/^[a-f0-9]{7,40}$/i, "GitHub commit SHA must be 7 to 40 hexadecimal characters.")
+      .nullable()
+      .optional(),
+    github_last_synced_at: isoDateTimeString.nullable().optional(),
+    last_tested_at: isoDateTimeString.nullable().optional(),
+    powershell_compatibility: z.array(nonEmptyString.max(80)).optional(),
+    safety_score: z.number().int().min(0).max(100).nullable().optional(),
+    documentation_score: z.number().int().min(0).max(100).nullable().optional(),
+    community_rating: z.number().min(0).max(5).nullable().optional(),
+    download_count: z.number().int().min(0).optional(),
     source_type: scriptSourceTypeSchema,
     review_status: scriptReviewStatusSchema,
     reviewed_by: z.string().trim().max(120).nullable().default(null),

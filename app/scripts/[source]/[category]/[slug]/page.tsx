@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   formatSourceLabel,
@@ -12,6 +13,34 @@ import { RiskBadge } from "../../../../components/brand/RiskBadge";
 import { ScriptDetailActions } from "../../../detail-actions";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ source: string; category: string; slug: string }>;
+}): Promise<Metadata> {
+  const { source, category, slug } = await params;
+  const script = await getPublicScript(source, category, slug);
+
+  if (!script) {
+    return {
+      title: "Script not found | OperatorOS ScriptForge",
+    };
+  }
+
+  return {
+    title: `${script.submission.title} | OperatorOS ScriptForge`,
+    description: script.submission.summary,
+    alternates: {
+      canonical: getScriptDetailHref(script),
+    },
+    openGraph: {
+      title: `${script.submission.title} | OperatorOS ScriptForge`,
+      description: script.submission.summary,
+      type: "article",
+    },
+  };
+}
 
 export default async function ScriptDetailPage({
   params,
@@ -73,18 +102,31 @@ export default async function ScriptDetailPage({
           </header>
 
           <Panel title="Script Actions">
-            <ScriptDetailActions scriptBody={script.scriptBody} slug={script.slug} />
+            <ScriptDetailActions
+              githubFileUrl={script.submission.github_file_url}
+              scriptBody={script.scriptBody}
+              slug={script.slug}
+              title={script.submission.title}
+            />
           </Panel>
 
-          <Panel title="Script Health Score">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              <HealthMetric label="Documentation" value="100%" />
-              <HealthMetric label="Safety Scan" value={script.submission.safety.scan_status === "passed" ? "Passed" : script.submission.safety.scan_status} />
-              <HealthMetric label="PowerShell" value="7 Compatible" />
-              <HealthMetric label="Last Tested" value="06/2026" />
-              <HealthMetric label="OperatorOS Score" value={script.source === "operatoros" ? "97/100" : "88/100"} />
+          <Panel title="Credibility">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <HealthMetric label="Last reviewed" value={formatDate(script.credibility.last_reviewed)} />
+              <HealthMetric label="Last tested" value={formatDate(script.credibility.last_tested)} />
+              <HealthMetric label="PowerShell" value={script.credibility.powershell_compatibility.join(", ")} />
+              <HealthMetric label="Safety score" value={`${script.credibility.safety_score}/100`} />
+              <HealthMetric label="Documentation" value={`${script.credibility.documentation_score}/100`} />
+              <HealthMetric
+                label="Community rating"
+                value={script.credibility.community_rating === null ? "Coming soon" : `${script.credibility.community_rating}/5`}
+              />
+              <HealthMetric label="Downloads" value={formatCount(script.credibility.download_count)} />
+              <HealthMetric label="Review status" value={script.submission.review_status} />
             </div>
           </Panel>
+
+          {isOfficial ? <VerifiedOperatorOsPanel scriptTitle={script.submission.title} /> : null}
 
           <Panel title="Script Body">
             <pre className="max-h-[36rem] overflow-auto border border-slate-800 bg-slate-950 p-4 text-sm leading-6 text-slate-100">
@@ -134,6 +176,12 @@ export default async function ScriptDetailPage({
               </div>
             )}
           </Panel>
+
+          <Panel title="Changelog">
+            <p className="whitespace-pre-line text-sm leading-6 text-slate-300">
+              {script.submission.documentation.changelog ?? "No changelog has been published for this script yet."}
+            </p>
+          </Panel>
         </section>
 
         <aside className="flex flex-col gap-6">
@@ -145,6 +193,9 @@ export default async function ScriptDetailPage({
               <Metric label="Risk level" value={script.submission.safety.risk_level} />
               <Metric label="Execution type" value={script.execution_type} />
               <Metric label="Requires admin" value={script.submission.safety.requires_admin ? "yes" : "no"} />
+              <Metric label="GitHub repo" value={script.submission.github_repo_url ?? "pending"} />
+              <Metric label="Commit" value={script.submission.github_commit_sha ?? "pending"} />
+              <Metric label="Last synced" value={formatDate(script.submission.github_last_synced_at)} />
             </div>
           </Panel>
 
@@ -203,6 +254,22 @@ export default async function ScriptDetailPage({
   );
 }
 
+function VerifiedOperatorOsPanel({ scriptTitle }: { scriptTitle: string }) {
+  return (
+    <Panel title="Verified by OperatorOS">
+      <div className="grid gap-3 text-sm text-slate-300 md:grid-cols-3">
+        <Metric label="Review" value="OperatorOS verified" />
+        <Metric label="Catalog" value="Official library" />
+        <Metric label="Safety" value="Static scan completed" />
+      </div>
+      <p className="mt-4 text-sm leading-6 text-slate-300">
+        {scriptTitle} is part of the official OperatorOS ScriptForge catalog. It has been reviewed for metadata
+        completeness, safety scan results, PowerShell compatibility, and technician-facing documentation.
+      </p>
+    </Panel>
+  );
+}
+
 function CommunityDisclaimer({ compact = false }: { compact?: boolean }) {
   return (
     <div
@@ -243,6 +310,22 @@ function HealthMetric({ label, value }: { label: string; value: string }) {
       <p className="mt-2 text-sm font-semibold text-[#00C896]">{value}</p>
     </div>
   );
+}
+
+function formatDate(value: string | null | undefined): string {
+  if (!value) {
+    return "Pending";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
+function formatCount(value: number): string {
+  return value === 0 ? "Coming soon" : new Intl.NumberFormat("en-US").format(value);
 }
 
 function List({ items, empty }: { items: string[]; empty: string }) {

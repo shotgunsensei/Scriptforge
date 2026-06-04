@@ -1,8 +1,22 @@
+import type { Metadata } from "next";
 import { getCatalogFacets, listPublicScripts } from "../../../../lib/scripts/catalog";
 import { ScriptsShell } from "../../components";
 import { parseScriptFilters, type SearchParamsInput } from "../../page-utils";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
+  const { category } = await params;
+  const title = `${category} PowerShell Scripts | OperatorOS ScriptForge`;
+
+  return {
+    title,
+    description: `Browse approved ${category} PowerShell automation from official OperatorOS and reviewed community sources.`,
+    alternates: {
+      canonical: `/scripts/category/${category}`,
+    },
+  };
+}
 
 export default async function CategoryScriptsPage({
   params,

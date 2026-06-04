@@ -63,6 +63,7 @@ export async function POST(request: NextRequest) {
       throw new Error(`Script body exceeds ${maxKb} KB limit.`);
     }
 
+    const powershellCompatibility = readMergedList(formData, metadata, "powershell_compatibility");
     const result = await saveCommunityScriptSubmission({
       title: readMergedString(formData, metadata, "title", true),
       slug: readMergedString(formData, metadata, "slug", false) || undefined,
@@ -91,6 +92,16 @@ export async function POST(request: NextRequest) {
         undefined,
       monetization_tier: readMonetizationTier(formData, metadata),
       entitlement_required: false,
+      github_repo_url: readNullableUrl(formData, metadata, "github_repo_url"),
+      github_file_url: readNullableUrl(formData, metadata, "github_file_url"),
+      github_commit_sha: readMergedString(formData, metadata, "github_commit_sha", false) || null,
+      github_last_synced_at: readMergedString(formData, metadata, "github_last_synced_at", false) || null,
+      last_tested_at: readMergedString(formData, metadata, "last_tested_at", false) || null,
+      powershell_compatibility: powershellCompatibility.length > 0 ? powershellCompatibility : undefined,
+      safety_score: readNullableNumber(formData, metadata, "safety_score"),
+      documentation_score: readNullableNumber(formData, metadata, "documentation_score"),
+      community_rating: readNullableNumber(formData, metadata, "community_rating"),
+      download_count: readNullableNumber(formData, metadata, "download_count") ?? 0,
       submitter_name: readNestedString(formData, metadata, "submitter_name", ["submitter", "name"], true),
       submitter_email: readNestedString(formData, metadata, "submitter_email", ["submitter", "email"], true),
       submitter_organization:
@@ -116,6 +127,24 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: message }, { status: 400 });
   }
+}
+
+function readNullableUrl(formData: FormData, metadata: MetadataTemplate, key: string): string | null {
+  return readMergedString(formData, metadata, key, false) || null;
+}
+
+function readNullableNumber(formData: FormData, metadata: MetadataTemplate, key: string): number | null {
+  const value = readMergedString(formData, metadata, key, false);
+
+  if (value) {
+    const parsed = Number(value);
+
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  const metadataValue = metadata[key];
+
+  return typeof metadataValue === "number" && Number.isFinite(metadataValue) ? metadataValue : null;
 }
 
 function getClientRateLimitKey(request: NextRequest): string {

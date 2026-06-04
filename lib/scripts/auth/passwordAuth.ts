@@ -1,11 +1,17 @@
 import type { NextRequest } from "next/server";
-import { ADMIN_SESSION_COOKIE, verifyAdminPassword, verifyAdminSessionToken } from "../admin-auth";
+import { verifyAdminPassword } from "../admin-auth";
+import { ADMIN_SESSION_COOKIE, hasRequiredRole, verifyUserSessionToken } from "../admin-users";
 import type { ScriptForgeAuthAdapter, ScriptForgePrincipal, ScriptForgeRole } from "./types";
 
 export class PasswordAuthAdapter implements ScriptForgeAuthAdapter<NextRequest> {
   async authenticate(request: NextRequest, password?: string | null): Promise<ScriptForgePrincipal | null> {
+    const sessionPrincipal = await verifyUserSessionToken(request.cookies.get(ADMIN_SESSION_COOKIE)?.value);
+
+    if (sessionPrincipal) {
+      return sessionPrincipal;
+    }
+
     const authorized =
-      verifyAdminSessionToken(request.cookies.get(ADMIN_SESSION_COOKIE)?.value) ||
       verifyAdminPassword(password) ||
       verifyAdminPassword(request.headers.get("x-admin-submission-password"));
 
@@ -26,7 +32,7 @@ export class PasswordAuthAdapter implements ScriptForgeAuthAdapter<NextRequest> 
   ): Promise<ScriptForgePrincipal> {
     const principal = await this.authenticate(request, password);
 
-    if (!principal || !roles.some((role) => principal.roles.includes(role))) {
+    if (!principal || !hasRequiredRole(principal.roles, roles)) {
       throw new Error("Admin session is required.");
     }
 

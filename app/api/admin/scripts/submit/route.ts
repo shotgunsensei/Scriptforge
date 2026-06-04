@@ -1,53 +1,33 @@
 import { NextResponse, type NextRequest } from "next/server";
-import {
-  ADMIN_SESSION_COOKIE,
-  createAdminSessionToken,
-  getAdminPassword,
-  verifyAdminPassword,
-} from "../../../../../lib/scripts/admin-auth";
-import { isAuthorizedAdminRequest } from "../../../../../lib/scripts/admin-request";
+import { getAuthorizedAdminPrincipal } from "../../../../../lib/scripts/admin-request";
 import { saveAdminScriptSubmission } from "../../../../../lib/scripts/admin-submit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  const isSsoMode = process.env.OPERATOROS_AUTH_MODE === "sso";
-
-  if (!isSsoMode && !getAdminPassword()) {
-    return NextResponse.json(
-      { error: "ADMIN_SUBMISSION_PASSWORD must be set to a non-default value." },
-      { status: 500 },
-    );
-  }
-
   const formData = await request.formData();
-  const action = readString(formData, "action");
   const adminPassword = readString(formData, "admin_password");
 
-  if (action === "authenticate") {
-    if (!verifyAdminPassword(adminPassword)) {
-      return NextResponse.json({ error: "Invalid admin password." }, { status: 401 });
-    }
-
-    const response = NextResponse.json({ ok: true });
-    response.cookies.set(ADMIN_SESSION_COOKIE, createAdminSessionToken(), {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 8,
-    });
-
-    return response;
-  }
-
-  if (!(await isAuthorizedAdminRequest(request, adminPassword, ["scriptforge_admin", "scriptforge_contributor"]))) {
-    return NextResponse.json({ error: "Admin password is required." }, { status: 401 });
+  let principal;
+  try {
+    principal = await getAuthorizedAdminPrincipal(request, adminPassword, [
+      "scriptforge_admin",
+      "scriptforge_contributor",
+    ]);
+  } catch {
+    return NextResponse.json({ error: "Admin session is required." }, { status: 401 });
   }
 
   try {
     const scriptBody = await getScriptBody(formData);
+    const powershellCompatibility = splitLinesOrCommas(readString(formData, "powershell_compatibility"));
+    const reviewStatus = readReviewStatus(formData);
+
+    if (!principal.roles.includes("scriptforge_admin") && reviewStatus === "approved") {
+      return NextResponse.json({ error: "Contributors can save trusted drafts only." }, { status: 403 });
+    }
+
     const result = await saveAdminScriptSubmission({
       title: requireString(formData, "title"),
       slug: readString(formData, "slug") || undefined,
@@ -72,7 +52,17 @@ export async function POST(request: NextRequest) {
       monetization_tier: readMonetizationTier(formData),
       entitlement_required: formData.get("entitlement_required") === "true",
       addon_key: readString(formData, "addon_key") || undefined,
-      review_status: readReviewStatus(formData),
+      github_repo_url: readString(formData, "github_repo_url") || null,
+      github_file_url: readString(formData, "github_file_url") || null,
+      github_commit_sha: readString(formData, "github_commit_sha") || null,
+      github_last_synced_at: readString(formData, "github_last_synced_at") || null,
+      last_tested_at: readString(formData, "last_tested_at") || null,
+      powershell_compatibility: powershellCompatibility.length > 0 ? powershellCompatibility : undefined,
+      safety_score: readNumber(formData, "safety_score"),
+      documentation_score: readNumber(formData, "documentation_score"),
+      community_rating: readNumber(formData, "community_rating"),
+      download_count: readNumber(formData, "download_count") ?? 0,
+      review_status: reviewStatus,
       reviewed_by: requireString(formData, "reviewed_by"),
       submitter_name: requireString(formData, "submitter_name"),
       submitter_email: requireString(formData, "submitter_email"),
@@ -98,6 +88,18 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: message }, { status: 400 });
   }
+}
+
+function readNumber(formData: FormData, key: string): number | null {
+  const value = readString(formData, key);
+
+  if (!value) {
+    return null;
+  }
+
+  const parsed = Number(value);
+
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
 async function getScriptBody(formData: FormData): Promise<string> {

@@ -9,31 +9,8 @@ type SubmitState =
   | { status: "error"; message: string };
 
 export function AdminScriptSubmitForm({ isAuthenticated }: { isAuthenticated: boolean }) {
-  const [authenticated, setAuthenticated] = useState(isAuthenticated);
-  const [adminPassword, setAdminPassword] = useState("");
+  const authenticated = isAuthenticated;
   const [state, setState] = useState<SubmitState>({ status: "idle" });
-
-  async function authenticate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setState({ status: "loading", message: "Checking admin password..." });
-
-    const formData = new FormData(event.currentTarget);
-    formData.set("action", "authenticate");
-
-    const response = await fetch("/api/admin/scripts/submit", {
-      method: "POST",
-      body: formData,
-    });
-    const payload = await response.json();
-
-    if (!response.ok) {
-      setState({ status: "error", message: payload.error ?? "Authentication failed." });
-      return;
-    }
-
-    setAuthenticated(true);
-    setState({ status: "success", message: "Admin session unlocked." });
-  }
 
   async function submitScript(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,10 +18,6 @@ export function AdminScriptSubmitForm({ isAuthenticated }: { isAuthenticated: bo
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-
-    if (adminPassword) {
-      formData.set("admin_password", adminPassword);
-    }
 
     const response = await fetch("/api/admin/scripts/submit", {
       method: "POST",
@@ -68,25 +41,10 @@ export function AdminScriptSubmitForm({ isAuthenticated }: { isAuthenticated: bo
   if (!authenticated) {
     return (
       <section className="max-w-xl border border-slate-800 bg-slate-950/70 p-5 shadow-2xl shadow-black/30">
-        <h2 className="text-xl font-semibold text-white">Unlock Admin Workflow</h2>
-        <form className="mt-5 flex flex-col gap-4" onSubmit={authenticate}>
-          <label className="flex flex-col gap-2 text-sm font-medium text-slate-200">
-            Admin password
-            <input
-              className="border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-rose-400"
-              name="admin_password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={adminPassword}
-              onChange={(event) => setAdminPassword(event.target.value)}
-            />
-          </label>
-          <button className="w-fit border border-rose-500 bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500">
-            Unlock
-          </button>
-        </form>
-        <StatusBlock state={state} />
+        <h2 className="text-xl font-semibold text-white">Admin session required</h2>
+        <a className="mt-5 inline-block border border-rose-500 bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500" href="/admin/login">
+          Sign in
+        </a>
       </section>
     );
   }
@@ -179,6 +137,29 @@ export function AdminScriptSubmitForm({ isAuthenticated }: { isAuthenticated: bo
             <TextField label="Output description" name="output_description" />
             <TextField label="Documentation" name="documentation_readme" />
             <TextField label="Changelog" name="documentation_changelog" />
+          </div>
+        </Panel>
+
+        <Panel title="GitHub and Credibility">
+          <div className="grid gap-4">
+            <Field label="GitHub repo URL" name="github_repo_url" type="url" />
+            <Field label="GitHub file URL" name="github_file_url" type="url" />
+            <Field label="GitHub commit SHA" name="github_commit_sha" />
+            <Field label="GitHub last synced at" name="github_last_synced_at" placeholder="2026-06-04T12:00:00.000Z" />
+            <Field label="Last tested at" name="last_tested_at" placeholder="2026-06-04T12:00:00.000Z" />
+            <Field
+              label="PowerShell compatibility"
+              name="powershell_compatibility"
+              defaultValue="Windows PowerShell 5.1, PowerShell 7"
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Safety score" name="safety_score" type="number" placeholder="0-100" />
+              <Field label="Documentation score" name="documentation_score" type="number" placeholder="0-100" />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Community rating" name="community_rating" type="number" placeholder="0-5" />
+              <Field label="Download count" name="download_count" type="number" placeholder="0" />
+            </div>
           </div>
         </Panel>
 

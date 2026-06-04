@@ -47,3 +47,25 @@ export async function createScriptVersionSnapshot({
     createdAt: new Date().toISOString(),
   });
 }
+
+export async function logAdminAuditEvent({
+  type,
+  actor,
+  notes,
+  rootDir,
+}: {
+  type: "admin_seeded";
+  actor?: string | null;
+  notes?: string;
+  rootDir?: string;
+}) {
+  await getScriptStorage(rootDir).appendAuditEvent({
+    type,
+    slug: "admin",
+    sourceType: "operatoros",
+    reviewStatus: "approved",
+    actor,
+    notes,
+    createdAt: new Date().toISOString(),
+  });
+}

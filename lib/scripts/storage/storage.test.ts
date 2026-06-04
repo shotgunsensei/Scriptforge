@@ -8,6 +8,8 @@ import { LocalScriptStorage } from "./localStorage";
 
 const originalStorageDriver = process.env.SCRIPT_STORAGE_DRIVER;
 const originalDatabaseUrl = process.env.DATABASE_URL;
+const originalSupabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const originalSupabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const submission: ScriptSubmission = {
   title: "Audit Local Services",
@@ -60,6 +62,8 @@ const submission: ScriptSubmission = {
 afterEach(() => {
   restoreEnv("SCRIPT_STORAGE_DRIVER", originalStorageDriver);
   restoreEnv("DATABASE_URL", originalDatabaseUrl);
+  restoreEnv("NEXT_PUBLIC_SUPABASE_URL", originalSupabaseUrl);
+  restoreEnv("SUPABASE_SERVICE_ROLE_KEY", originalSupabaseKey);
 });
 
 describe("script storage adapters", () => {
@@ -115,17 +119,13 @@ describe("script storage adapters", () => {
     }
   });
 
-  it("fails closed when database storage is selected without DATABASE_URL", async () => {
+  it("fails closed when database storage is selected without Supabase credentials", async () => {
     process.env.SCRIPT_STORAGE_DRIVER = "database";
     process.env.DATABASE_URL = "";
+    process.env.NEXT_PUBLIC_SUPABASE_URL = "";
+    process.env.SUPABASE_SERVICE_ROLE_KEY = "";
 
-    await expect(
-      getScriptStorage().createPendingCommunity({
-        submission,
-        scriptBody: submission.script_body,
-        scriptExtension: ".ps1",
-      }),
-    ).rejects.toThrow("DATABASE_URL is required");
+    expect(() => getScriptStorage()).toThrow("NEXT_PUBLIC_SUPABASE_URL");
   });
 });
 

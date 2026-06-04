@@ -1,13 +1,18 @@
 import { cookies } from "next/headers";
-import { ADMIN_SESSION_COOKIE, getAdminPassword, verifyAdminSessionToken } from "../../../../lib/scripts/admin-auth";
+import { redirect } from "next/navigation";
+import { ADMIN_SESSION_COOKIE, verifyUserSessionToken } from "../../../../lib/scripts/admin-users";
 import { AdminScriptSubmitForm } from "./submit-form";
+import { ProductionStorageWarning } from "../storage-warning";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminScriptSubmitPage() {
   const cookieStore = await cookies();
-  const isConfigured = process.env.OPERATOROS_AUTH_MODE === "sso" || Boolean(getAdminPassword());
-  const isAuthenticated = verifyAdminSessionToken(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
+  const principal = await verifyUserSessionToken(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
+
+  if (!principal) {
+    redirect("/admin/login");
+  }
 
   return (
     <main className="min-h-screen px-5 py-6 text-slate-100 sm:px-8 lg:px-10">
@@ -28,17 +33,8 @@ export default async function AdminScriptSubmitPage() {
           </div>
         </header>
 
-        {!isConfigured ? (
-          <section className="border border-rose-900 bg-rose-950/40 p-5">
-            <h2 className="text-lg font-semibold text-white">Admin password is not configured</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-rose-100">
-              Set <code>ADMIN_SUBMISSION_PASSWORD</code> to a non-default value before using the
-              private submission workflow. The example value is documented in <code>.env.example</code>.
-            </p>
-          </section>
-        ) : (
-          <AdminScriptSubmitForm isAuthenticated={isAuthenticated} />
-        )}
+        <AdminScriptSubmitForm isAuthenticated={true} />
+        <ProductionStorageWarning />
       </div>
     </main>
   );

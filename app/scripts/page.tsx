@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import { getCatalogFacets, listPublicScripts } from "../../lib/scripts/catalog";
 import { ScriptsShell } from "./components";
 import { parseScriptFilters, type SearchParamsInput } from "./page-utils";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "PowerShell Script Library | OperatorOS ScriptForge",
+  description:
+    "Browse approved OperatorOS and community PowerShell scripts with safety metadata, review status, and category filters.",
+  alternates: {
+    canonical: "/scripts",
+  },
+};
 
 export default async function ScriptsPage({ searchParams }: { searchParams: SearchParamsInput }) {
   const { filterState, catalogFilters } = await parseScriptFilters(searchParams);

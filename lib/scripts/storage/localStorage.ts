@@ -16,6 +16,13 @@ export class LocalScriptStorage implements ScriptStorage {
     return this.writeScriptRecord(record, join(this.rootDir, "content", "pending-community-scripts", record.submission.slug));
   }
 
+  saveCommunityApproved(record: ScriptStorageRecord) {
+    return this.writeScriptRecord(
+      record,
+      join(this.rootDir, "content", "scripts", "community", record.submission.category, record.submission.slug),
+    );
+  }
+
   saveOperatorOsDraft(record: ScriptStorageRecord) {
     return this.writeScriptRecord(
       record,

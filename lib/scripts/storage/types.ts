@@ -9,7 +9,8 @@ export type ScriptAuditEventType =
   | "script_rejected"
   | "script_marked_needs_changes"
   | "script_promoted_to_official"
-  | "script_updated";
+  | "script_updated"
+  | "admin_seeded";
 
 export type ScriptStorageRecord = {
   submission: ScriptSubmission;
@@ -51,6 +52,7 @@ export type ScriptVersionSnapshot = {
 
 export interface ScriptStorage {
   createPendingCommunity(record: ScriptStorageRecord): Promise<ScriptStorageWriteResult>;
+  saveCommunityApproved(record: ScriptStorageRecord): Promise<ScriptStorageWriteResult>;
   saveOperatorOsDraft(record: ScriptStorageRecord): Promise<ScriptStorageWriteResult>;
   saveOperatorOsApproved(record: ScriptStorageRecord): Promise<ScriptStorageWriteResult>;
   appendAuditEvent(event: ScriptAuditEvent): Promise<void>;

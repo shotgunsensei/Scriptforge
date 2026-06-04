@@ -98,6 +98,16 @@ describe("script indexer", () => {
         risk_level: "low",
         execution_type: "local",
         requires_admin: false,
+        credibility: {
+          safety_score: 100,
+          documentation_score: expect.any(Number),
+          community_rating: null,
+          download_count: 0,
+        },
+        github_repo_url: null,
+        github_file_url: null,
+        github_commit_sha: null,
+        github_last_synced_at: null,
         slug: "collect-inventory",
         path: "/scripts/operatoros/endpoint/collect-inventory",
       });
