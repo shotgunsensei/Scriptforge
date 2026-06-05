@@ -5,11 +5,17 @@ export function ScriptDetailActions({
   title,
   scriptBody,
   githubFileUrl,
+  categoryHref,
+  categoryLabel = "Category",
+  libraryHref = "/scripts",
 }: {
   slug: string;
   title?: string;
   scriptBody: string;
   githubFileUrl?: string | null;
+  categoryHref?: string;
+  categoryLabel?: string;
+  libraryHref?: string;
 }) {
   function copyScript() {
     void navigator.clipboard.writeText(scriptBody);
@@ -26,26 +32,45 @@ export function ScriptDetailActions({
   }
 
   return (
-    <div className="flex flex-wrap gap-3">
-      <button
-        className="border border-[#E53935] bg-[#E53935] px-4 py-2 text-sm font-semibold text-white hover:bg-[#c92f2b]"
-        onClick={copyScript}
-        type="button"
-      >
-        Copy Script
-      </button>
-      <button
-        className="border border-[#24304A] bg-[#0B1020] px-4 py-2 text-sm font-semibold text-white hover:border-[#5E81F4]"
-        onClick={downloadScript}
-        type="button"
-      >
-        Download .ps1
-      </button>
-      <ActionLink href={githubFileUrl ?? "#github-link-placeholder"} label="GitHub Source" />
-      <ActionLink href={buildReportHref("Report broken script", title ?? slug)} label="Report Broken" />
-      <ActionLink href={buildReportHref("Report unsafe script", title ?? slug)} label="Report Unsafe" />
-      <ActionLink href={buildReportHref("Request script improvement", title ?? slug)} label="Request Improvement" />
-    </div>
+    <>
+      <div className="hidden flex-wrap gap-3 md:flex">
+        <ActionLink href={libraryHref} label="← Library" />
+        {categoryHref ? <ActionLink href={categoryHref} label={categoryLabel} /> : null}
+        <ActionButton label="Copy Script" onClick={copyScript} primary />
+        <ActionButton label="Download .ps1" onClick={downloadScript} />
+        <ActionLink href={githubFileUrl ?? "#github-link-placeholder"} label="GitHub" />
+        <ActionLink href={buildReportHref("Report broken script", title ?? slug)} label="Report Issue" />
+      </div>
+      <details className="md:hidden">
+        <summary className="cursor-pointer list-none border border-[#E53935] bg-[#E53935] px-4 py-2 text-sm font-semibold text-white">
+          Script Actions
+        </summary>
+        <div className="mt-3 grid gap-2">
+          <ActionLink href={libraryHref} label="← Library" />
+          {categoryHref ? <ActionLink href={categoryHref} label={categoryLabel} /> : null}
+          <ActionButton label="Copy Script" onClick={copyScript} primary />
+          <ActionButton label="Download .ps1" onClick={downloadScript} />
+          <ActionLink href={githubFileUrl ?? "#github-link-placeholder"} label="GitHub" />
+          <ActionLink href={buildReportHref("Report broken script", title ?? slug)} label="Report Issue" />
+        </div>
+      </details>
+    </>
+  );
+}
+
+function ActionButton({ label, onClick, primary = false }: { label: string; onClick: () => void; primary?: boolean }) {
+  return (
+    <button
+      className={
+        primary
+          ? "border border-[#E53935] bg-[#E53935] px-4 py-2 text-sm font-semibold text-white hover:bg-[#c92f2b]"
+          : "border border-[#24304A] bg-[#0B1020] px-4 py-2 text-sm font-semibold text-white hover:border-[#5E81F4]"
+      }
+      onClick={onClick}
+      type="button"
+    >
+      {label}
+    </button>
   );
 }
 

@@ -13,6 +13,7 @@
     "scripts:modernization-roadmap": "tsx lib/scripts/modernization.ts",
     "scripts:apply-quality-metadata": "tsx scripts/apply-quality-metadata.ts",
     "scripts:enterprise-review": "tsx lib/scripts/enterpriseReview.ts",
+    "scripts:navigation-audit": "tsx lib/scripts/navigationAudit.ts",
     "scripts:seed-official": "tsx scripts/seed-official-scripts.ts",
     "seed:admin": "tsx scripts/seed-admin.ts"
   },

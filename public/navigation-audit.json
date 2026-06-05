@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-06-05T15:41:05.000Z",
+  "pages_scanned": [
+    "/",
+    "/admin/login",
+    "/admin/modernization",
+    "/admin/scripts/review",
+    "/admin/scripts/submit",
+    "/admin/system",
+    "/community/submit",
+    "/docs",
+    "/scripts",
+    "/scripts/[source]/[category]/[slug]",
+    "/scripts/categories",
+    "/scripts/category/[category]",
+    "/scripts/community",
+    "/scripts/operatoros"
+  ],
+  "broken_links": [],
+  "dead_ends": [],
+  "orphan_pages": [],
+  "missing_home_links": [],
+  "missing_footer": [],
+  "missing_breadcrumbs": [],
+  "navigation_loops": [],
+  "mobile_navigation_issues": [],
+  "ux_recommendations": [
+    "Global header is mounted from app/layout.tsx and appears on every page.",
+    "Universal footer is mounted from app/layout.tsx and provides secondary recovery paths.",
+    "Breadcrumbs are mounted globally and omitted only on the homepage.",
+    "Script detail pages include explicit library/category links and a sticky quick actions bar.",
+    "Continue validating rendered mobile navigation with browser screenshots before public launch."
+  ]
+}

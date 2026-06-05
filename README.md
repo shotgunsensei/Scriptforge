@@ -686,6 +686,23 @@ public/scriptforge-enterprise-review.json
 
 The review rejects junior-level patterns, classifies each official script, assigns rewrite priority, records findings, and generates final scorecards. No script is treated as `OperatorOS Certified` unless documentation, safety, production readiness, test coverage, and framework compliance all pass the quality gate.
 
+## Navigation Audit
+
+Run the navigation recovery-path audit:
+
+```powershell
+npm run scripts:navigation-audit
+```
+
+Outputs:
+
+```text
+reports/navigation-audit.md
+public/navigation-audit.json
+```
+
+Global navigation, breadcrumbs, and the universal footer are mounted from `app/layout.tsx`. Script detail pages also include explicit library/category links and a sticky quick actions bar so users do not need browser Back navigation.
+
 ## Search Index Generation
 
 Command:

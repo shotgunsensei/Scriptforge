@@ -56,10 +56,32 @@ export default async function ScriptDetailPage({
 
   const related = await getRelatedScripts(script);
   const isOfficial = script.source === "operatoros";
+  const categoryHref = `/scripts/category/${script.category}`;
 
   return (
     <main className="min-h-screen px-5 py-6 text-slate-100 sm:px-8 lg:px-10">
-      <div className="mx-auto grid w-full max-w-7xl gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
+        <div className="flex flex-wrap gap-3 text-sm">
+          <Link className="font-semibold text-[#5E81F4] hover:text-[#F8FAFC]" href="/scripts">
+            ← Back to Script Library
+          </Link>
+          <Link className="font-semibold text-[#5E81F4] hover:text-[#F8FAFC]" href={categoryHref}>
+            ← Back to {script.category} Scripts
+          </Link>
+        </div>
+        <div className="sticky top-[4.5rem] z-40 border border-[#24304A] bg-[#121A2E]/95 p-3 shadow-2xl shadow-black/30 backdrop-blur">
+          <ScriptDetailActions
+            categoryHref={categoryHref}
+            categoryLabel={script.category}
+            githubFileUrl={script.submission.github_file_url}
+            scriptBody={script.scriptBody}
+            slug={script.slug}
+            title={script.submission.title}
+          />
+        </div>
+      </div>
+
+      <div className="mx-auto mt-6 grid w-full max-w-7xl gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <section className="flex flex-col gap-6">
           <header
             className={
@@ -103,6 +125,8 @@ export default async function ScriptDetailPage({
 
           <Panel title="Script Actions">
             <ScriptDetailActions
+              categoryHref={categoryHref}
+              categoryLabel={script.category}
               githubFileUrl={script.submission.github_file_url}
               scriptBody={script.scriptBody}
               slug={script.slug}
