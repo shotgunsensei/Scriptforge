@@ -1,6 +1,7 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { scoreScriptQuality, type CertificationLevel } from "./qualityEngine";
 import { scriptSubmissionSchema, type ScriptSubmission } from "./schema";
 
 export type ScriptMaturity = "rewrite" | "enhancement" | "acceptable";
@@ -36,11 +37,18 @@ export type ModernizationAssessment = {
   path: string;
   maturity: ScriptMaturity;
   qualityScore: number;
+  documentationScore: number;
+  operationalMaturityScore: number;
   safetyScore: number;
+  testingScore: number;
+  maintainabilityScore: number;
   complexityScore: number;
   productionReadinessScore: number;
+  certificationLevel: CertificationLevel;
+  businessValueScore: number;
   features: ModernizationFeatureMap;
   requiredActions: string[];
+  rewriteRecommendation: string;
 };
 
 export type ModernizationRoadmap = {
@@ -50,6 +58,30 @@ export type ModernizationRoadmap = {
   requiring_enhancement: ModernizationAssessment[];
   already_acceptable: ModernizationAssessment[];
   scripts: ModernizationAssessment[];
+};
+
+export type ModernizationDashboardData = {
+  roadmap: ModernizationRoadmap;
+  maturityCounts: Record<ScriptMaturity, number>;
+  certificationCounts: Record<CertificationLevel, number>;
+  categoryAverages: Array<{
+    category: string;
+    scriptCount: number;
+    qualityAverage: number;
+    safetyAverage: number;
+    maturityAverage: number;
+    readinessAverage: number;
+  }>;
+  frameworkCompliance: {
+    totalScripts: number;
+    importingFramework: number;
+    cmdletBinding: number;
+    reportingReady: number;
+    scoringReady: number;
+    compliancePercent: number;
+  };
+  rewriteQueue: ModernizationAssessment[];
+  enhancementQueue: ModernizationAssessment[];
 };
 
 const FEATURE_LABELS: Record<keyof ModernizationFeatureMap, string> = {
@@ -105,12 +137,58 @@ export async function writeModernizationRoadmap(rootDir = process.cwd()) {
   return { roadmap, jsonPath, markdownPath };
 }
 
+export async function buildModernizationDashboardData(rootDir = process.cwd()): Promise<ModernizationDashboardData> {
+  const roadmap = await buildModernizationRoadmap(rootDir);
+  const certificationCounts = roadmap.scripts.reduce(
+    (counts, script) => {
+      counts[script.certificationLevel] += 1;
+      return counts;
+    },
+    {
+      "Level 1: Basic Utility": 0,
+      "Level 2: Technician Ready": 0,
+      "Level 3: MSP Ready": 0,
+      "Level 4: Enterprise Ready": 0,
+      "Level 5: OperatorOS Certified": 0,
+    } satisfies Record<CertificationLevel, number>,
+  );
+  const maturityCounts = roadmap.scripts.reduce(
+    (counts, script) => {
+      counts[script.maturity] += 1;
+      return counts;
+    },
+    { rewrite: 0, enhancement: 0, acceptable: 0 } satisfies Record<ScriptMaturity, number>,
+  );
+  const categoryAverages = buildCategoryAverages(roadmap.scripts);
+  const importingFramework = roadmap.scripts.filter((script) => script.features.frameworkImport).length;
+  const cmdletBinding = roadmap.scripts.filter((script) => script.features.cmdletBinding).length;
+  const reportingReady = roadmap.scripts.filter((script) => script.features.htmlReport && script.features.csvExport && script.features.jsonExport).length;
+  const scoringReady = roadmap.scripts.filter((script) => script.features.riskScoring && script.features.healthScoring).length;
+  const compliancePercent = roadmap.official_script_count === 0 ? 0 : Math.round((importingFramework / roadmap.official_script_count) * 100);
+
+  return {
+    roadmap,
+    maturityCounts,
+    certificationCounts,
+    categoryAverages,
+    frameworkCompliance: {
+      totalScripts: roadmap.official_script_count,
+      importingFramework,
+      cmdletBinding,
+      reportingReady,
+      scoringReady,
+      compliancePercent,
+    },
+    rewriteQueue: [...roadmap.requiring_rewrite].sort((left, right) => right.businessValueScore - left.businessValueScore),
+    enhancementQueue: [...roadmap.requiring_enhancement].sort((left, right) => right.businessValueScore - left.businessValueScore),
+  };
+}
+
 export function assessOfficialScript(
   script: { submission: ScriptSubmission; scriptBody: string; scriptPath: string },
   rootDir = process.cwd(),
 ): ModernizationAssessment {
   const body = script.scriptBody;
-  const lowered = body.toLowerCase();
   const features: ModernizationFeatureMap = {
     frameworkImport: /OperatorOS-ScriptFramework\.psm1/i.test(body),
     cmdletBinding: /\[CmdletBinding\(/i.test(body),
@@ -137,9 +215,13 @@ export function assessOfficialScript(
 
   const implementedFeatureCount = Object.values(features).filter(Boolean).length;
   const qualityScore = clampScore(Math.round((implementedFeatureCount / Object.keys(features).length) * 100));
-  const safetyScore = calculateSafetyScore(script.submission, features, lowered);
+  const quality = scoreScriptQuality({
+    submission: script.submission,
+    scriptBody: body,
+    features,
+  });
   const complexityScore = calculateComplexityScore(body, script.submission);
-  const productionReadinessScore = clampScore(Math.round(qualityScore * 0.45 + safetyScore * 0.35 + documentationScore(script.submission) * 0.2));
+  const productionReadinessScore = quality.productionReadinessScore;
   const maturity = productionReadinessScore >= 80 ? "acceptable" : productionReadinessScore >= 50 ? "enhancement" : "rewrite";
 
   return {
@@ -149,11 +231,18 @@ export function assessOfficialScript(
     path: relative(rootDir, script.scriptPath),
     maturity,
     qualityScore,
-    safetyScore,
+    documentationScore: quality.documentationScore,
+    operationalMaturityScore: quality.operationalMaturityScore,
+    safetyScore: quality.safetyScore,
+    testingScore: quality.testingScore,
+    maintainabilityScore: quality.maintainabilityScore,
     complexityScore,
     productionReadinessScore,
+    certificationLevel: quality.certificationLevel,
+    businessValueScore: quality.businessValueScore,
     features,
     requiredActions: getRequiredActions(features, maturity),
+    rewriteRecommendation: quality.rewriteRecommendation,
   };
 }
 
@@ -174,7 +263,13 @@ Generated: ${roadmap.generated_at}
 - Quality score measures framework adoption, logging, validation, reporting, scoring, evidence collection, and operator guidance.
 - Safety score measures safety mode, rollback, WhatIf/DryRun, exception tracking, dependency validation, and risky command posture.
 - Complexity score estimates operational complexity from script size, parameters, module requirements, and safety flags.
-- Production readiness combines quality, safety, and documentation completeness.
+- Production readiness combines documentation, operational maturity, safety, testing, and maintainability.
+- Certification is assigned automatically from production readiness and required enterprise capabilities.
+- Business value prioritizes high-impact MSP categories with the largest readiness gaps.
+
+## Business Value Rewrite Backlog
+
+${formatBacklogTable([...roadmap.requiring_rewrite, ...roadmap.requiring_enhancement].sort((left, right) => right.businessValueScore - left.businessValueScore))}
 
 ## Scripts Requiring Rewrite
 
@@ -269,22 +364,6 @@ async function findFiles(root: string, extension: string): Promise<string[]> {
   return nested.flat();
 }
 
-function calculateSafetyScore(submission: ScriptSubmission, features: ModernizationFeatureMap, loweredBody: string) {
-  let score = submission.safety.risk_level === "low" ? 65 : submission.safety.risk_level === "medium" ? 50 : 35;
-
-  if (features.frameworkImport) score += 8;
-  if (features.whatIf) score += 8;
-  if (features.dryRun) score += 7;
-  if (features.rollback) score += 7;
-  if (features.tryCatch) score += 5;
-  if (features.exceptionTracking) score += 4;
-  if (features.permissionValidation) score += 3;
-  if (features.moduleDependencyValidation) score += 3;
-  if (/remove-item|set-executionpolicy|invoke-expression|\biex\b|encodedcommand/.test(loweredBody)) score -= 20;
-
-  return clampScore(score);
-}
-
 function calculateComplexityScore(scriptBody: string, submission: ScriptSubmission) {
   const lines = scriptBody.split(/\r?\n/).filter((line) => line.trim()).length;
   const parameterWeight = submission.parameters.length * 5;
@@ -292,19 +371,6 @@ function calculateComplexityScore(scriptBody: string, submission: ScriptSubmissi
   const moduleWeight = submission.requirements.filter((requirement) => /module|graph|exchange|active directory/i.test(requirement.name)).length * 8;
 
   return clampScore(Math.round(Math.min(100, lines * 1.2 + parameterWeight + riskWeight + moduleWeight)));
-}
-
-function documentationScore(submission: ScriptSubmission) {
-  let score = 20;
-
-  if (submission.summary.length > 40) score += 15;
-  if (submission.description.length > 120) score += 20;
-  if (submission.use_case.length > 80) score += 15;
-  if (submission.examples.length > 0) score += 10;
-  if (submission.requirements.length > 0) score += 10;
-  if (submission.documentation.changelog) score += 10;
-
-  return clampScore(score);
 }
 
 function getRequiredActions(features: ModernizationFeatureMap, maturity: ScriptMaturity) {
@@ -335,6 +401,51 @@ function formatAssessmentTable(scripts: ModernizationAssessment[]) {
     ...rows,
     "",
   ].join("\n");
+}
+
+function formatBacklogTable(scripts: ModernizationAssessment[]) {
+  if (scripts.length === 0) {
+    return "No backlog items.\n";
+  }
+
+  const rows = scripts.slice(0, 50).map(
+    (script, index) =>
+      `| ${index + 1} | ${escapeTable(script.title)} | ${script.category} | ${script.businessValueScore} | ${script.productionReadinessScore} | ${escapeTable(script.certificationLevel)} | ${escapeTable(script.rewriteRecommendation)} |`,
+  );
+
+  return [
+    "| Rank | Script | Category | Business Value | Readiness | Certification | Recommendation |",
+    "| ---: | --- | --- | ---: | ---: | --- | --- |",
+    ...rows,
+    "",
+  ].join("\n");
+}
+
+function buildCategoryAverages(scripts: ModernizationAssessment[]) {
+  const groups = new Map<string, ModernizationAssessment[]>();
+
+  for (const script of scripts) {
+    groups.set(script.category, [...(groups.get(script.category) ?? []), script]);
+  }
+
+  return Array.from(groups.entries())
+    .map(([category, categoryScripts]) => ({
+      category,
+      scriptCount: categoryScripts.length,
+      qualityAverage: average(categoryScripts.map((script) => script.qualityScore)),
+      safetyAverage: average(categoryScripts.map((script) => script.safetyScore)),
+      maturityAverage: average(categoryScripts.map((script) => script.operationalMaturityScore)),
+      readinessAverage: average(categoryScripts.map((script) => script.productionReadinessScore)),
+    }))
+    .sort((left, right) => left.readinessAverage - right.readinessAverage);
+}
+
+function average(values: number[]) {
+  if (values.length === 0) {
+    return 0;
+  }
+
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
 
 function escapeTable(value: string) {

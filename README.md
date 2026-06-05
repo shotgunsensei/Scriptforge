@@ -247,7 +247,7 @@ Login routes:
 - `POST /api/admin/login`
 - `POST /api/admin/logout`
 
-Admin pages under `/admin/scripts/*` and `/admin/system` require a valid admin session cookie. API routes also enforce roles:
+Admin pages under `/admin/scripts/*`, `/admin/system`, and `/admin/modernization` require a valid admin session cookie. API routes also enforce roles:
 
 - `scriptforge_admin`: full access.
 - `scriptforge_reviewer`: review, approve, reject, needs-changes, and promote workflows.
@@ -623,11 +623,68 @@ public/official-script-modernization-roadmap.json
 
 The roadmap reviews all official scripts and assigns maturity, quality, safety, complexity, and production-readiness scores. It separates scripts into rewrite, enhancement, and acceptable groups so the official catalog can be upgraded in prioritized waves.
 
+Apply generated quality metadata to official script JSON:
+
+```powershell
+npm run scripts:apply-quality-metadata
+```
+
+Generated metadata fields:
+
+- `quality_score`
+- `safety_score`
+- `maturity_score`
+- `certification_level`
+- `last_reviewed`
+- `last_tested`
+- `review_owner`
+
+Certification levels:
+
+- `Level 1: Basic Utility`
+- `Level 2: Technician Ready`
+- `Level 3: MSP Ready`
+- `Level 4: Enterprise Ready`
+- `Level 5: OperatorOS Certified`
+
 Modernization templates live in:
 
 ```text
 templates/modernization/
 ```
+
+Enterprise archetype templates live in:
+
+```text
+templates/archetypes/
+```
+
+Archetypes exist for Microsoft 365, Exchange Online, Entra ID, Active Directory, Windows Server, Datto RMM, and Security workflows. Each domain has audit and remediation variants with `CmdletBinding`, `SupportsShouldProcess`, `ConfirmImpact`, transcript logging, structured logging, retry logic, reporting, scoring, validation, evidence collection, timing, and version tracking.
+
+Admin modernization dashboard:
+
+```text
+GET /admin/modernization
+```
+
+The dashboard shows scripts by maturity, scripts by certification level, rewrite and enhancement queues, category quality averages, and framework compliance.
+
+## Enterprise Review Program
+
+Run the senior-MSP enterprise review:
+
+```powershell
+npm run scripts:enterprise-review
+```
+
+Outputs:
+
+```text
+reports/scriptforge-enterprise-review.md
+public/scriptforge-enterprise-review.json
+```
+
+The review rejects junior-level patterns, classifies each official script, assigns rewrite priority, records findings, and generates final scorecards. No script is treated as `OperatorOS Certified` unless documentation, safety, production readiness, test coverage, and framework compliance all pass the quality gate.
 
 ## Search Index Generation
 

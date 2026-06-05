@@ -11,6 +11,8 @@
     "scripts:build-index": "tsx lib/scripts/indexer.ts",
     "scripts:apply-framework": "tsx scripts/apply-script-framework.ts",
     "scripts:modernization-roadmap": "tsx lib/scripts/modernization.ts",
+    "scripts:apply-quality-metadata": "tsx scripts/apply-quality-metadata.ts",
+    "scripts:enterprise-review": "tsx lib/scripts/enterpriseReview.ts",
     "scripts:seed-official": "tsx scripts/seed-official-scripts.ts",
     "seed:admin": "tsx scripts/seed-admin.ts"
   },

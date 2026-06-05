@@ -153,7 +153,22 @@ export const scriptSubmissionSchema = z
     github_last_synced_at: isoDateTimeString.nullable().optional(),
     last_tested_at: isoDateTimeString.nullable().optional(),
     powershell_compatibility: z.array(nonEmptyString.max(80)).optional(),
+    quality_score: z.number().int().min(0).max(100).nullable().optional(),
     safety_score: z.number().int().min(0).max(100).nullable().optional(),
+    maturity_score: z.number().int().min(0).max(100).nullable().optional(),
+    certification_level: z
+      .enum([
+        "Level 1: Basic Utility",
+        "Level 2: Technician Ready",
+        "Level 3: MSP Ready",
+        "Level 4: Enterprise Ready",
+        "Level 5: OperatorOS Certified",
+      ])
+      .nullable()
+      .optional(),
+    last_reviewed: isoDateTimeString.nullable().optional(),
+    last_tested: isoDateTimeString.nullable().optional(),
+    review_owner: z.string().trim().max(120).nullable().optional(),
     documentation_score: z.number().int().min(0).max(100).nullable().optional(),
     community_rating: z.number().min(0).max(5).nullable().optional(),
     download_count: z.number().int().min(0).optional(),

@@ -80,5 +80,12 @@
     "organization": "Shotgun Ninjas Productions"
   },
   "license": "Proprietary OperatorOS ScriptForge Seed",
-  "attribution_required": false
+  "attribution_required": false,
+  "quality_score": 49,
+  "safety_score": 68,
+  "maturity_score": 13,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-06-04T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Seed Generator"
 }
