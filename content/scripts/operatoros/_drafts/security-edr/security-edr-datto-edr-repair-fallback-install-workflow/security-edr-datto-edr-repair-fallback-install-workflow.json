@@ -1,0 +1,117 @@
+{
+  "title": "Datto EDR Repair / Fallback Install Workflow",
+  "slug": "security-edr-datto-edr-repair-fallback-install-workflow",
+  "version": "1.0.0",
+  "category": "security-edr",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "security-edr",
+    "datto-edr",
+    "huntagent",
+    "fallback-install",
+    "infocyte",
+    "token"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Defines the repair order: run Datto EDR Maintenance [WIN], verify HUNTAgent, then fallback reinstall only if maintenance fails.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-004. Defines the repair order: run Datto EDR Maintenance [WIN], verify HUNTAgent, then fallback reinstall only if maintenance fails. Original workbook state: Ready - Redacted; sensitivity: Restricted / Token Redacted; recommended context: Datto RMM first; elevated PowerShell only if fallback is approved.",
+  "use_case": "Use this Security / EDR component for the documented workflow: Defines the repair order: run Datto EDR Maintenance [WIN], verify HUNTAgent, then fallback reinstall only if maintenance fails. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "critical",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "credential_access",
+      "remote_network",
+      "download_execute",
+      "destructive_filesystem"
+    ],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-004. Ready state: Ready - Redacted. Sensitivity: Restricted / Token Redacted. Static scanner did not match high-risk command patterns. The original runbook contains an environment-specific token. This workbook keeps that token redacted. Do not expose tenant URL/token in shared docs. Reboot after repair and confirm portal Last Seen before app install. Redactions: EDR tenant URL and install token redacted. Workbook source note: File Library: CMC_Veradigm_PM_EDR_Remediation_Runbook.pdf. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: Datto RMM / PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Datto RMM first; elevated PowerShell only if fallback is approved.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: EDR tenant URL, install token, endpoint policy",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./security-edr-datto-edr-repair-fallback-install-workflow.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-004\n# Title: Datto EDR Repair / Fallback Install Workflow\n# Category: Security / EDR\n# Ready state: Ready - Redacted\n# Workbook risk: critical\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# Preferred first action:\n# Run Datto RMM component:\n#   Datto EDR Maintenance [WIN]\n\n# Verify after maintenance:\nGet-Service HUNTAgent -ErrorAction SilentlyContinue |\nFormat-List Name,DisplayName,Status,StartType\n\n# Fallback only when approved and token is stored securely:\n$InstallerUrl = \"https://infocyte-support.s3.us-east-2.amazonaws.com/executables/install_huntagent.ps1\"\n# Fallback download-and-execute removed from default execution. Store installer internally and review before use.\n# Install-EDR <TENANT_URL> <INSTALL_TOKEN>\n\n# Manual repair step if required:\n# Run as Administrator:\n# C:\\Program Files\\Infocyte\\Agent\\agent.exe\n\n# shutdown /r /t 0",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-004. Ready state: Ready - Redacted. Sensitivity: Restricted / Token Redacted. The original runbook contains an environment-specific token. This workbook keeps that token redacted. Do not expose tenant URL/token in shared docs. Reboot after repair and confirm portal Last Seen before app install. Redactions: EDR tenant URL and install token redacted.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 5,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

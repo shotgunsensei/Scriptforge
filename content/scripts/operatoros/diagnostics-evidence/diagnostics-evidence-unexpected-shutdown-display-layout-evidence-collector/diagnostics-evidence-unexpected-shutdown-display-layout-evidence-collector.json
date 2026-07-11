@@ -1,0 +1,113 @@
+{
+  "title": "Unexpected Shutdown / Display Layout Evidence Collector",
+  "slug": "diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector",
+  "version": "1.0.0",
+  "category": "diagnostics-evidence",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "diagnostics-evidence",
+    "shutdown",
+    "vss",
+    "power",
+    "display",
+    "event-logs",
+    "qc-workstation"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Collects recent shutdown, power, display, and application events for workstations powering off unexpectedly.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-036. Collects recent shutdown, power, display, and application events for workstations powering off unexpectedly. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+  "use_case": "Use this Diagnostics / Evidence component for the documented workflow: Collects recent shutdown, power, display, and application events for workstations powering off unexpectedly. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "passed",
+    "risk_flags": [],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-036. Ready state: Ready. Sensitivity: General Internal. Static scanner did not match high-risk command patterns. Good evidence collector before guessing hardware/software cause. Review before production use. Workbook source note: Prior VSS/shutdown diagnostic context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell/RMM.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "DaysBack",
+      "type": "number",
+      "description": "Workbook input carried forward from: $DaysBack",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "csv",
+    "description": "Exports technician evidence or findings to CSV while also returning PowerShell output."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-036\n# Title: Unexpected Shutdown / Display Layout Evidence Collector\n# Category: Diagnostics / Evidence\n# Ready state: Ready\n# Workbook risk: low\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$DaysBack = 14\n$Since = (Get-Date).AddDays(-$DaysBack)\n$Out = \"C:\\Temp\\Shutdown_Display_Diag_$env:COMPUTERNAME\"\nNew-Item -Path $Out -ItemType Directory -Force | Out-Null\n\n$Filters = @(\n    @{LogName='System'; Id=41,1074,6005,6006,6008,109,1; StartTime=$Since},\n    @{LogName='Application'; StartTime=$Since}\n)\n\nGet-WinEvent -FilterHashtable $Filters[0] -ErrorAction SilentlyContinue |\nExport-Csv \"$Out\\System_Power_Shutdown.csv\" -NoTypeInformation\n\nGet-WinEvent -FilterHashtable @{LogName='System'; ProviderName='Display'; StartTime=$Since} -ErrorAction SilentlyContinue |\nExport-Csv \"$Out\\Display_Events.csv\" -NoTypeInformation\n\npowercfg /lastwake > \"$Out\\powercfg_lastwake.txt\"\npowercfg /waketimers > \"$Out\\powercfg_waketimers.txt\"\npowercfg /requests > \"$Out\\powercfg_requests.txt\"\n\nCompress-Archive -Path $Out -DestinationPath \"$Out.zip\" -Force",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-036. Ready state: Ready. Sensitivity: General Internal. Good evidence collector before guessing hardware/software cause. Review before production use.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 100,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

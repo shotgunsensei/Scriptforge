@@ -1,0 +1,105 @@
+{
+  "title": "Repair Windows Defender Baseline",
+  "slug": "security-endpoint-repair-windows-defender-baseline",
+  "version": "1.0.0",
+  "category": "security-endpoint",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "security-endpoint",
+    "defender",
+    "av",
+    "securityhealth",
+    "edr"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Collects Defender state and attempts service/startup remediation.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-022. Collects Defender state and attempts service/startup remediation. Original workbook state: Needs Review; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+  "use_case": "Use this Security / Endpoint component for the documented workflow: Collects Defender state and attempts service/startup remediation. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-022. Ready state: Needs Review. Sensitivity: General Internal. Static scanner did not match high-risk command patterns. Do not conflict with third-party AV/EDR policy. Confirm customer security stack permits Microsoft Defender enforcement. Workbook source note: Prior script manifest/context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell/RMM.",
+      "required": true
+    }
+  ],
+  "parameters": [],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./security-endpoint-repair-windows-defender-baseline.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-022\n# Title: Repair Windows Defender Baseline\n# Category: Security / Endpoint\n# Ready state: Needs Review\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\nGet-MpComputerStatus | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AntispywareEnabled,AMEngineVersion,AntivirusSignatureLastUpdated\n\nSet-Service WinDefend -StartupType Automatic -ErrorAction SilentlyContinue\nStart-Service WinDefend -ErrorAction SilentlyContinue\n\nUpdate-MpSignature -ErrorAction SilentlyContinue\n\nGet-MpComputerStatus | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AntivirusSignatureLastUpdated",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-022. Ready state: Needs Review. Sensitivity: General Internal. Do not conflict with third-party AV/EDR policy. Confirm customer security stack permits Microsoft Defender enforcement.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 47,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

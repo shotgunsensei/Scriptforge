@@ -1,5 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { buildModernizationRoadmap } from "../lib/scripts/modernization";
 
 async function main() {
@@ -8,7 +8,7 @@ async function main() {
   let changed = 0;
 
   for (const script of roadmap.scripts) {
-    const metadataPath = join(rootDir, "content", "scripts", "operatoros", script.category, script.slug, `${script.slug}.json`);
+    const metadataPath = join(rootDir, dirname(script.path), `${script.slug}.json`);
     const metadata = JSON.parse(await readFile(metadataPath, "utf8")) as Record<string, unknown>;
     const nextMetadata = {
       ...metadata,

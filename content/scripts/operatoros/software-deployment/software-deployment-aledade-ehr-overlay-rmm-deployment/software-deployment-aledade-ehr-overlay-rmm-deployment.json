@@ -1,0 +1,147 @@
+{
+  "title": "Aledade EHR Overlay RMM Deployment",
+  "slug": "software-deployment-aledade-ehr-overlay-rmm-deployment",
+  "version": "1.0.0",
+  "category": "software-deployment",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "software-deployment",
+    "aledade",
+    "ehr",
+    "overlay",
+    "chrome",
+    "msi",
+    "rmm",
+    "healthcare"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Deploys Aledade Assist/EHR Overlay machine-wide, logs install results, validates registry/config, and enforces Chrome extension policy.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-001. Deploys Aledade Assist/EHR Overlay machine-wide, logs install results, validates registry/config, and enforces Chrome extension policy. Original workbook state: Ready - Redacted; sensitivity: Internal / Redacted; recommended context: Datto RMM LocalSystem, 64-bit PowerShell, 30 minute timeout.",
+  "use_case": "Use this Software Deployment component for the documented workflow: Deploys Aledade Assist/EHR Overlay machine-wide, logs install results, validates registry/config, and enforces Chrome extension policy. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "privilege_escalation",
+      "remote_network",
+      "registry_change",
+      "credential_access"
+    ],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": true,
+    "touches_filesystem": true,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-001. Ready state: Ready - Redacted. Sensitivity: Internal / Redacted. Static scanner matched: Start-Process, Invoke-WebRequest, Registry edits. Full source exists in File Library. Workbook contains a redacted/portable skeleton so client-specific license values are not exposed. Keep license/download values out of shared copies. Use LocalSystem and confirm Chrome/extension policy after install. Redactions: Download URL and license key intentionally redacted. Workbook source note: File Library: Aledade_EHR_Overlay_Datto_RMM_Component.ps1. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: Datto RMM / PowerShell / MSI.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Datto RMM LocalSystem, 64-bit PowerShell, 30 minute timeout.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "DownloadUrl",
+      "type": "string",
+      "description": "Workbook input carried forward from: $DownloadUrl, $LicenseKey, $PracticeId, $ExpectedSha256, $InstallScope",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "LicenseKey",
+      "type": "credential",
+      "description": "LicenseKey must be supplied through an approved secure variable, vault, or runtime prompt.",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "PracticeId",
+      "type": "string",
+      "description": "Workbook input carried forward from: $DownloadUrl, $LicenseKey, $PracticeId, $ExpectedSha256, $InstallScope",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "ExpectedSha256",
+      "type": "string",
+      "description": "Workbook input carried forward from: $DownloadUrl, $LicenseKey, $PracticeId, $ExpectedSha256, $InstallScope",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "InstallScope",
+      "type": "string",
+      "description": "Workbook input carried forward from: $DownloadUrl, $LicenseKey, $PracticeId, $ExpectedSha256, $InstallScope",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./software-deployment-aledade-ehr-overlay-rmm-deployment.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-001\n# Title: Aledade EHR Overlay RMM Deployment\n# Category: Software Deployment\n# Ready state: Ready - Redacted\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# REDACTED SKELETON - replace deployment values inside approved internal storage only\n\n$DownloadUrl = '<REDACTED_ALEDADE_DOWNLOAD_URL>'\n$LicenseKey  = '<REDACTED_LICENSE_KEY>'\n$PracticeId  = '<PRACTICE_ID>'\n$InstallScope = 'perMachine'\n$WorkDir = Join-Path $env:ProgramData 'Xodus\\AledadeOverlay'\n$MsiPath = Join-Path $WorkDir 'AledadeAssistEHROverlay.msi'\n$MsiLog = 'C:\\Users\\Public\\Downloads\\AledadeOverlay-msi-installer.log'\n$ChromeForceListPath = 'HKLM:\\SOFTWARE\\Policies\\Google\\Chrome\\ExtensionInstallForcelist'\n$AledadeChromePolicyName = '253'\n$AledadeChromePolicyValue = 'pgkopbgbhlmloblcfnlhbffnmcblnhlb;https://clients2.google.com/service/update2/crx'\n\nNew-Item -Path $WorkDir -ItemType Directory -Force | Out-Null\nInvoke-WebRequest -Uri $DownloadUrl -OutFile $MsiPath -UseBasicParsing -MaximumRedirection 5\n\n$argString = '/i \"{0}\" /quiet /norestart ALLUSERS=1 INSTALLSCOPE=\"{1}\" LICENSEKEY=\"{2}\" PRACTICEID=\"{3}\" /L*vx! \"{4}\"' -f $MsiPath, $InstallScope, $LicenseKey, $PracticeId, $MsiLog\n$p = Start-Process -FilePath \"$env:SystemRoot\\System32\\msiexec.exe\" -ArgumentList $argString -Wait -PassThru -NoNewWindow\n\nNew-Item -Path $ChromeForceListPath -Force | Out-Null\nNew-ItemProperty -Path $ChromeForceListPath -Name $AledadeChromePolicyName -Value $AledadeChromePolicyValue -PropertyType String -Force | Out-Null\n\nexit $p.ExitCode",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-001. Ready state: Ready - Redacted. Sensitivity: Internal / Redacted. Full source exists in File Library. Workbook contains a redacted/portable skeleton so client-specific license values are not exposed. Keep license/download values out of shared copies. Use LocalSystem and confirm Chrome/extension policy after install. Redactions: Download URL and license key intentionally redacted.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 32,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

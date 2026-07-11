@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-05T14:18:05.643Z",
-  "count": 108,
+  "generated_at": "2026-07-08T20:19:53.879Z",
+  "count": 129,
   "scripts": [
     {
       "title": "Active Directory Computer Inventory Report",
@@ -464,6 +464,357 @@
       "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: User Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADUser -Filter * -Properties Enabled,LastLogonDate | Select-Object Name,SamAccountName,Enabled,LastLogonDate",
       "slug": "active-directory-user-inventory-report",
       "path": "/scripts/operatoros/active-directory/active-directory-user-inventory-report"
+    },
+    {
+      "title": "Aledade EHR Overlay RMM Deployment",
+      "summary": "Deploys Aledade Assist/EHR Overlay machine-wide, logs install results, validates registry/config, and enforces Chrome extension policy.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-001. Deploys Aledade Assist/EHR Overlay machine-wide, logs install results, validates registry/config, and enforces Chrome extension policy. Original workbook state: Ready - Redacted; sensitivity: Internal / Redacted; recommended context: Datto RMM LocalSystem, 64-bit PowerShell, 30 minute timeout.",
+      "category": "software-deployment",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "software-deployment",
+        "aledade",
+        "ehr",
+        "overlay",
+        "chrome",
+        "msi",
+        "rmm",
+        "healthcare"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "high",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 32,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-001 # Title: Aledade EHR Overlay RMM Deployment # Category: Software Deployment # Ready state: Ready - Redacted # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFra...",
+      "slug": "software-deployment-aledade-ehr-overlay-rmm-deployment",
+      "path": "/scripts/operatoros/software-deployment/software-deployment-aledade-ehr-overlay-rmm-deployment"
+    },
+    {
+      "title": "Allscripts PM File / COM / CLSID Validation",
+      "summary": "Validates Allscripts PM executable files, manually registers COM components if needed, and checks the failing CLSID.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-008. Validates Allscripts PM executable files, manually registers COM components if needed, and checks the failing CLSID. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated CMD/PowerShell after successful install.",
+      "category": "healthcare-app-remediation",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "healthcare-app-remediation",
+        "allscripts",
+        "veradigm",
+        "com",
+        "regserver",
+        "clsid",
+        "80040154"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "high",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 47,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-008 # Title: Allscripts PM File / COM / CLSID Validation # Category: Healthcare App Remediation # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Operator...",
+      "slug": "healthcare-app-remediation-allscripts-pm-file-com-clsid-validation",
+      "path": "/scripts/operatoros/healthcare-app-remediation/healthcare-app-remediation-allscripts-pm-file-com-clsid-validation"
+    },
+    {
+      "title": "BitLocker Status Reporting",
+      "summary": "Reports BitLocker protection state and encryption percentage for local volumes.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-025. Reports BitLocker protection state and encryption percentage for local volumes. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM preferred.",
+      "category": "security-endpoint",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "security-endpoint",
+        "bitlocker",
+        "encryption",
+        "compliance",
+        "report"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 100,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-025 # Title: BitLocker Status Reporting # Category: Security / Endpoint # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Operat...",
+      "slug": "security-endpoint-bitlocker-status-reporting",
+      "path": "/scripts/operatoros/security-endpoint/security-endpoint-bitlocker-status-reporting"
+    },
+    {
+      "title": "Certificate Import - Trusted Root and Trusted Publisher",
+      "summary": "Imports a certificate into Local Machine Trusted Root and Trusted Publisher stores, then verifies presence by subject.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-006. Imports a certificate into Local Machine Trusted Root and Trusted Publisher stores, then verifies presence by subject. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated PowerShell or CMD.",
+      "category": "certificate-trust",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "certificate-trust",
+        "certificate",
+        "trusted-root",
+        "trusted-publisher",
+        "veradigm",
+        "msi"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "high",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 52,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-006 # Title: Certificate Import - Trusted Root and Trusted Publisher # Category: Certificate / Trust # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Ope...",
+      "slug": "certificate-trust-certificate-import-trusted-root-and-trusted-publisher",
+      "path": "/scripts/operatoros/certificate-trust/certificate-trust-certificate-import-trusted-root-and-trusted-publisher"
+    },
+    {
+      "title": "Create Public Desktop Shortcut to Network Share",
+      "summary": "Creates a .lnk shortcut on the Public Desktop pointing to a network share or application path.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-013. Creates a .lnk shortcut on the Public Desktop pointing to a network share or application path. Original workbook state: Ready; sensitivity: General Internal; recommended context: RMM LocalSystem/Admin.",
+      "category": "endpoint-configuration",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-configuration",
+        "shortcut",
+        "public-desktop",
+        "share",
+        "onboarding"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 100,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-013 # Title: Create Public Desktop Shortcut to Network Share # Category: Endpoint Configuration # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorO...",
+      "slug": "endpoint-configuration-create-public-desktop-shortcut-to-network-share",
+      "path": "/scripts/operatoros/endpoint-configuration/endpoint-configuration-create-public-desktop-shortcut-to-network-share"
+    },
+    {
+      "title": "Datto EDR / HUNTAgent State Validation",
+      "summary": "Checks Datto/Kaseya/EDR services, agent processes, and installed software to confirm HUNTAgent state before Veradigm/Allscripts PM install.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-002. Checks Datto/Kaseya/EDR services, agent processes, and installed software to confirm HUNTAgent state before Veradigm/Allscripts PM install. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated PowerShell on affected endpoint.",
+      "category": "security-edr",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "security-edr",
+        "datto-edr",
+        "huntagent",
+        "kaseya",
+        "rocketcyber",
+        "infocyte",
+        "validation"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 67,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-002 # Title: Datto EDR / HUNTAgent State Validation # Category: Security / EDR # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath...",
+      "slug": "security-edr-datto-edr-huntagent-state-validation",
+      "path": "/scripts/operatoros/security-edr/security-edr-datto-edr-huntagent-state-validation"
+    },
+    {
+      "title": "Dell / LPR Printer Port Test Commands",
+      "summary": "Tests LPR printing over TCP 515 and falls back to RAW 9100 validation.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-033. Tests LPR printing over TCP 515 and falls back to RAW 9100 validation. Original workbook state: Ready; sensitivity: General Internal; recommended context: Technician CMD/PowerShell.",
+      "category": "printing-peripheral",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "printing-peripheral",
+        "printer",
+        "lpr",
+        "raw-9100",
+        "dell",
+        "test-netconnection"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "network",
+      "requires_admin": false,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 100,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-033 # Title: Dell / LPR Printer Port Test Commands # Category: Printing / Peripheral # Ready state: Ready # Workbook risk: low # Body type: Mixed PowerShell / CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath...",
+      "slug": "printing-peripheral-dell-lpr-printer-port-test-commands",
+      "path": "/scripts/operatoros/printing-peripheral/printing-peripheral-dell-lpr-printer-port-test-commands"
+    },
+    {
+      "title": "Disable NetBIOS over TCP/IP",
+      "summary": "Disables NetBIOS over TCP/IP on active NICs.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-014. Disables NetBIOS over TCP/IP on active NICs. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+      "category": "endpoint-hardening",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-hardening",
+        "netbios",
+        "hardening",
+        "tcpip",
+        "wmi"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "policy",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 67,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-014 # Title: Disable NetBIOS over TCP/IP # Category: Endpoint Hardening # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Ope...",
+      "slug": "endpoint-hardening-disable-netbios-over-tcp-ip",
+      "path": "/scripts/operatoros/endpoint-hardening/endpoint-hardening-disable-netbios-over-tcp-ip"
+    },
+    {
+      "title": "Disk Cleanup Lite",
+      "summary": "Cleans common temp/download caches and reports recovered space.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-017. Cleans common temp/download caches and reports recovered space. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+      "category": "endpoint-maintenance",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-maintenance",
+        "disk-cleanup",
+        "temp",
+        "softwaredistribution",
+        "maintenance"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 67,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-017 # Title: Disk Cleanup Lite # Category: Endpoint Maintenance # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSF...",
+      "slug": "endpoint-maintenance-disk-cleanup-lite",
+      "path": "/scripts/operatoros/endpoint-maintenance/endpoint-maintenance-disk-cleanup-lite"
     },
     {
       "title": "Entra ID Application Registration Inventory",
@@ -1394,6 +1745,81 @@
       "path": "/scripts/operatoros/exchange-online/exchange-online-transport-rule-review"
     },
     {
+      "title": "Firewall Profile Audit / Disable Command",
+      "summary": "Checks policy-driven firewall state and provides command to disable profiles when explicitly approved.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-034. Checks policy-driven firewall state and provides command to disable profiles when explicitly approved. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated PowerShell / Group Policy review.",
+      "category": "endpoint-configuration",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-configuration",
+        "firewall",
+        "gpo",
+        "domain-profile",
+        "gpresult"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "high",
+      "execution_type": "policy",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 42,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-034 # Title: Firewall Profile Audit / Disable Command # Category: Endpoint Configuration # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrame...",
+      "slug": "endpoint-configuration-firewall-profile-audit-disable-command",
+      "path": "/scripts/operatoros/endpoint-configuration/endpoint-configuration-firewall-profile-audit-disable-command"
+    },
+    {
+      "title": "HUNTAgent Service Refresh",
+      "summary": "Restarts Datto EDR agent service and verifies returned state.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-003. Restarts Datto EDR agent service and verifies returned state. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated PowerShell after HUNTAgent exists.",
+      "category": "security-edr",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "security-edr",
+        "datto-edr",
+        "huntagent",
+        "service-restart"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 72,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-003 # Title: HUNTAgent Service Refresh # Category: Security / EDR # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorO...",
+      "slug": "security-edr-huntagent-service-refresh",
+      "path": "/scripts/operatoros/security-edr/security-edr-huntagent-service-refresh"
+    },
+    {
       "title": "Kaseya / Datto RMM RMM Application Event Review",
       "summary": "Read-only Kaseya / Datto RMM script for rmm application event review.",
       "description": "Official OperatorOS ScriptForge seed script that collects rmm application event review data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
@@ -1861,6 +2287,43 @@
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-service-status-audit"
     },
     {
+      "title": "Local Admin Audit",
+      "summary": "Reports members of the local Administrators group.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-024. Reports members of the local Administrators group. Original workbook state: Ready; sensitivity: General Internal; recommended context: PowerShell/RMM.",
+      "category": "security-endpoint",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "security-endpoint",
+        "local-admin",
+        "audit",
+        "endpoint-security"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 100,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-024 # Title: Local Admin Audit # Category: Security / Endpoint # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrame...",
+      "slug": "security-endpoint-local-admin-audit",
+      "path": "/scripts/operatoros/security-endpoint/security-endpoint-local-admin-audit"
+    },
+    {
       "title": "Microsoft 365 Active User Activity Report",
       "summary": "Read-only Microsoft 365 script for active user activity report.",
       "description": "Official OperatorOS ScriptForge seed script that collects active user activity report data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
@@ -2324,6 +2787,45 @@
       "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: User Enablement Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgUser -All -Property DisplayName,UserPrincipalName,AccountEnabled | Select-Object DisplayName,UserPrincipalName,AccountEn...",
       "slug": "microsoft-365-user-enablement-audit",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-user-enablement-audit"
+    },
+    {
+      "title": "MSI Install with Verbose Logging / Repair",
+      "summary": "Runs MSI install or repair with verbose logging for troubleshooting Return value 3 and custom action failures.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-007. Runs MSI install or repair with verbose logging for troubleshooting Return value 3 and custom action failures. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated CMD or PowerShell.",
+      "category": "software-deployment",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "software-deployment",
+        "msi",
+        "logging",
+        "repair",
+        "return-value-3",
+        "installer"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 72,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-007 # Title: MSI Install with Verbose Logging / Repair # Category: Software Deployment # Ready state: Ready # Workbook risk: medium # Body type: CMD / msiexec $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $O...",
+      "slug": "software-deployment-msi-install-with-verbose-logging-repair",
+      "path": "/scripts/operatoros/software-deployment/software-deployment-msi-install-with-verbose-logging-repair"
     },
     {
       "title": "Networking Adapter Statistics Report",
@@ -2791,6 +3293,161 @@
       "path": "/scripts/operatoros/networking/networking-udp-endpoint-report"
     },
     {
+      "title": "Repair Network Stack",
+      "summary": "Flushes DNS, resets Winsock and TCP/IP stack, then registers DNS.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-015. Flushes DNS, resets Winsock and TCP/IP stack, then registers DNS. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated CMD/PowerShell; reboot recommended.",
+      "category": "endpoint-remediation",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-remediation",
+        "network",
+        "dns",
+        "winsock",
+        "tcpip",
+        "repair"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 67,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-015 # Title: Repair Network Stack # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates |...",
+      "slug": "endpoint-remediation-repair-network-stack",
+      "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-repair-network-stack"
+    },
+    {
+      "title": "Restart Print Spooler + Optional Queue Clear",
+      "summary": "Restarts Print Spooler and optionally clears stuck jobs.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-016. Restarts Print Spooler and optionally clears stuck jobs. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+      "category": "printing-peripheral",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "printing-peripheral",
+        "printer",
+        "spooler",
+        "queue",
+        "lag",
+        "lost-printers"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 67,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-016 # Title: Restart Print Spooler + Optional Queue Clear # Category: Printing / Peripheral # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block pa $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Operato...",
+      "slug": "printing-peripheral-restart-print-spooler-optional-queue-clear",
+      "path": "/scripts/operatoros/printing-peripheral/printing-peripheral-restart-print-spooler-optional-queue-clear"
+    },
+    {
+      "title": "Restart Service Verified",
+      "summary": "Restarts or starts a named service and verifies it reaches Running state.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-018. Restarts or starts a named service and verifies it reaches Running state. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+      "category": "endpoint-remediation",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-remediation",
+        "service",
+        "restart",
+        "verify",
+        "rmm-component"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 72,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-018 # Title: Restart Service Verified # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block pa $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $O...",
+      "slug": "endpoint-remediation-restart-service-verified",
+      "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-restart-service-verified"
+    },
+    {
+      "title": "RMM Download ZIP to Public Desktop, Extract, Delete ZIP",
+      "summary": "Downloads a ZIP from a link, extracts it to Public Desktop, and removes the ZIP so only extracted folder remains.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-012. Downloads a ZIP from a link, extracts it to Public Desktop, and removes the ZIP so only extracted folder remains. Original workbook state: Ready - URL Placeholder; sensitivity: Internal; recommended context: Datto RMM LocalSystem or Admin.",
+      "category": "software-deployment",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "software-deployment",
+        "rmm",
+        "sharepoint",
+        "zip",
+        "public-desktop",
+        "extract"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 62,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-012 # Title: RMM Download ZIP to Public Desktop, Extract, Delete ZIP # Category: Software Deployment # Ready state: Ready - URL Placeholder # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFra...",
+      "slug": "software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip",
+      "path": "/scripts/operatoros/software-deployment/software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip"
+    },
+    {
       "title": "Security Certificate Expiration Report",
       "summary": "Read-only Security script for certificate expiration report.",
       "description": "Official OperatorOS ScriptForge seed script that collects certificate expiration report data for technician review, reporting, and customer documentation. This script is designed as a read-only audit/reporting baseline.",
@@ -3251,6 +3908,124 @@
       "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Share Exposure Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-SmbShare | Select-Object Name,Path,FolderEnumerationMode",
       "slug": "security-share-exposure-audit",
       "path": "/scripts/operatoros/security/security-share-exposure-audit"
+    },
+    {
+      "title": "SFC / DISM Repair Pass",
+      "summary": "Runs DISM restore health and SFC scan for component store / system file corruption.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-020. Runs DISM restore health and SFC scan for component store / system file corruption. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated CMD/PowerShell.",
+      "category": "endpoint-remediation",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-remediation",
+        "dism",
+        "sfc",
+        "windows-repair",
+        "profile-issues"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "admin",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 72,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-020 # Title: SFC / DISM Repair Pass # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates...",
+      "slug": "endpoint-remediation-sfc-dism-repair-pass",
+      "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-sfc-dism-repair-pass"
+    },
+    {
+      "title": "Unexpected Shutdown / Display Layout Evidence Collector",
+      "summary": "Collects recent shutdown, power, display, and application events for workstations powering off unexpectedly.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-036. Collects recent shutdown, power, display, and application events for workstations powering off unexpectedly. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+      "category": "diagnostics-evidence",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "diagnostics-evidence",
+        "shutdown",
+        "vss",
+        "power",
+        "display",
+        "event-logs",
+        "qc-workstation"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 100,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-036 # Title: Unexpected Shutdown / Display Layout Evidence Collector # Category: Diagnostics / Evidence # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $O...",
+      "slug": "diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector",
+      "path": "/scripts/operatoros/diagnostics-evidence/diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector"
+    },
+    {
+      "title": "Veradigm / Allscripts PM Local Copy Prep",
+      "summary": "Copies PM Client MSI and site certificate from network share to local temp folder before install.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-005. Copies PM Client MSI and site certificate from network share to local temp folder before install. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated or technician PowerShell with share access.",
+      "category": "healthcare-app-deployment",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "healthcare-app-deployment",
+        "veradigm",
+        "allscripts",
+        "pm",
+        "msi",
+        "certificate",
+        "healthcare"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "medium",
+      "execution_type": "destructive",
+      "requires_admin": true,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 72,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-005 # Title: Veradigm / Allscripts PM Local Copy Prep # Category: Healthcare App Deployment # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOS...",
+      "slug": "healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep",
+      "path": "/scripts/operatoros/healthcare-app-deployment/healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep"
     },
     {
       "title": "Windows Server Application Error Event Review",
@@ -3716,6 +4491,45 @@
       "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Volume Capacity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Volume | Select-Object DriveLetter,FileSystemLabel,SizeRemaining,Size",
       "slug": "windows-server-volume-capacity-report",
       "path": "/scripts/operatoros/windows-server/windows-server-volume-capacity-report"
+    },
+    {
+      "title": "Workstation Health Check",
+      "summary": "Collects quick health snapshot: OS, uptime, disk, RAM, key services, pending reboot indicators.",
+      "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-023. Collects quick health snapshot: OS, uptime, disk, RAM, key services, pending reboot indicators. Original workbook state: Ready; sensitivity: General Internal; recommended context: PowerShell/RMM.",
+      "category": "endpoint-assessment",
+      "tags": [
+        "operatoros",
+        "official",
+        "xodus-import",
+        "endpoint-assessment",
+        "health-check",
+        "inventory",
+        "uptime",
+        "disk",
+        "pending-reboot"
+      ],
+      "source_type": "operatoros",
+      "risk_level": "low",
+      "execution_type": "local",
+      "requires_admin": false,
+      "credibility": {
+        "last_reviewed": "2026-07-08T12:00:00.000Z",
+        "last_tested": "2026-06-01T00:00:00.000Z",
+        "powershell_compatibility": [
+          "Windows PowerShell 5.1"
+        ],
+        "safety_score": 85,
+        "documentation_score": 100,
+        "community_rating": null,
+        "download_count": 0
+      },
+      "github_repo_url": null,
+      "github_file_url": null,
+      "github_commit_sha": null,
+      "github_last_synced_at": null,
+      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-023 # Title: Workstation Health Check # Category: Endpoint Assessment # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Operator...",
+      "slug": "endpoint-assessment-workstation-health-check",
+      "path": "/scripts/operatoros/endpoint-assessment/endpoint-assessment-workstation-health-check"
     },
     {
       "title": "Workstation Repair Application Error Review",

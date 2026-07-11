@@ -15,6 +15,7 @@ ScriptForge gives OperatorOS a controlled script marketplace and technician auto
 - Public browsing pages with search and filtering.
 - Generated JSON search index for approved scripts.
 - Seed catalog of read-only audit/reporting scripts for MSP, Microsoft 365, Windows, security, networking, and RMM workflows.
+- Imported Xodus / OperatorOS workbook scripts normalized into ScriptForge metadata, with restricted or not-yet-validated entries held as trusted OperatorOS drafts.
 
 ## Folder Structure
 
@@ -766,6 +767,13 @@ The generator creates 108 read-only audit/reporting scripts across:
 - Security
 - Networking
 - Kaseya / Datto RMM
+
+The committed catalog also includes an imported Xodus / OperatorOS script workbook library. That import adds approved OperatorOS catalog entries only when the workbook row is ready, non-restricted, and passes the static scanner without a failed status. Rows marked restricted, credential/token-redacted, backlog/design, needs-review, needs-validation, critical, or scanner-blocked are stored under `content/scripts/operatoros/_drafts/{category}/{slug}/` with `review_status: trusted_draft` until an authorized reviewer validates the site variables and blast radius.
+
+Current workbook import state:
+
+- Approved public OperatorOS entries: 21
+- Trusted OperatorOS drafts: 17
 
 ## Deployment Notes for Vercel
 

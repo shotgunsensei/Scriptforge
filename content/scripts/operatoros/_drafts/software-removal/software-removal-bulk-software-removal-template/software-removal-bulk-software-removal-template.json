@@ -1,0 +1,120 @@
+{
+  "title": "Bulk Software Removal Template",
+  "slug": "software-removal-bulk-software-removal-template",
+  "version": "1.0.0",
+  "category": "software-removal",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "software-removal",
+    "uninstall",
+    "bloatware",
+    "rmm"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Finds installed apps matching a pattern and invokes uninstall strings carefully.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-026. Finds installed apps matching a pattern and invokes uninstall strings carefully. Original workbook state: Needs Review; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+  "use_case": "Use this Software Removal component for the documented workflow: Finds installed apps matching a pattern and invokes uninstall strings carefully. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "registry_change",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": true,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-026. Ready state: Needs Review. Sensitivity: General Internal. Static scanner did not match high-risk command patterns. Do not run unattended without testing exact uninstall strings. Report-only template. Build vendor-specific silent uninstall rules before mass use. Workbook source note: OperatorOS MSP Automation Pack prior context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / MSIExec.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell/RMM.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "AppNamePattern",
+      "type": "string",
+      "description": "Workbook input carried forward from: $AppNamePattern, $WhatIf",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "WhatIf",
+      "type": "boolean",
+      "description": "Workbook input carried forward from: $AppNamePattern, $WhatIf",
+      "required": false,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./software-removal-bulk-software-removal-template.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-026\n# Title: Bulk Software Removal Template\n# Category: Software Removal\n# Ready state: Needs Review\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$AppNamePattern = \"Example App\"\n$UninstallPaths = @(\n 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*',\n 'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'\n)\n\n$apps = Get-ItemProperty $UninstallPaths -ErrorAction SilentlyContinue |\nWhere-Object { $_.DisplayName -like \"*$AppNamePattern*\" } |\nSelect-Object DisplayName, DisplayVersion, UninstallString, QuietUninstallString\n\n$apps | Format-Table -AutoSize\n\n# Review first. Then build vendor-specific silent uninstall logic.",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-026. Ready state: Needs Review. Sensitivity: General Internal. Do not run unattended without testing exact uninstall strings. Report-only template. Build vendor-specific silent uninstall rules before mass use.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 42,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

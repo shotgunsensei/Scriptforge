@@ -1,0 +1,113 @@
+{
+  "title": "Disk Cleanup Lite",
+  "slug": "endpoint-maintenance-disk-cleanup-lite",
+  "version": "1.0.0",
+  "category": "endpoint-maintenance",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "endpoint-maintenance",
+    "disk-cleanup",
+    "temp",
+    "softwaredistribution",
+    "maintenance"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Cleans common temp/download caches and reports recovered space.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-017. Cleans common temp/download caches and reports recovered space. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated PowerShell/RMM.",
+  "use_case": "Use this Endpoint Maintenance component for the documented workflow: Cleans common temp/download caches and reports recovered space. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "medium",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "destructive_filesystem"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-017. Ready state: Ready. Sensitivity: General Internal. Static scanner matched: Remove-Item. Avoid deleting logs/evidence during active investigation. Review before production use. Workbook source note: Xodus Automation Pack v1 prior context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell/RMM.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "IncludeUserTemp",
+      "type": "boolean",
+      "description": "Workbook input carried forward from: $IncludeUserTemp, optional paths",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./endpoint-maintenance-disk-cleanup-lite.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-017\n# Title: Disk Cleanup Lite\n# Category: Endpoint Maintenance\n# Ready state: Ready\n# Workbook risk: medium\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$Targets = @(\n    \"C:\\Windows\\Temp\\*\",\n    \"C:\\Temp\\*\",\n    \"C:\\Windows\\SoftwareDistribution\\Download\\*\"\n)\n\n$before = (Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\").FreeSpace\n\nforeach ($Target in $Targets) {\n    Remove-Item $Target -Force -Recurse -ErrorAction SilentlyContinue\n}\n\n$after = (Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\").FreeSpace\n[pscustomobject]@{\n    BeforeGB = [math]::Round($before / 1GB, 2)\n    AfterGB  = [math]::Round($after / 1GB, 2)\n    RecoveredGB = [math]::Round(($after - $before) / 1GB, 2)\n}",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-017. Ready state: Ready. Sensitivity: General Internal. Avoid deleting logs/evidence during active investigation. Review before production use.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 67,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

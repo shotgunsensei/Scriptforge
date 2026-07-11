@@ -1,0 +1,116 @@
+{
+  "title": "M365 Token Trap Audit",
+  "slug": "microsoft-365-security-m365-token-trap-audit",
+  "version": "1.0.0",
+  "category": "microsoft-365-security",
+  "subcategory": "backlog",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "microsoft-365-security",
+    "m365",
+    "oauth",
+    "token-theft",
+    "device-code",
+    "audit",
+    "forwarding"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Audits risky OAuth consent, device-code/legacy auth exposure, forwarding, inbox rules, privileged users, and audit logging.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-028. Audits risky OAuth consent, device-code/legacy auth exposure, forwarding, inbox rules, privileged users, and audit logging. Original workbook state: Backlog / Design; sensitivity: Internal; recommended context: M365 admin session with least required roles.",
+  "use_case": "Use this Microsoft 365 / Security component for the documented workflow: Audits risky OAuth consent, device-code/legacy auth exposure, forwarding, inbox rules, privileged users, and audit logging. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "credential_access",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-028. Ready state: Backlog / Design. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Convert into production-grade Graph script with exportable report. Requires careful permission scoping and tenant approval. Workbook source note: Prior context: Invoke-M365TokenTrapAudit.ps1. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for M365 Tenant.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: Exchange Online / Graph PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: M365 admin session with least required roles.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: Tenant ID, scopes, admin account",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./microsoft-365-security-m365-token-trap-audit.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-028\n# Title: M365 Token Trap Audit\n# Category: Microsoft 365 / Security\n# Ready state: Backlog / Design\n# Workbook risk: high\n# Body type: Design Stub\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# Planned structure\n# Connect-MgGraph -Scopes \"Directory.Read.All\",\"AuditLog.Read.All\",\"Policy.Read.All\"\n# Connect-ExchangeOnline\n# 1. Audit app consent and service principals\n# 2. Check legacy auth / CA controls / risky user settings\n# 3. Report inbox rules and forwarding\n# 4. Report inactive privileged users\n# 5. Export HTML/CSV technician report",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-028. Ready state: Backlog / Design. Sensitivity: Internal. Convert into production-grade Graph script with exportable report. Requires careful permission scoping and tenant approval.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 42,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

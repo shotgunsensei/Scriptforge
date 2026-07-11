@@ -1,0 +1,122 @@
+{
+  "title": "RMM Download ZIP to Public Desktop, Extract, Delete ZIP",
+  "slug": "software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip",
+  "version": "1.0.0",
+  "category": "software-deployment",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "software-deployment",
+    "rmm",
+    "sharepoint",
+    "zip",
+    "public-desktop",
+    "extract"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Downloads a ZIP from a link, extracts it to Public Desktop, and removes the ZIP so only extracted folder remains.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-012. Downloads a ZIP from a link, extracts it to Public Desktop, and removes the ZIP so only extracted folder remains. Original workbook state: Ready - URL Placeholder; sensitivity: Internal; recommended context: Datto RMM LocalSystem or Admin.",
+  "use_case": "Use this Software Deployment component for the documented workflow: Downloads a ZIP from a link, extracts it to Public Desktop, and removes the ZIP so only extracted folder remains. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "medium",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "destructive_filesystem",
+      "remote_network"
+    ],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-012. Ready state: Ready - URL Placeholder. Sensitivity: Internal. Static scanner matched: Remove-Item, Invoke-WebRequest. Use direct download links where possible; SharePoint sharing URLs sometimes need conversion. Review before production use. Workbook source note: Prior conversation: RMM component download/unzip public desktop. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / Datto RMM.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Datto RMM LocalSystem or Admin.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "DownloadUrl",
+      "type": "string",
+      "description": "Workbook input carried forward from: $DownloadUrl, $DestinationFolder",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "DestinationFolder",
+      "type": "path",
+      "description": "Workbook input carried forward from: $DownloadUrl, $DestinationFolder",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-012\n# Title: RMM Download ZIP to Public Desktop, Extract, Delete ZIP\n# Category: Software Deployment\n# Ready state: Ready - URL Placeholder\n# Workbook risk: medium\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$DownloadUrl = \"<DIRECT_ZIP_DOWNLOAD_URL>\"\n$PublicDesktop = [Environment]::GetFolderPath(\"CommonDesktopDirectory\")\n$WorkDir = Join-Path $env:ProgramData \"Xodus\\RMMDownloads\"\n$ZipPath = Join-Path $WorkDir \"Payload.zip\"\n$ExtractPath = Join-Path $PublicDesktop \"Payload\"\n\nNew-Item -Path $WorkDir -ItemType Directory -Force | Out-Null\nif (Test-Path $ExtractPath) { Remove-Item $ExtractPath -Recurse -Force -ErrorAction SilentlyContinue }\n\nInvoke-WebRequest -Uri $DownloadUrl -OutFile $ZipPath -UseBasicParsing\nExpand-Archive -Path $ZipPath -DestinationPath $ExtractPath -Force\nRemove-Item $ZipPath -Force\n\nGet-ChildItem $ExtractPath",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-012. Ready state: Ready - URL Placeholder. Sensitivity: Internal. Use direct download links where possible; SharePoint sharing URLs sometimes need conversion. Review before production use.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 62,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

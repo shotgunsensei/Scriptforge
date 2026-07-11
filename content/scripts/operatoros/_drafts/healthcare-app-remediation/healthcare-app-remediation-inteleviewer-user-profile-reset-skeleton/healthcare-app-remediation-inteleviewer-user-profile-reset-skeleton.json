@@ -1,0 +1,115 @@
+{
+  "title": "InteleViewer User Profile Reset Skeleton",
+  "slug": "healthcare-app-remediation-inteleviewer-user-profile-reset-skeleton",
+  "version": "1.0.0",
+  "category": "healthcare-app-remediation",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "healthcare-app-remediation",
+    "inteleviewer",
+    "pacs",
+    "profile",
+    "cache",
+    "user-appdata"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Targets user-level application corruption when app works in a new admin profile but fails in existing user profile.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-035. Targets user-level application corruption when app works in a new admin profile but fails in existing user profile. Original workbook state: Needs Validation; sensitivity: Internal; recommended context: Technician session with affected user signed out.",
+  "use_case": "Use this Healthcare App Remediation component for the documented workflow: Targets user-level application corruption when app works in a new admin profile but fails in existing user profile. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "destructive_filesystem",
+      "policy_change"
+    ],
+    "requires_admin": false,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-035. Ready state: Needs Validation. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Exact cache/config paths should be validated per installed version. Backup before reset. Validate application-specific config paths. Workbook source note: Prior InteleViewer troubleshooting context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Technician session with affected user signed out.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: Affected username, backup path, app vendor paths",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./healthcare-app-remediation-inteleviewer-user-profile-reset-skeleton.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-035\n# Title: InteleViewer User Profile Reset Skeleton\n# Category: Healthcare App Remediation\n# Ready state: Needs Validation\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$UserProfile = \"C:\\Users\\<USERNAME>\"\n$Backup = \"C:\\Temp\\InteleViewerProfileBackup_<USERNAME>\"\n\nNew-Item -Path $Backup -ItemType Directory -Force | Out-Null\n\n$CandidatePaths = @(\n    \"$UserProfile\\AppData\\Roaming\\Intelerad\",\n    \"$UserProfile\\AppData\\Local\\Intelerad\",\n    \"$UserProfile\\AppData\\Roaming\\InteleViewer\",\n    \"$UserProfile\\AppData\\Local\\InteleViewer\"\n)\n\nforeach ($Path in $CandidatePaths) {\n    if (Test-Path $Path) {\n        Copy-Item $Path -Destination $Backup -Recurse -Force -ErrorAction SilentlyContinue\n        Rename-Item $Path \"$Path.old\" -ErrorAction SilentlyContinue\n    }\n}",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-035. Ready state: Needs Validation. Sensitivity: Internal. Exact cache/config paths should be validated per installed version. Backup before reset. Validate application-specific config paths.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 42,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

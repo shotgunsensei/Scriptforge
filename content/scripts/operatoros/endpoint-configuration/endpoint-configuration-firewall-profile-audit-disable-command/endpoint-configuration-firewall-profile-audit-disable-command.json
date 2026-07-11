@@ -1,0 +1,106 @@
+{
+  "title": "Firewall Profile Audit / Disable Command",
+  "slug": "endpoint-configuration-firewall-profile-audit-disable-command",
+  "version": "1.0.0",
+  "category": "endpoint-configuration",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "endpoint-configuration",
+    "firewall",
+    "gpo",
+    "domain-profile",
+    "gpresult"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Checks policy-driven firewall state and provides command to disable profiles when explicitly approved.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-034. Checks policy-driven firewall state and provides command to disable profiles when explicitly approved. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated PowerShell / Group Policy review.",
+  "use_case": "Use this Endpoint Configuration component for the documented workflow: Checks policy-driven firewall state and provides command to disable profiles when explicitly approved. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "registry_change",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": true,
+    "touches_filesystem": false,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-034. Ready state: Ready. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Use gpresult first. Domain GPO may re-enable firewall after reboot. Disabling firewall is high-risk and may violate policy. Workbook source note: Prior firewall re-enabling context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / GPO.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell / Group Policy review.",
+      "required": true
+    }
+  ],
+  "parameters": [],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./endpoint-configuration-firewall-profile-audit-disable-command.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-034\n# Title: Firewall Profile Audit / Disable Command\n# Category: Endpoint Configuration\n# Ready state: Ready\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\ngpresult /h C:\\gpresult.html\n\nGet-NetFirewallProfile | Select-Object Name,Enabled,DefaultInboundAction,DefaultOutboundAction\n\n# Only when explicitly approved:\n# Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False\n\n# Policy path to check:\n# HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-034. Ready state: Ready. Sensitivity: Internal. Use gpresult first. Domain GPO may re-enable firewall after reboot. Disabling firewall is high-risk and may violate policy.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 42,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

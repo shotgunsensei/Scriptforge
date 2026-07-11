@@ -1,0 +1,127 @@
+{
+  "title": "Veradigm / Allscripts PM Local Copy Prep",
+  "slug": "healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep",
+  "version": "1.0.0",
+  "category": "healthcare-app-deployment",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "healthcare-app-deployment",
+    "veradigm",
+    "allscripts",
+    "pm",
+    "msi",
+    "certificate",
+    "healthcare"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Copies PM Client MSI and site certificate from network share to local temp folder before install.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-005. Copies PM Client MSI and site certificate from network share to local temp folder before install. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated or technician PowerShell with share access.",
+  "use_case": "Use this Healthcare App Deployment component for the documented workflow: Copies PM Client MSI and site certificate from network share to local temp folder before install. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "medium",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-005. Ready state: Ready. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Always copy local before install to avoid network path/custom action inconsistencies. Run only after Datto EDR is healthy/current on the endpoint. Workbook source note: File Library: CMC_Veradigm_PM_EDR_Remediation_Runbook.pdf. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / SMB.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated or technician PowerShell with share access.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "LocalPath",
+      "type": "path",
+      "description": "Workbook input carried forward from: $LocalPath, $InstallerSource, $CertSource",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "InstallerSource",
+      "type": "path",
+      "description": "Workbook input carried forward from: $LocalPath, $InstallerSource, $CertSource",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "CertSource",
+      "type": "path",
+      "description": "Workbook input carried forward from: $LocalPath, $InstallerSource, $CertSource",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-005\n# Title: Veradigm / Allscripts PM Local Copy Prep\n# Category: Healthcare App Deployment\n# Ready state: Ready\n# Workbook risk: medium\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$LocalPath = \"C:\\temp\\VeradigmPM\"\n$InstallerSource = \"\\\\APP-SERVER\\SoftwareShare\\VeradigmPM\\AllScriptsPMClient.msi\"\n$CertSource = \"\\\\APP-SERVER\\SoftwareShare\\Certificates\\APP-SERVER.example.local.cer\"\n\nNew-Item -Path $LocalPath -ItemType Directory -Force | Out-Null\nCopy-Item $InstallerSource -Destination \"$LocalPath\\AllScriptsPMClient.msi\" -Force\nCopy-Item $CertSource -Destination \"$LocalPath\\APP-SERVER.example.local.cer\" -Force\nGet-ChildItem $LocalPath",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-005. Ready state: Ready. Sensitivity: Internal. Always copy local before install to avoid network path/custom action inconsistencies. Run only after Datto EDR is healthy/current on the endpoint.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 72,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

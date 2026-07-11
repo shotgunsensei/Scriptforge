@@ -40,20 +40,20 @@ const footerGroups = [
 
 export function GlobalFooter() {
   return (
-    <footer className="border-t border-[#24304A] bg-[#0B1020] px-5 py-10 text-[#94A3B8] sm:px-8 lg:px-10">
+    <footer className="border-t border-line bg-canvas px-5 py-10 text-muted sm:px-8 lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-4">
         {footerGroups.map((group) => (
-          <section key={group.title}>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#F8FAFC]">{group.title}</h2>
+          <section className="border-l border-line/70 pl-4" key={group.title}>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-ink">{group.title}</h2>
             <ul className="mt-4 grid gap-2 text-sm">
               {group.links.map((link) => (
                 <li key={link.label}>
                   {link.href.startsWith("http") ? (
-                    <a className="hover:text-[#F8FAFC]" href={link.href} rel="noreferrer" target="_blank">
+                    <a className="hover:text-ink" href={link.href} rel="noreferrer" target="_blank">
                       {link.label}
                     </a>
                   ) : (
-                    <Link className="hover:text-[#F8FAFC]" href={link.href}>
+                    <Link className="hover:text-ink" href={link.href}>
                       {link.label}
                     </Link>
                   )}
@@ -63,11 +63,11 @@ export function GlobalFooter() {
           </section>
         ))}
       </div>
-      <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-2 border-t border-[#24304A] pt-5 text-sm md:flex-row md:items-center md:justify-between">
-        <p>© 2026 OperatorOS</p>
+      <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-2 border-t border-line pt-5 text-sm md:flex-row md:items-center md:justify-between">
+        <p>Copyright 2026 OperatorOS</p>
         <p>
           Built by{" "}
-          <a className="font-semibold text-[#F8FAFC] hover:text-[#E53935]" href="https://shotgunninjas.com" rel="noreferrer" target="_blank">
+          <a className="font-semibold text-ink hover:text-primary" href="https://shotgunninjas.com" rel="noreferrer" target="_blank">
             Shotgun Ninjas Productions
           </a>
         </p>

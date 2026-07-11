@@ -1,0 +1,134 @@
+{
+  "title": "Active Directory User Creation Template",
+  "slug": "identity-ad-active-directory-user-creation-template",
+  "version": "1.0.0",
+  "category": "identity-ad",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "identity-ad",
+    "active-directory",
+    "user-creation",
+    "onboarding"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Creates a domain user with default attributes, group membership, and temporary password workflow.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-027. Creates a domain user with default attributes, group membership, and temporary password workflow. Original workbook state: Needs Review; sensitivity: Internal; recommended context: Domain admin/delegated admin PowerShell on management host.",
+  "use_case": "Use this Identity / AD component for the documented workflow: Creates a domain user with default attributes, group membership, and temporary password workflow. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "credential_access",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-027. Ready state: Needs Review. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Convert to site-specific onboarding templates. Never embed real temporary passwords in saved scripts. Workbook source note: OperatorOS MSP Automation Pack prior context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Server / Domain.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell AD Module.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Domain admin/delegated admin PowerShell on management host.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SamAccountName",
+      "type": "string",
+      "description": "Workbook input carried forward from: $SamAccountName, $OU, $Groups, $TempPassword",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "OU",
+      "type": "string",
+      "description": "Workbook input carried forward from: $SamAccountName, $OU, $Groups, $TempPassword",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "Groups",
+      "type": "string",
+      "description": "Workbook input carried forward from: $SamAccountName, $OU, $Groups, $TempPassword",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "TempPassword",
+      "type": "credential",
+      "description": "TempPassword must be supplied through an approved secure variable, vault, or runtime prompt.",
+      "required": true,
+      "sensitive": true
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./identity-ad-active-directory-user-creation-template.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-027\n# Title: Active Directory User Creation Template\n# Category: Identity / AD\n# Ready state: Needs Review\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\nImport-Module ActiveDirectory\n\n$Sam = \"jdoe\"\n$Name = \"John Doe\"\n$OU = \"OU=Users,DC=example,DC=local\"\n$TempPassword = ConvertTo-SecureString \"<TEMP_PASSWORD>\" -AsPlainText -Force\n\n# New-ADUser -SamAccountName $Sam -Name $Name -DisplayName $Name -Path $OU `\n#     -AccountPassword $TempPassword -Enabled $true -ChangePasswordAtLogon $true\n\n# Add-ADGroupMember -Identity \"Domain Users\" -Members $Sam\nGet-ADUser $Sam -Properties Enabled,PasswordLastSet,MemberOf",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-027. Ready state: Needs Review. Sensitivity: Internal. Convert to site-specific onboarding templates. Never embed real temporary passwords in saved scripts.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 42,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

@@ -5,10 +5,21 @@ import { describe, expect, it } from "vitest";
 import { scriptSubmissionSchema } from "./schema";
 
 const operatorOsRoot = join(process.cwd(), "content", "scripts", "operatoros");
+const requiredSeedCategories = [
+  "active-directory",
+  "entra-id",
+  "exchange-online",
+  "kaseya-datto-rmm",
+  "microsoft-365",
+  "networking",
+  "security",
+  "windows-server",
+  "workstation-repair",
+];
 
 describe("official OperatorOS seed scripts", () => {
   it("includes at least 100 official scripts across required categories", async () => {
-    const categories = await readdir(operatorOsRoot);
+    const categories = (await readdir(operatorOsRoot)).filter((category) => !category.startsWith("_"));
     const counts = await Promise.all(
       categories.map(async (category) => ({
         category,
@@ -18,30 +29,31 @@ describe("official OperatorOS seed scripts", () => {
     const total = counts.reduce((sum, item) => sum + item.count, 0);
 
     expect(total).toBeGreaterThanOrEqual(100);
-    expect(counts.map((item) => item.category).sort()).toEqual([
-      "active-directory",
-      "entra-id",
-      "exchange-online",
-      "kaseya-datto-rmm",
-      "microsoft-365",
-      "networking",
-      "security",
-      "windows-server",
-      "workstation-repair",
-    ]);
-    expect(counts.every((item) => item.count >= 10)).toBe(true);
+    expect(counts.map((item) => item.category)).toEqual(expect.arrayContaining(requiredSeedCategories));
+    expect(
+      counts.filter((item) => requiredSeedCategories.includes(item.category)).every((item) => item.count >= 10),
+    ).toBe(true);
   });
 
   it("writes a script, metadata JSON, and README for every seed folder", async () => {
-    const categories = await readdir(operatorOsRoot);
-    let inspected = 0;
+    const categories = (await readdir(operatorOsRoot)).filter((category) => !category.startsWith("_"));
+    const folders = (
+      await Promise.all(
+        categories.map(async (category) => {
+          const categoryDir = join(operatorOsRoot, category);
+          const slugs = await readdir(categoryDir);
 
-    for (const category of categories) {
-      const categoryDir = join(operatorOsRoot, category);
-      const slugs = await readdir(categoryDir);
+          return slugs.map((slug) => ({
+            category,
+            folder: join(categoryDir, slug),
+            slug,
+          }));
+        }),
+      )
+    ).flat();
 
-      for (const slug of slugs) {
-        const folder = join(categoryDir, slug);
+    await Promise.all(
+      folders.map(async ({ category, folder, slug }) => {
         const ps1Path = join(folder, `${slug}.ps1`);
         const jsonPath = join(folder, `${slug}.json`);
         const readmePath = join(folder, "README.md");
@@ -55,10 +67,9 @@ describe("official OperatorOS seed scripts", () => {
         expect(metadata.review_status).toBe("approved");
         expect(metadata.category).toBe(category);
         expect(metadata.slug).toBe(slug);
-        inspected += 1;
-      }
-    }
+      }),
+    );
 
-    expect(inspected).toBe(108);
-  });
+    expect(folders.length).toBeGreaterThanOrEqual(108);
+  }, 15000);
 });

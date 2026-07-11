@@ -1,0 +1,114 @@
+{
+  "title": "ActiveFax Server Target Discovery / Config Notes",
+  "slug": "fax-printing-activefax-server-target-discovery-config-notes",
+  "version": "1.0.0",
+  "category": "fax-printing",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "fax-printing",
+    "activefax",
+    "fax",
+    "printer",
+    "client-config"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Finds ActiveFax configuration indicators and helps identify which server/IP the client is targeting.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-037. Finds ActiveFax configuration indicators and helps identify which server/IP the client is targeting. Original workbook state: Needs Validation; sensitivity: Internal; recommended context: Technician PowerShell.",
+  "use_case": "Use this Fax / Printing component for the documented workflow: Finds ActiveFax configuration indicators and helps identify which server/IP the client is targeting. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "medium",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "registry_change",
+      "policy_change"
+    ],
+    "requires_admin": false,
+    "touches_network": false,
+    "touches_registry": true,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-037. Ready state: Needs Validation. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Exact config location may vary by ActiveFax version. Discovery only. Do not modify config until exact file/key is confirmed. Workbook source note: Prior ActiveFax troubleshooting context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / Registry.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Technician PowerShell.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: Expected server name/IP",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./fax-printing-activefax-server-target-discovery-config-notes.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-037\n# Title: ActiveFax Server Target Discovery / Config Notes\n# Category: Fax / Printing\n# Ready state: Needs Validation\n# Workbook risk: medium\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# Discovery helper - version/location may vary\n$SearchRoots = @(\n    \"C:\\ProgramData\",\n    \"C:\\Program Files\",\n    \"C:\\Program Files (x86)\",\n    \"$env:APPDATA\",\n    \"$env:LOCALAPPDATA\"\n)\n\nforeach ($Root in $SearchRoots) {\n    if (Test-Path $Root) {\n        Get-ChildItem $Root -Recurse -ErrorAction SilentlyContinue -File |\n        Where-Object { $_.Name -match \"activefax|actfax|fax\" -and $_.Extension -match \"\\.ini|\\.cfg|\\.xml|\\.txt\" } |\n        Select-Object FullName, Length, LastWriteTime\n    }\n}\n\nreg query HKLM /f ActiveFax /s\nreg query HKCU /f ActiveFax /s",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-037. Ready state: Needs Validation. Sensitivity: Internal. Exact config location may vary by ActiveFax version. Discovery only. Do not modify config until exact file/key is confirmed.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 62,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

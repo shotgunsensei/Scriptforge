@@ -1,0 +1,130 @@
+{
+  "title": "Windows Defender Quarantine Cleanup - SYSTEM Scheduled Task",
+  "slug": "security-cleanup-windows-defender-quarantine-cleanup-system-scheduled-task",
+  "version": "1.0.0",
+  "category": "security-cleanup",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "security-cleanup",
+    "defender",
+    "quarantine",
+    "disk-cleanup",
+    "system",
+    "protected-folder"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Removes orphaned/stale Defender quarantine storage when Defender history is empty but quarantine folder is consuming excessive disk.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-009. Removes orphaned/stale Defender quarantine storage when Defender history is empty but quarantine folder is consuming excessive disk. Original workbook state: Needs Review; sensitivity: Restricted; recommended context: Elevated PowerShell; creates one-time SYSTEM task.",
+  "use_case": "Use this Security / Cleanup component for the documented workflow: Removes orphaned/stale Defender quarantine storage when Defender history is empty but quarantine folder is consuming excessive disk. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "critical",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "destructive_filesystem",
+      "scheduled_task",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": true,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-009. Ready state: Needs Review. Sensitivity: Restricted. Static scanner matched: Remove-Item, Scheduled task creation. Use only after confirming no active investigation/evidence hold. Prefer Defender-native cleanup first. Potential evidence destruction. Confirm no security hold. Test on one endpoint before fleet use. Workbook source note: Prior conversation: Defender quarantine folder near 200 GB. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / Scheduled Task.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated PowerShell; creates one-time SYSTEM task.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "QuarantinePath",
+      "type": "path",
+      "description": "Workbook input carried forward from: $QuarantinePath, $TaskName, $DryRun",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "TaskName",
+      "type": "string",
+      "description": "Workbook input carried forward from: $QuarantinePath, $TaskName, $DryRun",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "DryRun",
+      "type": "boolean",
+      "description": "Workbook input carried forward from: $QuarantinePath, $TaskName, $DryRun",
+      "required": false,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./security-cleanup-windows-defender-quarantine-cleanup-system-scheduled-task.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-009\n# Title: Windows Defender Quarantine Cleanup - SYSTEM Scheduled Task\n# Category: Security / Cleanup\n# Ready state: Needs Review\n# Workbook risk: critical\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# High-risk cleanup template. Run native Defender cleanup first where possible.\n$QuarantinePath = \"C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine\"\n$TaskName = \"Xodus-DefenderQuarantineCleanup\"\n$ScriptPath = \"$env:ProgramData\\Xodus\\Cleanup-DefenderQuarantine.ps1\"\n\nNew-Item -Path (Split-Path $ScriptPath) -ItemType Directory -Force | Out-Null\n\n@'\n\n$Path = \"C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine\"\nif (Test-Path $Path) {\n    Get-ChildItem -Path $Path -Force -Recurse -ErrorAction SilentlyContinue |\n        Remove-Item -Force -Recurse -ErrorAction SilentlyContinue\n}\n'@ | Set-Content -Path $ScriptPath -Encoding UTF8\n\n$Action = New-ScheduledTaskAction -Execute \"powershell.exe\" -Argument \"-NoProfile -ExecutionPolicy Bypass -File `\"$ScriptPath`\"\"\n$Trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1)\n$Principal = New-ScheduledTaskPrincipal -UserId \"SYSTEM\" -RunLevel Highest\n\nRegister-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Principal $Principal -Force | Out-Null\nStart-ScheduledTask -TaskName $TaskName\n\nStart-Sleep -Seconds 20\nGet-ScheduledTask -TaskName $TaskName | Get-ScheduledTaskInfo",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-009. Ready state: Needs Review. Sensitivity: Restricted. Use only after confirming no active investigation/evidence hold. Prefer Defender-native cleanup first. Potential evidence destruction. Confirm no security hold. Test on one endpoint before fleet use.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 10,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

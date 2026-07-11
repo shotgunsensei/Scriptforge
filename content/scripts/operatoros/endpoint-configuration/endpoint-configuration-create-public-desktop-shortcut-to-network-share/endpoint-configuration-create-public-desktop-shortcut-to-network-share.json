@@ -1,0 +1,125 @@
+{
+  "title": "Create Public Desktop Shortcut to Network Share",
+  "slug": "endpoint-configuration-create-public-desktop-shortcut-to-network-share",
+  "version": "1.0.0",
+  "category": "endpoint-configuration",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "endpoint-configuration",
+    "shortcut",
+    "public-desktop",
+    "share",
+    "onboarding"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Creates a .lnk shortcut on the Public Desktop pointing to a network share or application path.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-013. Creates a .lnk shortcut on the Public Desktop pointing to a network share or application path. Original workbook state: Ready; sensitivity: General Internal; recommended context: RMM LocalSystem/Admin.",
+  "use_case": "Use this Endpoint Configuration component for the documented workflow: Creates a .lnk shortcut on the Public Desktop pointing to a network share or application path. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "passed",
+    "risk_flags": [],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-013. Ready state: Ready. Sensitivity: General Internal. Static scanner did not match high-risk command patterns. Useful as a generic deployment component. Review before production use. Workbook source note: Prior RMM component context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / WScript.Shell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: RMM LocalSystem/Admin.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "ShortcutName",
+      "type": "string",
+      "description": "Workbook input carried forward from: $ShortcutName, $TargetPath, $Description",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "TargetPath",
+      "type": "path",
+      "description": "Workbook input carried forward from: $ShortcutName, $TargetPath, $Description",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "Description",
+      "type": "string",
+      "description": "Workbook input carried forward from: $ShortcutName, $TargetPath, $Description",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./endpoint-configuration-create-public-desktop-shortcut-to-network-share.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-013\n# Title: Create Public Desktop Shortcut to Network Share\n# Category: Endpoint Configuration\n# Ready state: Ready\n# Workbook risk: low\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$ShortcutName = \"Shared Folder.lnk\"\n$TargetPath = \"\\\\server\\share\"\n$PublicDesktop = [Environment]::GetFolderPath(\"CommonDesktopDirectory\")\n$ShortcutPath = Join-Path $PublicDesktop $ShortcutName\n\n$WshShell = New-Object -ComObject WScript.Shell\n$Shortcut = $WshShell.CreateShortcut($ShortcutPath)\n$Shortcut.TargetPath = $TargetPath\n$Shortcut.Description = \"Shared folder shortcut\"\n$Shortcut.Save()\n\nGet-Item $ShortcutPath",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-013. Ready state: Ready. Sensitivity: General Internal. Useful as a generic deployment component. Review before production use.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 100,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

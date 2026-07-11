@@ -1,0 +1,115 @@
+{
+  "title": "Allscripts PM File / COM / CLSID Validation",
+  "slug": "healthcare-app-remediation-allscripts-pm-file-com-clsid-validation",
+  "version": "1.0.0",
+  "category": "healthcare-app-remediation",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "healthcare-app-remediation",
+    "allscripts",
+    "veradigm",
+    "com",
+    "regserver",
+    "clsid",
+    "80040154"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Validates Allscripts PM executable files, manually registers COM components if needed, and checks the failing CLSID.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-008. Validates Allscripts PM executable files, manually registers COM components if needed, and checks the failing CLSID. Original workbook state: Ready; sensitivity: Internal; recommended context: Elevated CMD/PowerShell after successful install.",
+  "use_case": "Use this Healthcare App Remediation component for the documented workflow: Validates Allscripts PM executable files, manually registers COM components if needed, and checks the failing CLSID. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "registry_change"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": true,
+    "touches_filesystem": false,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-008. Ready state: Ready. Sensitivity: Internal. Static scanner did not match high-risk command patterns. Use /RegServer only after files exist and install completed. Do not force copy/register until EDR is healthy and files exist. Workbook source note: File Library: CMC_Veradigm_PM_EDR_Remediation_Runbook.pdf. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / CMD.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated CMD/PowerShell after successful install.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "AllscriptsPath",
+      "type": "path",
+      "description": "Workbook input carried forward from: $AllscriptsPath, CLSID",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./healthcare-app-remediation-allscripts-pm-file-com-clsid-validation.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-008\n# Title: Allscripts PM File / COM / CLSID Validation\n# Category: Healthcare App Remediation\n# Ready state: Ready\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n$AllscriptsPath = \"C:\\Program Files (x86)\\Allscripts\\Allscripts PM\"\n\nGet-ChildItem $AllscriptsPath |\nWhere-Object { $_.Name -match \"csim|Security|JobExec|Desktop|Monitor\" } |\nSelect-Object Name, Length, LastWriteTime\n\ncd /d \"C:\\Program Files (x86)\\Allscripts\\Allscripts PM\"\ncsimSecurityMonitor.exe /RegServer\ncsimJobExecMgr.exe /RegServer\nREM If present:\ncsimSecurityDesktop.exe /RegServer\n\nreg query \"HKCR\\Wow6432Node\\CLSID\\{92D958D7-CF17-11D2-A036-0080C76912DE}\" /s\nreg query \"HKCR\\CLSID\\{92D958D7-CF17-11D2-A036-0080C76912DE}\" /s",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-008. Ready state: Ready. Sensitivity: Internal. Use /RegServer only after files exist and install completed. Do not force copy/register until EDR is healthy and files exist.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 47,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

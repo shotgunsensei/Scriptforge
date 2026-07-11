@@ -1,0 +1,116 @@
+{
+  "title": "Eaglesoft / Dexis Workstation Onboarding Commands",
+  "slug": "healthcare-app-onboarding-eaglesoft-dexis-workstation-onboarding-commands",
+  "version": "1.0.0",
+  "category": "healthcare-app-onboarding",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "healthcare-app-onboarding",
+    "eaglesoft",
+    "dexis",
+    "workstation-onboarding",
+    "dental",
+    "share-mapping"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Creates expected local account, maps Eaglesoft and Dexis shares, and launches Eaglesoft silent installer path.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-011. Creates expected local account, maps Eaglesoft and Dexis shares, and launches Eaglesoft silent installer path. Original workbook state: Needs Site Validation; sensitivity: Internal / Credential Redacted; recommended context: Elevated local admin on new workstation.",
+  "use_case": "Use this Healthcare App Onboarding component for the documented workflow: Creates expected local account, maps Eaglesoft and Dexis shares, and launches Eaglesoft silent installer path. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "high",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "privilege_escalation",
+      "credential_access",
+      "policy_change"
+    ],
+    "requires_admin": true,
+    "touches_network": true,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-011. Ready state: Needs Site Validation. Sensitivity: Internal / Credential Redacted. Static scanner matched: Start-Process, User creation. Server/path details should be rechecked before production use. Avoid cleartext password. Confirm Workstation OS SMB limits and licensing constraints. Workbook source note: Prior PDF/onboarding conversation. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Workgroup Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell / CMD.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated local admin on new workstation.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: Server names/IPs, local admin credentials, installer path",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./healthcare-app-onboarding-eaglesoft-dexis-workstation-onboarding-commands.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-011\n# Title: Eaglesoft / Dexis Workstation Onboarding Commands\n# Category: Healthcare App Onboarding\n# Ready state: Needs Site Validation\n# Workbook risk: high\n# Body type: PowerShell / Command Block\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# Site-specific onboarding template - verify server IP/name before use\n$EaglesoftServer = \"example-workstation\"\n$DexisServer = \"example-imaging-server\"\n$EaglesoftShare = \"\\\\example-workstation\\DATA\"\n$DexisShare = \"\\\\example-imaging-server\\Dexis\"\n$LocalUser = \"Team\"\n$LocalPassword = \"<REDACTED_USE_SECURE_VARIABLE>\"\n\n# Optional local account creation\nnet user $LocalUser $LocalPassword /add\nnet localgroup Administrators $LocalUser /add\n\n# Map shares\nnet use Z: $EaglesoftShare /persistent:yes\nnet use Y: $DexisShare /persistent:yes\n\n# Launch installer after validating exact path\nStart-Process \"\\\\example-workstation\\DATA\\Eaglesoft\\ESInstall\\Launcher\\ESSilentInstall\" -Wait",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-011. Ready state: Needs Site Validation. Sensitivity: Internal / Credential Redacted. Server/path details should be rechecked before production use. Avoid cleartext password. Confirm Workstation OS SMB limits and licensing constraints.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 37,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

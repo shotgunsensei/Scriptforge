@@ -1,0 +1,114 @@
+{
+  "title": "ScriptForge Modernization Framework Checklist",
+  "slug": "script-standardization-scriptforge-modernization-framework-checklist",
+  "version": "1.0.0",
+  "category": "script-standardization",
+  "subcategory": "backlog",
+  "tags": [
+    "operatoros",
+    "trusted-draft",
+    "xodus-import",
+    "script-standardization",
+    "scriptforge",
+    "framework",
+    "logging",
+    "json",
+    "modernization"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Standardizes scripts with centralized logging, error handling, execution tracking, status reporting, and reusable output schema.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-038. Standardizes scripts with centralized logging, error handling, execution tracking, status reporting, and reusable output schema. Original workbook state: Backlog / Framework; sensitivity: Productizable; recommended context: Repo/build pipeline.",
+  "use_case": "Use this Script Standardization component for the documented workflow: Standardizes scripts with centralized logging, error handling, execution tracking, status reporting, and reusable output schema. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "low",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "policy_change"
+    ],
+    "requires_admin": false,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Held as a trusted draft until an authorized reviewer validates site variables, redactions, and blast radius. Workbook ref SCR-038. Ready state: Backlog / Framework. Sensitivity: Productizable. Static scanner did not match high-risk command patterns. Use to turn raw MSP fixes into reusable product/IP assets. Best used as the wrapper standard for all new RMM components. Workbook source note: Prior context: ScriptForge Enterprise Modernization Framework. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for PowerShell / Repo.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: PowerShell Module / TypeScript tooling.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Repo/build pipeline.",
+      "required": true
+    }
+  ],
+  "parameters": [
+    {
+      "name": "SiteConfiguration",
+      "type": "string",
+      "description": "Workbook input carried forward from: Script path, framework module path",
+      "required": true,
+      "sensitive": false
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./script-standardization-scriptforge-modernization-framework-checklist.ps1",
+      "description": "Draft execution example. Do not run until an authorized reviewer approves the script."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-038\n# Title: ScriptForge Modernization Framework Checklist\n# Category: Script Standardization\n# Ready state: Backlog / Framework\n# Workbook risk: low\n# Body type: Framework Checklist\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\n# Framework adoption checklist:\n# 1. Add #Requires -Version 5.1\n# 2. Use common Write-Log / New-Result helpers\n# 3. Return structured JSON: status, computer, actions, evidence, errors\n# 4. Support -WhatIf / -DryRun where risky\n# 5. Store logs under C:\\ProgramData\\Xodus\\<ToolName>\\\n# 6. Map exit codes: 0 success, 1 warning/action needed, 2 failure, 99 unhandled",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-038. Ready state: Backlog / Framework. Sensitivity: Productizable. Use to turn raw MSP fixes into reusable product/IP assets. Best used as the wrapper standard for all new RMM components.",
+    "changelog": "1.0.0 - Imported as OperatorOS trusted draft from Xodus / OperatorOS Script Library workbook pending reviewer validation.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 32,
+  "safety_score": 85,
+  "maturity_score": 4,
+  "certification_level": "Level 1: Basic Utility",
+  "last_reviewed": null,
+  "last_tested": null,
+  "review_owner": "Pending OperatorOS reviewer",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "trusted_draft",
+  "reviewed_by": "Pending OperatorOS reviewer",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}

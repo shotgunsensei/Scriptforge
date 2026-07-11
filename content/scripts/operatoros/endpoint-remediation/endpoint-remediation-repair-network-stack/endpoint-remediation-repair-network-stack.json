@@ -1,0 +1,106 @@
+{
+  "title": "Repair Network Stack",
+  "slug": "endpoint-remediation-repair-network-stack",
+  "version": "1.0.0",
+  "category": "endpoint-remediation",
+  "subcategory": "xodus-import",
+  "tags": [
+    "operatoros",
+    "official",
+    "xodus-import",
+    "endpoint-remediation",
+    "network",
+    "dns",
+    "winsock",
+    "tcpip",
+    "repair"
+  ],
+  "author": {
+    "name": "OperatorOS ScriptForge",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions",
+    "url": "https://operatoros.net"
+  },
+  "summary": "Flushes DNS, resets Winsock and TCP/IP stack, then registers DNS.",
+  "description": "Imported from the Xodus / OperatorOS Script Library workbook as SCR-015. Flushes DNS, resets Winsock and TCP/IP stack, then registers DNS. Original workbook state: Ready; sensitivity: General Internal; recommended context: Elevated CMD/PowerShell; reboot recommended.",
+  "use_case": "Use this Endpoint Remediation component for the documented workflow: Flushes DNS, resets Winsock and TCP/IP stack, then registers DNS. Run from an approved OperatorOS or RMM context and review customer-specific placeholders before execution.",
+  "safety": {
+    "risk_level": "medium",
+    "scan_required": true,
+    "scan_status": "warnings",
+    "risk_flags": [
+      "destructive_filesystem"
+    ],
+    "requires_admin": true,
+    "touches_network": false,
+    "touches_registry": false,
+    "touches_filesystem": false,
+    "notes": "Approved for the OperatorOS catalog after workbook import normalization. Workbook ref SCR-015. Ready state: Ready. Sensitivity: General Internal. Static scanner did not match high-risk command patterns. Requires reboot to fully apply winsock/IP reset. Warn user before reboot. Workbook source note: Xodus Automation Pack v1 prior context. Safety scanning is one control only; review scope, tenant/customer variables, and approval requirements before execution."
+  },
+  "requirements": [
+    {
+      "name": "Windows PowerShell 5.1 or newer for Windows Endpoint.",
+      "required": true
+    },
+    {
+      "name": "Required tooling: CMD / PowerShell.",
+      "required": true
+    },
+    {
+      "name": "Recommended run context: Elevated CMD/PowerShell; reboot recommended.",
+      "required": true
+    }
+  ],
+  "parameters": [],
+  "examples": [
+    {
+      "title": "Run script",
+      "command": "./endpoint-remediation-repair-network-stack.ps1",
+      "description": "Runs the imported OperatorOS script after reviewing parameters and placeholders."
+    }
+  ],
+  "output": {
+    "format": "text",
+    "description": "PowerShell object, console, or command output suitable for technician review and ticket notes."
+  },
+  "script_body": "# OperatorOS ScriptForge imported Xodus library script\n# Workbook ref: SCR-015\n# Title: Repair Network Stack\n# Category: Endpoint Remediation\n# Ready state: Ready\n# Workbook risk: medium\n# Body type: CMD\n\n$OperatorOSFrameworkCandidates = @(\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'),\n    (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1')\n)\n$OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\nif ($OperatorOSFrameworkPath) {\n    Import-Module $OperatorOSFrameworkPath -Force\n}\n\n$ErrorActionPreference = 'Stop'\n\nipconfig /flushdns\nnetsh winsock reset\nnetsh int ip reset\nipconfig /registerdns\nshutdown /r /t 60 /c \"Network stack repair completed. Rebooting to apply reset.\"",
+  "documentation": {
+    "readme": "Imported workbook reference SCR-015. Ready state: Ready. Sensitivity: General Internal. Requires reboot to fully apply winsock/IP reset. Warn user before reboot.",
+    "changelog": "1.0.0 - Imported from Xodus / OperatorOS Script Library workbook with OperatorOS metadata, redaction notes, and framework bootstrap.",
+    "references": []
+  },
+  "monetization": {
+    "tier": "operator",
+    "entitlement_required": true,
+    "upgrade_cta": "Unlock the full OperatorOS automation catalog and technician reporting packs."
+  },
+  "github_repo_url": null,
+  "github_file_url": null,
+  "github_commit_sha": null,
+  "github_last_synced_at": null,
+  "last_tested_at": null,
+  "powershell_compatibility": [
+    "Windows PowerShell 5.1"
+  ],
+  "quality_score": 46,
+  "safety_score": 67,
+  "maturity_score": 8,
+  "certification_level": "Level 2: Technician Ready",
+  "last_reviewed": "2026-07-08T12:00:00.000Z",
+  "last_tested": null,
+  "review_owner": "OperatorOS Xodus Import",
+  "documentation_score": 100,
+  "community_rating": null,
+  "download_count": 0,
+  "source_type": "operatoros",
+  "review_status": "approved",
+  "reviewed_by": "OperatorOS Xodus Import",
+  "reviewed_at": "2026-07-08T12:00:00.000Z",
+  "submitter": {
+    "name": "OperatorOS Xodus Import",
+    "email": "scripts@operatoros.net",
+    "organization": "Shotgun Ninjas Productions"
+  },
+  "license": "Proprietary OperatorOS ScriptForge Import",
+  "attribution_required": false
+}
