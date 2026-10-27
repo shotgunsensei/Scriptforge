@@ -19,16 +19,17 @@ const categories = [
 export default async function HomePage() {
   const scripts = await listPublicScripts({ source: "operatoros" });
   const featured = scripts.slice(0, 4);
+  const categoryCount = new Set(scripts.map((script) => script.category)).size;
 
   return (
     <main className="min-h-screen text-[#F8FAFC]">
       <Hero />
       <section className="px-5 py-10 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat label="Scripts" value="125" />
-          <Stat label="Categories" value="18" />
-          <Stat label="Downloads" value="3,500" />
-          <Stat label="Cost" value="100% Free" />
+          <Stat label="Official scripts" value={String(scripts.length)} />
+          <Stat label="Catalog categories" value={String(categoryCount)} />
+          <Stat label="Review lanes" value="2" />
+          <Stat label="Catalog browsing" value="Public" />
         </div>
       </section>
       <section className="px-5 py-10 sm:px-8 lg:px-10">
@@ -46,7 +47,7 @@ export default async function HomePage() {
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="text-2xl font-semibold">Featured Scripts</h2>
-              <p className="mt-2 text-sm text-[#94A3B8]">Verified OperatorOS automation for common MSP workflows.</p>
+              <p className="mt-2 text-sm text-[#94A3B8]">Explore scope, requirements and review details before choosing a script.</p>
             </div>
             <a className="text-sm font-semibold text-[#5E81F4]" href="/scripts/operatoros">Browse all official scripts</a>
           </div>
@@ -82,7 +83,7 @@ export default async function HomePage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border border-[#24304A] bg-[#121A2E] p-5">
+    <div className="sf-catalog-stat border border-[#24304A] bg-[#121A2E] p-5">
       <p className="text-3xl font-semibold text-[#F8FAFC]">{value}</p>
       <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[#94A3B8]">{label}</p>
     </div>

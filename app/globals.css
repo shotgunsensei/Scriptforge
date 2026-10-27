@@ -81,3 +81,13 @@ pre {
   background-image: linear-gradient(180deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
   background-size: 100% 6px;
 }
+
+/* Homepage hierarchy retains the ScriptForge command-center visual identity. */
+.sf-home-hero { background:radial-gradient(ellipse at 12% 15%,rgb(var(--sf-primary)/.09),transparent 52%); }
+.sf-hero-kicker { color:rgb(var(--sf-muted));font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase; }
+.sf-hero-title { margin:22px 0 0;font-size:clamp(48px,5.2vw,76px);line-height:1.03;letter-spacing:-.045em;font-weight:700; }
+.sf-hero-title span { color:rgb(var(--sf-ink));text-shadow:0 0 36px rgb(var(--sf-primary)/.18); }
+.sf-topic-map { border-radius:16px;box-shadow:0 20px 60px rgb(0 0 0/.2); }
+.sf-catalog-stat { border-top:2px solid rgb(var(--sf-primary)/.7);border-radius:10px; }
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:3px solid rgb(var(--sf-secondary));outline-offset:4px; }
+@media(max-width:639px) { .sf-topic-map svg { height:240px; } .sf-home-hero { padding-top:44px;padding-bottom:40px; } .sf-hero-title { font-size:clamp(42px,11.5vw,60px); } }

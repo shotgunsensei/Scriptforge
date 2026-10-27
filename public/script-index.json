@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T20:19:53.879Z",
+  "generated_at": "2026-10-27T15:21:40.054Z",
   "count": 129,
   "scripts": [
     {
@@ -37,7 +37,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Computer Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADComputer -Filter * -Properties OperatingSystem,LastLogonDate | Select-Object Name,OperatingSystem,LastLogonDate",
+      "script_body_excerpt": "",
       "slug": "active-directory-computer-inventory-report",
       "path": "/scripts/operatoros/active-directory/active-directory-computer-inventory-report"
     },
@@ -75,7 +75,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Domain FSMO Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADDomain | Select-Object DNSRoot,DomainMode,PDCEmulator,RIDMaster,InfrastructureMaster",
+      "script_body_excerpt": "",
       "slug": "active-directory-domain-fsmo-audit",
       "path": "/scripts/operatoros/active-directory/active-directory-domain-fsmo-audit"
     },
@@ -113,7 +113,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Forest FSMO Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADForest | Select-Object Name,ForestMode,SchemaMaster,DomainNamingMaster",
+      "script_body_excerpt": "",
       "slug": "active-directory-forest-fsmo-audit",
       "path": "/scripts/operatoros/active-directory/active-directory-forest-fsmo-audit"
     },
@@ -152,7 +152,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Group Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADGroup -Filter * -Properties GroupCategory,GroupScope | Select-Object Name,GroupCategory,GroupScope",
+      "script_body_excerpt": "",
       "slug": "active-directory-group-inventory-report",
       "path": "/scripts/operatoros/active-directory/active-directory-group-inventory-report"
     },
@@ -191,7 +191,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Group Membership Export $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADGroupMember -Identity $GroupName -Recursive | Select-Object Name,SamAccountName,ObjectClass",
+      "script_body_excerpt": "",
       "slug": "active-directory-group-membership-export",
       "path": "/scripts/operatoros/active-directory/active-directory-group-membership-export"
     },
@@ -229,7 +229,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Inactive Computer Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Search-ADAccount -AccountInactive -ComputersOnly -TimeSpan 90.00:00:00 | Select-Object Name,LastLogonDate",
+      "script_body_excerpt": "",
       "slug": "active-directory-inactive-computer-audit",
       "path": "/scripts/operatoros/active-directory/active-directory-inactive-computer-audit"
     },
@@ -267,7 +267,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Inactive User Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 90.00:00:00 | Select-Object Name,SamAccountName,LastLogonDate",
+      "script_body_excerpt": "",
       "slug": "active-directory-inactive-user-audit",
       "path": "/scripts/operatoros/active-directory/active-directory-inactive-user-audit"
     },
@@ -306,7 +306,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Locked Account Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Search-ADAccount -LockedOut | Select-Object Name,SamAccountName,LockedOut",
+      "script_body_excerpt": "",
       "slug": "active-directory-locked-account-report",
       "path": "/scripts/operatoros/active-directory/active-directory-locked-account-report"
     },
@@ -345,7 +345,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: OU Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADObject -LDAPFilter '(objectClass=organizationalUnit)' -Properties CanonicalName | Select-Object Name,CanonicalName",
+      "script_body_excerpt": "",
       "slug": "active-directory-ou-inventory-report",
       "path": "/scripts/operatoros/active-directory/active-directory-ou-inventory-report"
     },
@@ -383,7 +383,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Password Policy Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADDefaultDomainPasswordPolicy | Select-Object ComplexityEnabled,MinPasswordLength,MaxPasswordAge,LockoutThreshold",
+      "script_body_excerpt": "",
       "slug": "active-directory-password-policy-audit",
       "path": "/scripts/operatoros/active-directory/active-directory-password-policy-audit"
     },
@@ -422,7 +422,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: Replication Failure Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADReplicationFailure -Scope Forest | Select-Object Server,Partner,FailureCount,LastError",
+      "script_body_excerpt": "",
       "slug": "active-directory-replication-failure-report",
       "path": "/scripts/operatoros/active-directory/active-directory-replication-failure-report"
     },
@@ -461,7 +461,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Active Directory # Report: User Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ADUser -Filter * -Properties Enabled,LastLogonDate | Select-Object Name,SamAccountName,Enabled,LastLogonDate",
+      "script_body_excerpt": "",
       "slug": "active-directory-user-inventory-report",
       "path": "/scripts/operatoros/active-directory/active-directory-user-inventory-report"
     },
@@ -502,7 +502,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-001 # Title: Aledade EHR Overlay RMM Deployment # Category: Software Deployment # Ready state: Ready - Redacted # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFra...",
+      "script_body_excerpt": "",
       "slug": "software-deployment-aledade-ehr-overlay-rmm-deployment",
       "path": "/scripts/operatoros/software-deployment/software-deployment-aledade-ehr-overlay-rmm-deployment"
     },
@@ -542,7 +542,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-008 # Title: Allscripts PM File / COM / CLSID Validation # Category: Healthcare App Remediation # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Operator...",
+      "script_body_excerpt": "",
       "slug": "healthcare-app-remediation-allscripts-pm-file-com-clsid-validation",
       "path": "/scripts/operatoros/healthcare-app-remediation/healthcare-app-remediation-allscripts-pm-file-com-clsid-validation"
     },
@@ -580,7 +580,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-025 # Title: BitLocker Status Reporting # Category: Security / Endpoint # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Operat...",
+      "script_body_excerpt": "",
       "slug": "security-endpoint-bitlocker-status-reporting",
       "path": "/scripts/operatoros/security-endpoint/security-endpoint-bitlocker-status-reporting"
     },
@@ -619,7 +619,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-006 # Title: Certificate Import - Trusted Root and Trusted Publisher # Category: Certificate / Trust # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Ope...",
+      "script_body_excerpt": "",
       "slug": "certificate-trust-certificate-import-trusted-root-and-trusted-publisher",
       "path": "/scripts/operatoros/certificate-trust/certificate-trust-certificate-import-trusted-root-and-trusted-publisher"
     },
@@ -657,7 +657,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-013 # Title: Create Public Desktop Shortcut to Network Share # Category: Endpoint Configuration # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorO...",
+      "script_body_excerpt": "",
       "slug": "endpoint-configuration-create-public-desktop-shortcut-to-network-share",
       "path": "/scripts/operatoros/endpoint-configuration/endpoint-configuration-create-public-desktop-shortcut-to-network-share"
     },
@@ -697,7 +697,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-002 # Title: Datto EDR / HUNTAgent State Validation # Category: Security / EDR # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath...",
+      "script_body_excerpt": "",
       "slug": "security-edr-datto-edr-huntagent-state-validation",
       "path": "/scripts/operatoros/security-edr/security-edr-datto-edr-huntagent-state-validation"
     },
@@ -736,7 +736,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-033 # Title: Dell / LPR Printer Port Test Commands # Category: Printing / Peripheral # Ready state: Ready # Workbook risk: low # Body type: Mixed PowerShell / CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath...",
+      "script_body_excerpt": "",
       "slug": "printing-peripheral-dell-lpr-printer-port-test-commands",
       "path": "/scripts/operatoros/printing-peripheral/printing-peripheral-dell-lpr-printer-port-test-commands"
     },
@@ -774,7 +774,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-014 # Title: Disable NetBIOS over TCP/IP # Category: Endpoint Hardening # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Ope...",
+      "script_body_excerpt": "",
       "slug": "endpoint-hardening-disable-netbios-over-tcp-ip",
       "path": "/scripts/operatoros/endpoint-hardening/endpoint-hardening-disable-netbios-over-tcp-ip"
     },
@@ -812,7 +812,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-017 # Title: Disk Cleanup Lite # Category: Endpoint Maintenance # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSF...",
+      "script_body_excerpt": "",
       "slug": "endpoint-maintenance-disk-cleanup-lite",
       "path": "/scripts/operatoros/endpoint-maintenance/endpoint-maintenance-disk-cleanup-lite"
     },
@@ -851,7 +851,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Application Registration Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgApplication -All | Select-Object DisplayName,AppId,SignInAudience",
+      "script_body_excerpt": "",
       "slug": "entra-id-application-registration-inventory",
       "path": "/scripts/operatoros/entra-id/entra-id-application-registration-inventory"
     },
@@ -890,7 +890,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Authentication Method Policy Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgIdentityAuthenticationMethodPolicy | Select-Object Id,DisplayName,Description",
+      "script_body_excerpt": "",
       "slug": "entra-id-authentication-method-policy-review",
       "path": "/scripts/operatoros/entra-id/entra-id-authentication-method-policy-review"
     },
@@ -929,7 +929,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Conditional Access Policy Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgIdentityConditionalAccessPolicy | Select-Object DisplayName,State,CreatedDateTime,ModifiedDateTime",
+      "script_body_excerpt": "",
       "slug": "entra-id-conditional-access-policy-audit",
       "path": "/scripts/operatoros/entra-id/entra-id-conditional-access-policy-audit"
     },
@@ -967,7 +967,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Device Sign-In Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDevice -All | Select-Object DisplayName,OperatingSystem,ApproximateLastSignInDateTime",
+      "script_body_excerpt": "",
       "slug": "entra-id-device-sign-in-audit",
       "path": "/scripts/operatoros/entra-id/entra-id-device-sign-in-audit"
     },
@@ -1005,7 +1005,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Directory Audit Log Export $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgAuditLogDirectoryAudit -Top 50 | Select-Object ActivityDateTime,ActivityDisplayName,Result",
+      "script_body_excerpt": "",
       "slug": "entra-id-directory-audit-log-export",
       "path": "/scripts/operatoros/entra-id/entra-id-directory-audit-log-export"
     },
@@ -1044,7 +1044,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Directory Role Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDirectoryRole | Select-Object DisplayName,Id",
+      "script_body_excerpt": "",
       "slug": "entra-id-directory-role-inventory",
       "path": "/scripts/operatoros/entra-id/entra-id-directory-role-inventory"
     },
@@ -1083,7 +1083,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: OAuth Grant Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgOauth2PermissionGrant -All | Select-Object ClientId,ConsentType,Scope",
+      "script_body_excerpt": "",
       "slug": "entra-id-oauth-grant-inventory",
       "path": "/scripts/operatoros/entra-id/entra-id-oauth-grant-inventory"
     },
@@ -1122,7 +1122,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Privileged Role Member Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDirectoryRole | ForEach-Object { Get-MgDirectoryRoleMember -DirectoryRoleId $_.Id }",
+      "script_body_excerpt": "",
       "slug": "entra-id-privileged-role-member-report",
       "path": "/scripts/operatoros/entra-id/entra-id-privileged-role-member-report"
     },
@@ -1161,7 +1161,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Recent Sign-In Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgAuditLogSignIn -Top 50 | Select-Object CreatedDateTime,UserPrincipalName,AppDisplayName,Status",
+      "script_body_excerpt": "",
       "slug": "entra-id-recent-sign-in-report",
       "path": "/scripts/operatoros/entra-id/entra-id-recent-sign-in-report"
     },
@@ -1200,7 +1200,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Security Group Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgGroup -All -Property DisplayName,SecurityEnabled,GroupTypes | Select-Object DisplayName,SecurityEnabled,GroupTypes",
+      "script_body_excerpt": "",
       "slug": "entra-id-security-group-inventory",
       "path": "/scripts/operatoros/entra-id/entra-id-security-group-inventory"
     },
@@ -1239,7 +1239,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Service Principal Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgServicePrincipal -All | Select-Object DisplayName,AppId,PublisherName,AccountEnabled",
+      "script_body_excerpt": "",
       "slug": "entra-id-service-principal-inventory",
       "path": "/scripts/operatoros/entra-id/entra-id-service-principal-inventory"
     },
@@ -1278,7 +1278,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Entra ID # Report: Stale User Sign-In Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgUser -All -Property DisplayName,UserPrincipalName,AccountEnabled,SignInActivity | Select-Object DisplayName,UserPrincipalN...",
+      "script_body_excerpt": "",
       "slug": "entra-id-stale-user-sign-in-audit",
       "path": "/scripts/operatoros/entra-id/entra-id-stale-user-sign-in-audit"
     },
@@ -1317,7 +1317,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Anti-Phish Policy Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-AntiPhishPolicy | Select-Object Name,Enabled,AuthenticationFailAction",
+      "script_body_excerpt": "",
       "slug": "exchange-online-anti-phish-policy-review",
       "path": "/scripts/operatoros/exchange-online/exchange-online-anti-phish-policy-review"
     },
@@ -1355,7 +1355,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Distribution Group Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-DistributionGroup -ResultSize Unlimited | Select-Object DisplayName,PrimarySmtpAddress,ManagedBy",
+      "script_body_excerpt": "",
       "slug": "exchange-online-distribution-group-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-distribution-group-audit"
     },
@@ -1393,7 +1393,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Dynamic Group Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-DynamicDistributionGroup -ResultSize Unlimited | Select-Object DisplayName,RecipientFilter",
+      "script_body_excerpt": "",
       "slug": "exchange-online-dynamic-group-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-dynamic-group-audit"
     },
@@ -1432,7 +1432,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$MailboxIdentity = 'user@example.com' ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Inbox Rule Forwarding Audit $ErrorActionPreference = 'Stop' Get-InboxRule -Mailbox $MailboxIdentity | Select-Object Name,En...",
+      "script_body_excerpt": "",
       "slug": "exchange-online-inbox-rule-forwarding-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-inbox-rule-forwarding-audit"
     },
@@ -1471,7 +1471,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Mailbox Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EXOMailbox -ResultSize Unlimited | Select-Object DisplayName,UserPrincipalName,RecipientTypeDetails",
+      "script_body_excerpt": "",
       "slug": "exchange-online-mailbox-inventory-report",
       "path": "/scripts/operatoros/exchange-online/exchange-online-mailbox-inventory-report"
     },
@@ -1509,7 +1509,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$MailboxIdentity = 'user@example.com' ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Mailbox Permission Audit $ErrorActionPreference = 'Stop' Get-MailboxPermission -Identity $MailboxIdentity | Select-Object U...",
+      "script_body_excerpt": "",
       "slug": "exchange-online-mailbox-permission-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-mailbox-permission-audit"
     },
@@ -1548,7 +1548,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Mailbox Size Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EXOMailbox -ResultSize Unlimited | Get-EXOMailboxStatistics | Select-Object DisplayName,TotalItemSize,ItemCount",
+      "script_body_excerpt": "",
       "slug": "exchange-online-mailbox-size-report",
       "path": "/scripts/operatoros/exchange-online/exchange-online-mailbox-size-report"
     },
@@ -1586,7 +1586,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Organization Config Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-OrganizationConfig | Select-Object Name,OAuth2ClientProfileEnabled,ModernAuthEnabled",
+      "script_body_excerpt": "",
       "slug": "exchange-online-organization-config-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-organization-config-audit"
     },
@@ -1624,7 +1624,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Quarantine Summary $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-QuarantineMessage -PageSize 100 | Select-Object ReceivedTime,SenderAddress,Subject,Type",
+      "script_body_excerpt": "",
       "slug": "exchange-online-quarantine-summary",
       "path": "/scripts/operatoros/exchange-online/exchange-online-quarantine-summary"
     },
@@ -1662,7 +1662,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$MailboxIdentity = 'user@example.com' ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Send-As Permission Audit $ErrorActionPreference = 'Stop' Get-RecipientPermission -Identity $MailboxIdentity | Select-Object...",
+      "script_body_excerpt": "",
       "slug": "exchange-online-send-as-permission-audit",
       "path": "/scripts/operatoros/exchange-online/exchange-online-send-as-permission-audit"
     },
@@ -1701,7 +1701,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Spam Policy Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-HostedContentFilterPolicy | Select-Object Name,IsDefault,SpamAction,HighConfidenceSpamAction",
+      "script_body_excerpt": "",
       "slug": "exchange-online-spam-policy-review",
       "path": "/scripts/operatoros/exchange-online/exchange-online-spam-policy-review"
     },
@@ -1740,7 +1740,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Exchange Online # Report: Transport Rule Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-TransportRule | Select-Object Name,State,Mode,Priority",
+      "script_body_excerpt": "",
       "slug": "exchange-online-transport-rule-review",
       "path": "/scripts/operatoros/exchange-online/exchange-online-transport-rule-review"
     },
@@ -1778,7 +1778,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-034 # Title: Firewall Profile Audit / Disable Command # Category: Endpoint Configuration # Ready state: Ready # Workbook risk: high # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrame...",
+      "script_body_excerpt": "",
       "slug": "endpoint-configuration-firewall-profile-audit-disable-command",
       "path": "/scripts/operatoros/endpoint-configuration/endpoint-configuration-firewall-profile-audit-disable-command"
     },
@@ -1815,7 +1815,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-003 # Title: HUNTAgent Service Refresh # Category: Security / EDR # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorO...",
+      "script_body_excerpt": "",
       "slug": "security-edr-huntagent-service-refresh",
       "path": "/scripts/operatoros/security-edr/security-edr-huntagent-service-refresh"
     },
@@ -1854,7 +1854,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Application Event Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName Application -Newest 100 | Where-Object Source -match 'Kaseya|Datto|RMM' | Select-Object Time...",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-application-event-review",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-application-event-review"
     },
@@ -1893,7 +1893,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Disk Capacity Snapshot $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_LogicalDisk | Select-Object DeviceID,FreeSpace,Size",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-disk-capacity-snapshot",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-disk-capacity-snapshot"
     },
@@ -1932,7 +1932,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Endpoint Uptime Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_OperatingSystem | Select-Object CSName,LastBootUpTime,Version",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-endpoint-uptime-report",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-endpoint-uptime-report"
     },
@@ -1971,7 +1971,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Installed Product Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_Product | Where-Object Name -match 'Kaseya|Datto|RMM' | Select-Object Name,Version,Vendor",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-installed-product-audit",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-installed-product-audit"
     },
@@ -2010,7 +2010,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Network Connection Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetTCPConnection | Where-Object OwningProcess -in (Get-Process | Where-Object ProcessName -match 'Kaseya|Datt...",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-network-connection-report",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-network-connection-report"
     },
@@ -2049,7 +2049,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Patch Snapshot $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object -First 25 HotFixID,InstalledOn,Description",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-patch-snapshot",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-patch-snapshot"
     },
@@ -2087,7 +2087,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Process Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Process | Where-Object ProcessName -match 'Kaseya|Datto|AEM|RMM' | Select-Object ProcessName,Id,CPU,Path",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-process-audit",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-process-audit"
     },
@@ -2126,7 +2126,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM ProgramData Footprint Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ChildItem 'C:\\ProgramData' -Directory -ErrorAction SilentlyContinue | Where-Object Name -match 'Kaseya|Datt...",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-programdata-footprint-audit",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-programdata-footprint-audit"
     },
@@ -2165,7 +2165,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Registry Footprint Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ChildItem 'HKLM:\\Software' -ErrorAction SilentlyContinue | Where-Object Name -match 'Kaseya|Datto' | Select-Ob...",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-registry-footprint-audit",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-registry-footprint-audit"
     },
@@ -2204,7 +2204,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Scheduled Task Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ScheduledTask | Where-Object TaskName -match 'Kaseya|Datto|RMM' | Select-Object TaskName,TaskPath,State",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-scheduled-task-review",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-scheduled-task-review"
     },
@@ -2243,7 +2243,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Service Control Capability Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Service | Where-Object Name -match 'Kaseya|Datto|AEM' | Select-Object Name,Status,CanStop,ServiceType",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-service-control-capability-report",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-service-control-capability-report"
     },
@@ -2282,7 +2282,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Kaseya / Datto RMM # Report: RMM Service Status Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Service | Where-Object DisplayName -match 'Kaseya|Datto|RMM' | Select-Object Name,DisplayName,Status,StartType",
+      "script_body_excerpt": "",
       "slug": "kaseya-datto-rmm-rmm-service-status-audit",
       "path": "/scripts/operatoros/kaseya-datto-rmm/kaseya-datto-rmm-rmm-service-status-audit"
     },
@@ -2319,7 +2319,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-024 # Title: Local Admin Audit # Category: Security / Endpoint # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrame...",
+      "script_body_excerpt": "",
       "slug": "security-endpoint-local-admin-audit",
       "path": "/scripts/operatoros/security-endpoint/security-endpoint-local-admin-audit"
     },
@@ -2358,7 +2358,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Active User Activity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgReportOffice365ActiveUserDetail -Period D30",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-active-user-activity-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-active-user-activity-report"
     },
@@ -2397,7 +2397,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Deleted User Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDirectoryDeletedItemAsUser -All | Select-Object DisplayName,UserPrincipalName,DeletedDateTime",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-deleted-user-review",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-deleted-user-review"
     },
@@ -2436,7 +2436,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Device Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDevice -All -Property DisplayName,OperatingSystem,TrustType | Select-Object DisplayName,OperatingSystem,TrustType",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-device-inventory-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-device-inventory-report"
     },
@@ -2474,7 +2474,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Domain Verification Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgDomain | Select-Object Id,IsVerified,AuthenticationType",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-domain-verification-audit",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-domain-verification-audit"
     },
@@ -2513,7 +2513,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Email Activity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgReportEmailActivityUserDetail -Period D30",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-email-activity-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-email-activity-report"
     },
@@ -2552,7 +2552,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Group Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgGroup -All -Property DisplayName,MailEnabled,SecurityEnabled | Select-Object DisplayName,MailEnabled,SecurityEnabled",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-group-inventory-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-group-inventory-report"
     },
@@ -2591,7 +2591,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: License Utilization Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgSubscribedSku | Select-Object SkuPartNumber,ConsumedUnits,PrepaidUnits",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-license-utilization-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-license-utilization-report"
     },
@@ -2630,7 +2630,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: OneDrive Usage Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgReportOneDriveUsageAccountDetail -Period D30",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-onedrive-usage-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-onedrive-usage-report"
     },
@@ -2669,7 +2669,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: SharePoint Usage Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgReportSharePointSiteUsageDetail -Period D30",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-sharepoint-usage-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-sharepoint-usage-report"
     },
@@ -2708,7 +2708,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Teams Activity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgReportTeamsUserActivityUserDetail -Period D30",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-teams-activity-report",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-teams-activity-report"
     },
@@ -2746,7 +2746,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: Tenant Profile Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgOrganization | Select-Object Id,DisplayName,VerifiedDomains",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-tenant-profile-audit",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-tenant-profile-audit"
     },
@@ -2784,7 +2784,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Microsoft 365 # Report: User Enablement Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MgUser -All -Property DisplayName,UserPrincipalName,AccountEnabled | Select-Object DisplayName,UserPrincipalName,AccountEn...",
+      "script_body_excerpt": "",
       "slug": "microsoft-365-user-enablement-audit",
       "path": "/scripts/operatoros/microsoft-365/microsoft-365-user-enablement-audit"
     },
@@ -2823,7 +2823,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-007 # Title: MSI Install with Verbose Logging / Repair # Category: Software Deployment # Ready state: Ready # Workbook risk: medium # Body type: CMD / msiexec $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $O...",
+      "script_body_excerpt": "",
       "slug": "software-deployment-msi-install-with-verbose-logging-repair",
       "path": "/scripts/operatoros/software-deployment/software-deployment-msi-install-with-verbose-logging-repair"
     },
@@ -2862,7 +2862,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Adapter Statistics Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetAdapterStatistics | Select-Object Name,ReceivedBytes,SentBytes,ReceivedUnicastPackets,SentUnicastPackets",
+      "script_body_excerpt": "",
       "slug": "networking-adapter-statistics-report",
       "path": "/scripts/operatoros/networking/networking-adapter-statistics-report"
     },
@@ -2900,7 +2900,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Connection Profile Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetConnectionProfile | Select-Object Name,InterfaceAlias,NetworkCategory,IPv4Connectivity",
+      "script_body_excerpt": "",
       "slug": "networking-connection-profile-audit",
       "path": "/scripts/operatoros/networking/networking-connection-profile-audit"
     },
@@ -2939,7 +2939,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$DnsName = 'example.com' ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: DNS Resolution Test $ErrorActionPreference = 'Stop' Resolve-DnsName -Name $DnsName | Select-Object Name,Type,IPAddress,NameHost",
+      "script_body_excerpt": "",
       "slug": "networking-dns-resolution-test",
       "path": "/scripts/operatoros/networking/networking-dns-resolution-test"
     },
@@ -2977,7 +2977,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: DNS Server Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-DnsClientServerAddress | Select-Object InterfaceAlias,ServerAddresses",
+      "script_body_excerpt": "",
       "slug": "networking-dns-server-audit",
       "path": "/scripts/operatoros/networking/networking-dns-server-audit"
     },
@@ -3016,7 +3016,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Firewall Profile Network Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetFirewallProfile | Select-Object Name,Enabled,DefaultInboundAction",
+      "script_body_excerpt": "",
       "slug": "networking-firewall-profile-network-review",
       "path": "/scripts/operatoros/networking/networking-firewall-profile-network-review"
     },
@@ -3054,7 +3054,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: IP Configuration Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetIPConfiguration | Select-Object InterfaceAlias,IPv4Address,IPv4DefaultGateway,DNSServer",
+      "script_body_excerpt": "",
       "slug": "networking-ip-configuration-audit",
       "path": "/scripts/operatoros/networking/networking-ip-configuration-audit"
     },
@@ -3093,7 +3093,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: IP Interface Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetIPInterface | Select-Object InterfaceAlias,AddressFamily,Dhcp,ConnectionState",
+      "script_body_excerpt": "",
       "slug": "networking-ip-interface-report",
       "path": "/scripts/operatoros/networking/networking-ip-interface-report"
     },
@@ -3132,7 +3132,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Neighbor Cache Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetNeighbor | Select-Object ifIndex,IPAddress,LinkLayerAddress,State",
+      "script_body_excerpt": "",
       "slug": "networking-neighbor-cache-report",
       "path": "/scripts/operatoros/networking/networking-neighbor-cache-report"
     },
@@ -3171,7 +3171,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$ComputerName = 'localhost', [int]$Port = 443 ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Port Connectivity Test $ErrorActionPreference = 'Stop' Test-NetConnection -ComputerName $ComputerName -Port $Port | Sele...",
+      "script_body_excerpt": "",
       "slug": "networking-port-connectivity-test",
       "path": "/scripts/operatoros/networking/networking-port-connectivity-test"
     },
@@ -3210,7 +3210,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: Route Table Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetRoute | Select-Object DestinationPrefix,NextHop,RouteMetric,InterfaceAlias",
+      "script_body_excerpt": "",
       "slug": "networking-route-table-report",
       "path": "/scripts/operatoros/networking/networking-route-table-report"
     },
@@ -3249,7 +3249,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: TCP Connection Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetTCPConnection | Select-Object LocalAddress,LocalPort,RemoteAddress,RemotePort,State,OwningProcess",
+      "script_body_excerpt": "",
       "slug": "networking-tcp-connection-report",
       "path": "/scripts/operatoros/networking/networking-tcp-connection-report"
     },
@@ -3288,7 +3288,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Networking # Report: UDP Endpoint Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetUDPEndpoint | Select-Object LocalAddress,LocalPort,OwningProcess",
+      "script_body_excerpt": "",
       "slug": "networking-udp-endpoint-report",
       "path": "/scripts/operatoros/networking/networking-udp-endpoint-report"
     },
@@ -3327,7 +3327,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-015 # Title: Repair Network Stack # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates |...",
+      "script_body_excerpt": "",
       "slug": "endpoint-remediation-repair-network-stack",
       "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-repair-network-stack"
     },
@@ -3366,7 +3366,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-016 # Title: Restart Print Spooler + Optional Queue Clear # Category: Printing / Peripheral # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block pa $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $Operato...",
+      "script_body_excerpt": "",
       "slug": "printing-peripheral-restart-print-spooler-optional-queue-clear",
       "path": "/scripts/operatoros/printing-peripheral/printing-peripheral-restart-print-spooler-optional-queue-clear"
     },
@@ -3404,7 +3404,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-018 # Title: Restart Service Verified # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block pa $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $O...",
+      "script_body_excerpt": "",
       "slug": "endpoint-remediation-restart-service-verified",
       "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-restart-service-verified"
     },
@@ -3443,7 +3443,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-012 # Title: RMM Download ZIP to Public Desktop, Extract, Delete ZIP # Category: Software Deployment # Ready state: Ready - URL Placeholder # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFra...",
+      "script_body_excerpt": "",
       "slug": "software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip",
       "path": "/scripts/operatoros/software-deployment/software-deployment-rmm-download-zip-to-public-desktop-extract-delete-zip"
     },
@@ -3482,7 +3482,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Certificate Expiration Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ChildItem Cert:\\LocalMachine\\My | Select-Object Subject,Issuer,NotAfter,Thumbprint",
+      "script_body_excerpt": "",
       "slug": "security-certificate-expiration-report",
       "path": "/scripts/operatoros/security/security-certificate-expiration-report"
     },
@@ -3521,7 +3521,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Defender Status Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MpComputerStatus | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,QuickScanAge",
+      "script_body_excerpt": "",
       "slug": "security-defender-status-report",
       "path": "/scripts/operatoros/security/security-defender-status-report"
     },
@@ -3560,7 +3560,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Defender Threat Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-MpThreat | Select-Object ThreatName,SeverityID,Resources,InitialDetectionTime",
+      "script_body_excerpt": "",
       "slug": "security-defender-threat-report",
       "path": "/scripts/operatoros/security/security-defender-threat-report"
     },
@@ -3599,7 +3599,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Enabled Firewall Rule Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetFirewallRule | Where-Object Enabled -eq True | Select-Object DisplayName,Direction,Action,Profile",
+      "script_body_excerpt": "",
       "slug": "security-enabled-firewall-rule-report",
       "path": "/scripts/operatoros/security/security-enabled-firewall-rule-report"
     },
@@ -3638,7 +3638,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "param( [string]$FilePath = 'C:\\Windows\\System32\\notepad.exe' ) $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } # OperatorOS ScriptForge official read-only audit script # Category: Security # Report: File Signature Check $ErrorActionPreference = 'Stop' Get-AuthenticodeSignature -FilePath $FilePath | Select-Object Status,...",
+      "script_body_excerpt": "",
       "slug": "security-file-signature-check",
       "path": "/scripts/operatoros/security/security-file-signature-check"
     },
@@ -3676,7 +3676,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Firewall Profile Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetFirewallProfile | Select-Object Name,Enabled,DefaultInboundAction,DefaultOutboundAction",
+      "script_body_excerpt": "",
       "slug": "security-firewall-profile-audit",
       "path": "/scripts/operatoros/security/security-firewall-profile-audit"
     },
@@ -3714,7 +3714,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Local Administrators Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-LocalGroupMember -Group Administrators | Select-Object Name,ObjectClass,PrincipalSource",
+      "script_body_excerpt": "",
       "slug": "security-local-administrators-audit",
       "path": "/scripts/operatoros/security/security-local-administrators-audit"
     },
@@ -3752,7 +3752,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Local User Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-LocalUser | Select-Object Name,Enabled,LastLogon,PasswordRequired",
+      "script_body_excerpt": "",
       "slug": "security-local-user-audit",
       "path": "/scripts/operatoros/security/security-local-user-audit"
     },
@@ -3791,7 +3791,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Running Process Path Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Process | Where-Object Path | Select-Object Name,Id,Path,Company",
+      "script_body_excerpt": "",
       "slug": "security-running-process-path-audit",
       "path": "/scripts/operatoros/security/security-running-process-path-audit"
     },
@@ -3829,7 +3829,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Security Event Snapshot $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName Security -Newest 100 | Select-Object TimeGenerated,EntryType,Source,EventID,Message",
+      "script_body_excerpt": "",
       "slug": "security-security-event-snapshot",
       "path": "/scripts/operatoros/security/security-security-event-snapshot"
     },
@@ -3867,7 +3867,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Security Patch Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_QuickFixEngineering | Select-Object HotFixID,InstalledOn,Description",
+      "script_body_excerpt": "",
       "slug": "security-security-patch-report",
       "path": "/scripts/operatoros/security/security-security-patch-report"
     },
@@ -3905,7 +3905,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Security # Report: Share Exposure Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-SmbShare | Select-Object Name,Path,FolderEnumerationMode",
+      "script_body_excerpt": "",
       "slug": "security-share-exposure-audit",
       "path": "/scripts/operatoros/security/security-share-exposure-audit"
     },
@@ -3943,7 +3943,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-020 # Title: SFC / DISM Repair Pass # Category: Endpoint Remediation # Ready state: Ready # Workbook risk: medium # Body type: CMD $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $OperatorOSFrameworkCandidates...",
+      "script_body_excerpt": "",
       "slug": "endpoint-remediation-sfc-dism-repair-pass",
       "path": "/scripts/operatoros/endpoint-remediation/endpoint-remediation-sfc-dism-repair-pass"
     },
@@ -3983,7 +3983,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-036 # Title: Unexpected Shutdown / Display Layout Evidence Collector # Category: Diagnostics / Evidence # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $O...",
+      "script_body_excerpt": "",
       "slug": "diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector",
       "path": "/scripts/operatoros/diagnostics-evidence/diagnostics-evidence-unexpected-shutdown-display-layout-evidence-collector"
     },
@@ -4023,7 +4023,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-005 # Title: Veradigm / Allscripts PM Local Copy Prep # Category: Healthcare App Deployment # Ready state: Ready # Workbook risk: medium # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOS...",
+      "script_body_excerpt": "",
       "slug": "healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep",
       "path": "/scripts/operatoros/healthcare-app-deployment/healthcare-app-deployment-veradigm-allscripts-pm-local-copy-prep"
     },
@@ -4062,7 +4062,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Application Error Event Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName Application -EntryType Error -Newest 100 | Select-Object TimeGenerated,Source,EventID,Message",
+      "script_body_excerpt": "",
       "slug": "windows-server-application-error-event-review",
       "path": "/scripts/operatoros/windows-server/windows-server-application-error-event-review"
     },
@@ -4100,7 +4100,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Installed Role Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-WindowsFeature | Where-Object Installed | Select-Object Name,DisplayName,InstallState",
+      "script_body_excerpt": "",
       "slug": "windows-server-installed-role-audit",
       "path": "/scripts/operatoros/windows-server/windows-server-installed-role-audit"
     },
@@ -4139,7 +4139,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Patch Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object HotFixID,Description,InstalledOn",
+      "script_body_excerpt": "",
       "slug": "windows-server-patch-inventory-report",
       "path": "/scripts/operatoros/windows-server/windows-server-patch-inventory-report"
     },
@@ -4178,7 +4178,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Scheduled Task Inventory $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ScheduledTask | Select-Object TaskName,TaskPath,State",
+      "script_body_excerpt": "",
       "slug": "windows-server-scheduled-task-inventory",
       "path": "/scripts/operatoros/windows-server/windows-server-scheduled-task-inventory"
     },
@@ -4217,7 +4217,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Server Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ComputerInfo | Select-Object CsName,WindowsProductName,WindowsVersion,OsHardwareAbstractionLayer",
+      "script_body_excerpt": "",
       "slug": "windows-server-server-inventory-report",
       "path": "/scripts/operatoros/windows-server/windows-server-server-inventory-report"
     },
@@ -4256,7 +4256,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Service State Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Service | Select-Object Name,DisplayName,Status,StartType",
+      "script_body_excerpt": "",
       "slug": "windows-server-service-state-report",
       "path": "/scripts/operatoros/windows-server/windows-server-service-state-report"
     },
@@ -4295,7 +4295,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: SMB Session Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-SmbSession | Select-Object ClientComputerName,ClientUserName,NumOpens",
+      "script_body_excerpt": "",
       "slug": "windows-server-smb-session-report",
       "path": "/scripts/operatoros/windows-server/windows-server-smb-session-report"
     },
@@ -4333,7 +4333,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: SMB Share Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-SmbShare | Select-Object Name,Path,Description,FolderEnumerationMode",
+      "script_body_excerpt": "",
       "slug": "windows-server-smb-share-audit",
       "path": "/scripts/operatoros/windows-server/windows-server-smb-share-audit"
     },
@@ -4372,7 +4372,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: System Error Event Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName System -EntryType Error -Newest 100 | Select-Object TimeGenerated,Source,EventID,Message",
+      "script_body_excerpt": "",
       "slug": "windows-server-system-error-event-review",
       "path": "/scripts/operatoros/windows-server/windows-server-system-error-event-review"
     },
@@ -4411,7 +4411,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Top Process Resource Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Process | Sort-Object CPU -Descending | Select-Object -First 25 Name,Id,CPU,WorkingSet",
+      "script_body_excerpt": "",
       "slug": "windows-server-top-process-resource-report",
       "path": "/scripts/operatoros/windows-server/windows-server-top-process-resource-report"
     },
@@ -4449,7 +4449,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Uptime Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,LastBootUpTime",
+      "script_body_excerpt": "",
       "slug": "windows-server-uptime-report",
       "path": "/scripts/operatoros/windows-server/windows-server-uptime-report"
     },
@@ -4488,7 +4488,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Windows Server # Report: Volume Capacity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Volume | Select-Object DriveLetter,FileSystemLabel,SizeRemaining,Size",
+      "script_body_excerpt": "",
       "slug": "windows-server-volume-capacity-report",
       "path": "/scripts/operatoros/windows-server/windows-server-volume-capacity-report"
     },
@@ -4527,7 +4527,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge imported Xodus library script # Workbook ref: SCR-023 # Title: Workstation Health Check # Category: Endpoint Assessment # Ready state: Ready # Workbook risk: low # Body type: PowerShell / Command Block $OperatorOSFrameworkCandidates = @( (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1'), (Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1') ) $OperatorOSFrameworkPath = $Operator...",
+      "script_body_excerpt": "",
       "slug": "endpoint-assessment-workstation-health-check",
       "path": "/scripts/operatoros/endpoint-assessment/endpoint-assessment-workstation-health-check"
     },
@@ -4566,7 +4566,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Application Error Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName Application -EntryType Error -Newest 50 | Select-Object TimeGenerated,Source,EventID,Message",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-application-error-review",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-application-error-review"
     },
@@ -4605,7 +4605,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: BIOS Serial Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_BIOS | Select-Object SerialNumber,SMBIOSBIOSVersion,ReleaseDate",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-bios-serial-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-bios-serial-report"
     },
@@ -4644,7 +4644,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Disk Capacity Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_LogicalDisk | Select-Object DeviceID,DriveType,FreeSpace,Size",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-disk-capacity-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-disk-capacity-report"
     },
@@ -4683,7 +4683,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: IP Configuration Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_NetworkAdapterConfiguration | Where-Object IPEnabled | Select-Object Description,IPAddress,Defaul...",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-ip-configuration-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-ip-configuration-report"
     },
@@ -4722,7 +4722,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Memory Process Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 20 Name,Id,WorkingSet",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-memory-process-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-memory-process-report"
     },
@@ -4761,7 +4761,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Network Adapter Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-NetAdapter | Select-Object Name,Status,LinkSpeed,MacAddress",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-network-adapter-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-network-adapter-report"
     },
@@ -4800,7 +4800,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Patch History Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-HotFix | Sort-Object InstalledOn -Descending | Select-Object HotFixID,InstalledOn",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-patch-history-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-patch-history-report"
     },
@@ -4839,7 +4839,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Printer Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Printer | Select-Object Name,DriverName,PortName,PrinterStatus",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-printer-inventory-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-printer-inventory-report"
     },
@@ -4877,7 +4877,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Startup Item Audit $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-CimInstance Win32_StartupCommand | Select-Object Name,Command,Location,User",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-startup-item-audit",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-startup-item-audit"
     },
@@ -4916,7 +4916,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Stopped Service Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-Service | Where-Object Status -ne 'Running' | Select-Object Name,DisplayName,Status,StartType",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-stopped-service-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-stopped-service-report"
     },
@@ -4955,7 +4955,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: System Error Review $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-EventLog -LogName System -EntryType Error -Newest 50 | Select-Object TimeGenerated,Source,EventID,Message",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-system-error-review",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-system-error-review"
     },
@@ -4994,7 +4994,7 @@
       "github_file_url": null,
       "github_commit_sha": null,
       "github_last_synced_at": null,
-      "script_body_excerpt": "# OperatorOS ScriptForge official read-only audit script # Category: Workstation Repair # Report: Workstation Inventory Report $OperatorOSFrameworkPath = Join-Path -Path $PSScriptRoot -ChildPath '..\\..\\..\\framework\\OperatorOS-ScriptFramework.psm1' if (Test-Path -LiteralPath $OperatorOSFrameworkPath) { Import-Module $OperatorOSFrameworkPath -Force } $ErrorActionPreference = 'Stop' Get-ComputerInfo | Select-Object CsName,WindowsProductName,WindowsVersion,CsManufacturer,CsModel",
+      "script_body_excerpt": "",
       "slug": "workstation-repair-workstation-inventory-report",
       "path": "/scripts/operatoros/workstation-repair/workstation-repair-workstation-inventory-report"
     }
