@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import JSZip from "jszip";
 import { buildScriptPack } from "../../../../../lib/scripts/catalog";
-import { getScriptStorageDriverName } from "../../../../../lib/scripts/storage";
-import { SupabaseScriptFileStorage } from "../../../../../lib/scripts/storage/supabaseStorage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,6 +11,10 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
   if (!result) {
     return NextResponse.json({ error: "Script pack not found." }, { status: 404 });
+  }
+
+  if (result.requiresEntitlement || result.body === null) {
+    return NextResponse.json({ error: "Protected source is unavailable until OperatorOS entitlement verification is connected." }, { status: 503, headers: { "cache-control": "no-store" } });
   }
 
   const zip = new JSZip();
@@ -30,22 +32,12 @@ Review each script before running in production.
   );
   const zipBytes = await zip.generateAsync({ type: "uint8array" });
   const zipFileName = result.pack.fileName.replace(/\.ps1$/, ".zip");
-  let storageUri: string | null = null;
-
-  if (getScriptStorageDriverName() === "database") {
-    storageUri = await new SupabaseScriptFileStorage().uploadBytes(
-      `packs/${result.pack.slug}/${zipFileName}`,
-      zipBytes,
-      "application/zip",
-    );
-  }
-
   return new NextResponse(Buffer.from(zipBytes), {
     headers: {
       "content-type": "application/zip",
       "content-disposition": `attachment; filename="${zipFileName}"`,
       "x-scriptforge-pack-count": String(result.scripts.length),
-      ...(storageUri ? { "x-scriptforge-storage-uri": storageUri } : {}),
+      "cache-control": "no-store",
     },
   });
 }

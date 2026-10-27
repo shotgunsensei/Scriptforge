@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { canReadPublicScriptBody } from "../../../../../lib/scripts/body-access";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
@@ -56,6 +57,7 @@ export default async function ScriptDetailPage({
 
   const related = await getRelatedScripts(script);
   const isOfficial = script.source === "operatoros";
+  const bodyAvailable = canReadPublicScriptBody(script.submission);
   const categoryHref = `/scripts/category/${script.category}`;
 
   return (
@@ -75,14 +77,15 @@ export default async function ScriptDetailPage({
             categoryLabel={script.category}
             githubFileUrl={script.submission.github_file_url}
             scriptBody={script.scriptBody}
+            bodyAvailable={bodyAvailable}
             slug={script.slug}
             title={script.submission.title}
           />
         </div>
       </div>
 
-      <div className="mx-auto mt-6 grid w-full max-w-7xl gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <section className="flex flex-col gap-6">
+      <div className="mx-auto mt-6 grid w-full min-w-0 max-w-7xl grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <section className="flex min-w-0 flex-col gap-6">
           <header
             className={
               isOfficial
@@ -129,6 +132,7 @@ export default async function ScriptDetailPage({
               categoryLabel={script.category}
               githubFileUrl={script.submission.github_file_url}
               scriptBody={script.scriptBody}
+            bodyAvailable={bodyAvailable}
               slug={script.slug}
               title={script.submission.title}
             />
@@ -150,12 +154,12 @@ export default async function ScriptDetailPage({
             </div>
           </Panel>
 
-          {isOfficial ? <VerifiedOperatorOsPanel scriptTitle={script.submission.title} /> : null}
+          {isOfficial ? <OfficialCatalogPanel scriptTitle={script.submission.title} reviewStatus={script.submission.review_status} scanStatus={script.submission.safety.scan_status} /> : null}
 
           <Panel title="Script Body">
-            <pre className="max-h-[36rem] overflow-auto border border-slate-800 bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+            {bodyAvailable ? <pre className="max-h-[36rem] overflow-auto border border-slate-800 bg-slate-950 p-4 text-sm leading-6 text-slate-100">
               <code>{script.scriptBody}</code>
-            </pre>
+            </pre> : <p className="text-sm leading-6 text-slate-300">This is a protected catalog entry. Source access is unavailable until OperatorOS entitlement verification is connected.</p>}
           </Panel>
 
           <Panel title="Requirements">
@@ -169,7 +173,7 @@ export default async function ScriptDetailPage({
             {script.submission.parameters.length === 0 ? (
               <p className="text-sm text-slate-400">No parameters documented.</p>
             ) : (
-              <div className="grid gap-3">
+              <div className="grid min-w-0 grid-cols-1 gap-3">
                 {script.submission.parameters.map((parameter) => (
                   <div className="border border-slate-800 bg-slate-900/70 p-3" key={parameter.name}>
                     <p className="font-semibold text-white">{parameter.name}</p>
@@ -187,7 +191,7 @@ export default async function ScriptDetailPage({
             {script.submission.examples.length === 0 ? (
               <p className="text-sm text-slate-400">No examples documented.</p>
             ) : (
-              <div className="grid gap-4">
+              <div className="grid min-w-0 grid-cols-1 gap-4">
                 {script.submission.examples.map((example) => (
                   <div className="border border-slate-800 bg-slate-900/70 p-4" key={example.title}>
                     <p className="font-semibold text-white">{example.title}</p>
@@ -208,7 +212,7 @@ export default async function ScriptDetailPage({
           </Panel>
         </section>
 
-        <aside className="flex flex-col gap-6">
+        <aside className="flex min-w-0 flex-col gap-6">
           <Panel title="Metadata">
             <div className="grid gap-3 text-sm">
               <Metric label="Category" value={script.category} />
@@ -246,7 +250,7 @@ export default async function ScriptDetailPage({
             {related.length === 0 ? (
               <p className="text-sm text-slate-400">No related scripts found yet.</p>
             ) : (
-              <div className="grid gap-3">
+              <div className="grid min-w-0 grid-cols-1 gap-3">
                 {related.map((item) => (
                   <Link
                     className="border border-slate-800 bg-slate-900/70 p-3 text-sm text-slate-300 hover:border-rose-400"
@@ -261,15 +265,15 @@ export default async function ScriptDetailPage({
             )}
           </Panel>
 
-          <Panel title="Related Paid Pack">
+          <Panel title="More from OperatorOS">
             <p className="text-sm leading-6 text-slate-300">
-              Unlock vetted automation packs, entitlement-gated technician bundles, and OperatorOS deployment workflows.
+              Explore more official catalog entries and their documented requirements.
             </p>
             <Link
               className="mt-4 block border border-rose-500 bg-rose-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-rose-500"
               href="/scripts/operatoros"
             >
-              Explore OperatorOS Packs
+              Browse official scripts
             </Link>
           </Panel>
         </aside>
@@ -278,17 +282,17 @@ export default async function ScriptDetailPage({
   );
 }
 
-function VerifiedOperatorOsPanel({ scriptTitle }: { scriptTitle: string }) {
+function OfficialCatalogPanel({ scriptTitle, reviewStatus, scanStatus }: { scriptTitle: string; reviewStatus: string; scanStatus: string }) {
   return (
-    <Panel title="Verified by OperatorOS">
+    <Panel title="Catalog review">
       <div className="grid gap-3 text-sm text-slate-300 md:grid-cols-3">
-        <Metric label="Review" value="OperatorOS verified" />
+        <Metric label="Review status" value={reviewStatus} />
         <Metric label="Catalog" value="Official library" />
-        <Metric label="Safety" value="Static scan completed" />
+        <Metric label="Static scan status" value={scanStatus} />
       </div>
       <p className="mt-4 text-sm leading-6 text-slate-300">
-        {scriptTitle} is part of the official OperatorOS ScriptForge catalog. It has been reviewed for metadata
-        completeness, safety scan results, PowerShell compatibility, and technician-facing documentation.
+        {scriptTitle} is part of the official OperatorOS ScriptForge catalog. Check the recorded review,
+        compatibility and requirements for this entry. A static scan does not establish behavior in your environment.
       </p>
     </Panel>
   );
@@ -311,7 +315,7 @@ function CommunityDisclaimer({ compact = false }: { compact?: boolean }) {
 
 function Panel({ title, children }: Readonly<{ title: string; children: React.ReactNode }>) {
   return (
-    <section className="border border-[#24304A] bg-[#121A2E] p-5 shadow-2xl shadow-black/25">
+    <section className="min-w-0 max-w-full border border-[#24304A] bg-[#121A2E] p-5 shadow-2xl shadow-black/25">
       <h2 className="mb-4 text-lg font-semibold text-[#F8FAFC]">{title}</h2>
       {children}
     </section>

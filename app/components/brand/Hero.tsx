@@ -1,17 +1,16 @@
 import Link from "next/link";
-import { Logo } from "./Logo";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-[#24304A] px-5 py-16 sm:px-8 lg:px-10">
+    <section className="sf-home-hero relative overflow-hidden border-b border-[#24304A] px-5 py-16 sm:px-8 lg:px-10">
       <CommandRain />
       <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center">
         <div>
-          <Logo />
-          <h1 className="mt-8 text-5xl font-semibold tracking-normal text-[#F8FAFC] md:text-6xl">SCRIPTFORGE</h1>
-          <p className="mt-4 text-2xl font-semibold text-[#F8FAFC]">Forge Better Automation</p>
+          <p className="sf-hero-kicker">OperatorOS automation library</p>
+          <h1 className="sf-hero-title">Forge better<br /><span>automation.</span></h1>
+          <p className="mt-4 text-xl font-semibold text-[#F8FAFC]">Know the script before you run it.</p>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[#94A3B8]">
-            Free PowerShell scripts, MSP automation, Microsoft 365 tools, security audits, and technician utilities.
+            Browse PowerShell for MSP operations, Microsoft 365 and technician workflows. Compare requirements, risk and review details before bringing a script into your environment.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link className="border border-[#E53935] bg-[#E53935] px-5 py-3 text-sm font-semibold text-white" href="/scripts">
@@ -22,8 +21,9 @@ export function Hero() {
             </Link>
           </div>
         </div>
-        <div className="border border-[#24304A] bg-[#121A2E] p-5">
-          <svg aria-label="ScriptForge connected automation visualization" className="h-[360px] w-full" viewBox="0 0 520 360">
+        <div className="sf-topic-map border border-[#24304A] bg-[#121A2E] p-5">
+          <p className="sf-hero-kicker">Find your next workflow</p>
+          <svg aria-label="ScriptForge script catalog topics" className="h-[360px] w-full" viewBox="0 0 520 360">
             <g fill="none" stroke="#24304A" strokeWidth="2">
               <path d="M260 180 130 70M260 180 120 180M260 180 135 290M260 180 390 92M260 180 404 264" />
             </g>
@@ -41,6 +41,7 @@ export function Hero() {
             <Node x={390} y={92} label="Security" />
             <Node x={404} y={264} label="RMM" />
           </svg>
+          <p className="text-sm leading-6 text-[#94A3B8]">Official scripts and community submissions stay in distinct review lanes.</p>
         </div>
       </div>
     </section>

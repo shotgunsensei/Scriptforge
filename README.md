@@ -126,6 +126,7 @@ RATE_LIMIT_DRIVER=memory
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 OPERATOROS_AUTH_MODE=password
+SCRIPTFORGE_SESSION_SECRET=
 SCRIPTFORGE_ADMIN_EMAIL=john@shotgunninjas.com
 SCRIPTFORGE_ADMIN_SEED_PASSWORD=
 SCRIPTFORGE_ADMIN_NAME="John Williams"
@@ -831,3 +832,19 @@ Post-deploy verification checklist:
 - Approved scripts appear in `/scripts`.
 - Generated pack URLs return ZIP downloads.
 - `npm audit` remains clean in CI.
+
+## October 27 source quality and session hardening
+
+The homepage derives official-script and category counts from the actual public catalog. Unsupported download totals and blanket verification/free-execution claims were removed; existing script monetization and entitlements are unchanged. The homepage and narrow layouts retain the dark OperatorOS visual system.
+
+Production admin sessions now fail closed if no signing configuration exists. Prefer a dedicated `SCRIPTFORGE_SESSION_SECRET` of at least 32 characters in the server-only deployment secret store; do not paste its value into chat or source. Existing configured seed/admin password signing remains compatible when the dedicated variable is absent. Introducing/changing that key invalidates existing sessions and requires the owner's approved secret-configuration and session-recovery procedure. No key was generated or configured by this source change. Development/test fallback is unavailable in production. Malformed expiry and extra token segments are rejected, and the current stored user/role is still revalidated.
+
+The OperatorOS SSO adapter remains a source placeholder. Local catalog previews, unit fixtures and a successful production build do not establish live SSO, Supabase persistence, CAPTCHA, distributed throttling, admin access or provider acceptance. The PowerShell catalog is source content; no catalog script was executed during this quality pass.
+
+### Protected catalog bodies and read-only downloads
+
+Public catalog metadata remains visible. A body is publicly downloadable only when its persisted metadata explicitly says tier `free` and `entitlement_required=false`. Protected entries redact both body fields before list/detail results and server-rendered/client action props. Copy/download controls are disabled and the unavailable authority is stated. Admin/reviewer roles, URL queries, client flags and preview assertions do not grant customer entitlement. The current SSO adapter has no verified tenant/entitlement contract; protected bodies stay denied until that source integration is implemented and accepted. Current catalog flags are preserved, with no repricing or inferred free policy.
+
+The pack GET handler performs no upload or persistent write. Packs containing protected entries return a non-cacheable unavailable response; explicitly public fixture packs remain downloadable. Live entitlement integration, production secret configuration and publication are separate owner/integrator gates.
+
+`npm run build` now runs the existing indexer in its `prebuild` lifecycle, regenerating the public search artifact from the same body-redacted catalog. The checked-in index retains searchable metadata while protected `script_body_excerpt` fields are empty. The artifact invariant regression compares the actual public JSON with the persisted catalog flags. Use the repository build command so this prerequisite is not skipped.

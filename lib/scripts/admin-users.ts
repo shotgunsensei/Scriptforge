@@ -179,13 +179,12 @@ export async function verifyUserSessionToken(
     return null;
   }
 
-  const [payload, signature] = token.split(".");
-
-  if (!payload || !signature || !safeEqual(signature, signSessionPayload(payload))) {
-    return null;
-  }
-
   try {
+    const [payload, signature, ...extra] = token.split(".");
+    if (!payload || !signature || extra.length || !safeEqual(signature, signSessionPayload(payload))) {
+      return null;
+    }
+
     const decoded = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as {
       v?: string;
       sub?: string;
@@ -194,7 +193,7 @@ export async function verifyUserSessionToken(
       exp?: number;
     };
 
-    if (decoded.v !== SESSION_VERSION || !decoded.email || !decoded.role || !decoded.exp || decoded.exp <= Date.now()) {
+    if (decoded.v !== SESSION_VERSION || !decoded.email || !decoded.role || typeof decoded.exp !== "number" || !Number.isFinite(decoded.exp) || decoded.exp <= Date.now()) {
       return null;
     }
 
@@ -250,10 +249,18 @@ function parseRole(role: string | undefined): ScriptForgeRole {
 }
 
 function signSessionPayload(payload: string): string {
-  return createHmac("sha256", getSessionSecret()).update(payload).digest("base64url");
+  const secret = getSessionSecret();
+  if (!secret) {
+    throw new Error("Configure SCRIPTFORGE_SESSION_SECRET before issuing production admin sessions.");
+  }
+  return createHmac("sha256", secret).update(payload).digest("base64url");
 }
 
-function getSessionSecret(): string {
+function getSessionSecret(): string | null {
+  const dedicatedSecret = process.env.SCRIPTFORGE_SESSION_SECRET;
+  if (dedicatedSecret !== undefined) {
+    return dedicatedSecret.trim().length >= 32 ? dedicatedSecret : null;
+  }
   const seedPassword = process.env.SCRIPTFORGE_ADMIN_SEED_PASSWORD;
   const fallbackPassword = process.env.ADMIN_SUBMISSION_PASSWORD;
 
@@ -265,7 +272,9 @@ function getSessionSecret(): string {
     return fallbackPassword;
   }
 
-  return "scriptforge-dev-session-secret";
+  // Local tests/development retain their isolated fallback. A persisted admin
+  // must never become authenticatable with this public key in production.
+  return process.env.NODE_ENV === "production" ? null : "scriptforge-dev-session-secret";
 }
 
 function safeEqual(left: string, right: string) {
